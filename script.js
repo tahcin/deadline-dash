@@ -64,7 +64,7 @@ startCountdown("timer4", event4Date);
 //buttons
 document.addEventListener("DOMContentLoaded", function () {
     const buttonLinks = {
-        countdown1: "https://example.com/fbc2-cla",  // Replace with actual URL
+        countdown1: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+AE21x+BBA_DBE_B1/block-v1:IIMBx+AE21x+BBA_DBE_B1+type@sequential+block@7252316314164e299e62e228b9819bcb/block-v1:IIMBx+AE21x+BBA_DBE_B1+type@vertical+block@7cb4e0151e5d4346bc8c178d27370ccb",  // Replace with actual URL
         countdown2: "https://example.com/microeconomics-cla",
         countdown3: "https://example.com/statistics-midterm",
         countdown4: "https://example.com/rs250-venture-cla"
