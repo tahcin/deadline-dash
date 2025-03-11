@@ -256,3 +256,111 @@ body.dark-mode .event:hover h2 {
 .event:active {
     transform: scale(0.98);
 }
+
+
+/* Live Sessions Section */
+.live-sessions {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+body.dark-mode .live-sessions {
+    background: rgba(20, 20, 20, 0.9);
+    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.1);
+}
+
+.live-sessions h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2em;
+    color: #a6192e;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+body.dark-mode .live-sessions h1 {
+    color: #f0a500;
+}
+
+/* Individual Session Boxes */
+.session {
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.session:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode .session {
+    background: linear-gradient(135deg, #222, #2a2a2a);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+
+/* Join Session Button */
+.join-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #a6192e, #f0a500);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effect: Smooth Scaling + Glow */
+.join-button:hover {
+    background: linear-gradient(135deg, #f0a500, #a6192e);
+    transform: scale(1.05); /* Subtle enlarge effect */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25); /* Stronger glow */
+}
+
+/* Click (Press) Effect */
+.join-button:active {
+    transform: scale(0.98); /* Slight press-down effect */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Animated Shine Effect */
+.join-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: skewX(-45deg);
+    transition: left 0.6s ease-in-out;
+}
+
+.join-button:hover::after {
+    left: 100%;
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .join-button {
+    background: linear-gradient(135deg, #f0a500, #a6192e);
+}
+
+body.dark-mode .join-button:hover {
+    background: linear-gradient(135deg, #a6192e, #f0a500);
+}
