@@ -1,3 +1,5 @@
 {
-  "framework": "static"
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }
