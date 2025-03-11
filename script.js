@@ -59,3 +59,25 @@ startCountdown("timer1", event1Date);
 startCountdown("timer2", event2Date);
 startCountdown("timer3", event3Date);
 startCountdown("timer4", event4Date);
+
+
+//buttons
+document.addEventListener("DOMContentLoaded", function () {
+    const buttonLinks = {
+        countdown1: "https://example.com/fbc2-cla",  // Replace with actual URL
+        countdown2: "https://example.com/microeconomics-cla",
+        countdown3: "https://example.com/statistics-midterm",
+        countdown4: "https://example.com/rs250-venture-cla"
+    };
+
+    document.querySelectorAll(".event").forEach(eventBox => {
+        eventBox.style.cursor = "pointer"; // Make it clear it's clickable
+
+        eventBox.addEventListener("click", function () {
+            const eventId = this.id;
+            if (buttonLinks[eventId]) {
+                window.open(buttonLinks[eventId], "_blank"); // Open in new tab
+            }
+        });
+    });
+});
