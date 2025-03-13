@@ -82,3 +82,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".join-button").forEach(button => {
+        if (!button.getAttribute("href") || button.getAttribute("href") === "") {
+            button.style.pointerEvents = "none";  // Disable clicks
+            button.style.opacity = "0.5";         // Reduce visibility
+            button.style.cursor = "not-allowed";  // Change cursor style
+            button.textContent = "Link Not Available"; // Update button text
+        }
+    });
+});
+
+
