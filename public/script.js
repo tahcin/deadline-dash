@@ -103,16 +103,3 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-let deferredPrompt;
-
-window.addEventListener("beforeinstallprompt", (event) => {
-  event.preventDefault();
-  deferredPrompt = event;
-  
-  // Show a custom install button
-  document.getElementById("install-btn").style.display = "block";
-
-  document.getElementById("install-btn").addEventListener("click", () => {
-    deferredPrompt.prompt();
-  });
-});
