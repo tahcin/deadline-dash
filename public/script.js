@@ -154,17 +154,22 @@ function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
     const overlay = document.getElementById('sidebarOverlay');
-    
+
     if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
         sidebar.style.width = "0";
         sidebar.classList.remove('open');
         body.style.overflow = "auto";
         overlay.classList.remove('active');
+        sidebar.style.overflowY = 'hidden'; // Keep overflow-y: hidden during closing
     } else {
         sidebar.style.width = "250px";
         sidebar.classList.add('open');
         body.style.overflow = "hidden";
         overlay.classList.add('active');
+        sidebar.style.overflowY = 'hidden'; // Apply overflow-y: hidden during opening transition
+        setTimeout(() => {
+            sidebar.style.overflowY = 'auto'; // Revert to auto after opening transition (important for scrollable sidebar content if needed in future)
+        }, 300); // Timeout should match your sidebar transition duration (0.3s in your CSS)
     }
 }
 //Smooth scrolling for nav links
