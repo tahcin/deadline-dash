@@ -272,6 +272,7 @@ body.dark-mode .nav-icon {
     flex-direction: column;
     transform: translateX(100%); /* Initially hidden off-screen to the right */
     opacity: 0; /* Initially transparent */
+    pointer-events: none; /* <---- ADD THIS LINE:  Disable interactions when hidden */
 }
 
 body.dark-mode .sidebar {
@@ -283,6 +284,7 @@ body.dark-mode .sidebar {
 .sidebar.open {
     transform: translateX(0); /* Slide in from right */
     opacity: 1; /* Fade in */
+    pointer-events: auto; /* <---- ADD THIS LINE: Re-enable interactions when open */
 }
 
 
