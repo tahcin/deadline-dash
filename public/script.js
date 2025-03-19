@@ -1,27 +1,33 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const toggleButton = document.getElementById("darkModeToggle");
-    const toggleIcon = document.getElementById("toggleIcon");
-    const toggleText = document.getElementById("toggleText");
+    const darkModeSwitch = document.getElementById("darkModeSwitch");
+    const darkModeSwitchSidebar = document.getElementById("darkModeSwitchSidebar");
+
 
     // Check and apply the saved dark mode preference
     if (localStorage.getItem("darkMode") === "enabled") {
         document.body.classList.add("dark-mode");
-        toggleIcon.textContent = "☀️";
-        toggleText.textContent = "Light Mode";
+        darkModeSwitch.checked = true;
+        darkModeSwitchSidebar.checked = true;
     }
 
-    // Toggle dark mode function
-    toggleButton.addEventListener("click", function() {
+    // Toggle dark mode function for switch
+    darkModeSwitch.addEventListener("change", function() {
         document.body.classList.toggle("dark-mode");
-
-        if (document.body.classList.contains("dark-mode")) {
+        darkModeSwitchSidebar.checked = this.checked; // Sync sidebar switch
+        if (this.checked) {
             localStorage.setItem("darkMode", "enabled");
-            toggleIcon.textContent = "☀️";
-            toggleText.textContent = "Light Mode";
         } else {
             localStorage.setItem("darkMode", "disabled");
-            toggleIcon.textContent = "🌙";
-            toggleText.textContent = "Dark Mode";
+        }
+    });
+    // Toggle dark mode function for sidebar switch (sync main switch)
+    darkModeSwitchSidebar.addEventListener("change", function() {
+        document.body.classList.toggle("dark-mode");
+        darkModeSwitch.checked = this.checked; // Sync main switch
+        if (this.checked) {
+            localStorage.setItem("darkMode", "enabled");
+        } else {
+            localStorage.setItem("darkMode", "disabled");
         }
     });
 });
@@ -64,7 +70,7 @@ startCountdown("timer4", event4Date);
 //buttons
 document.addEventListener("DOMContentLoaded", function () {
     const buttonLinks = {
-        countdown1: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+AE21x+BBA_DBE_B1/block-v1:IIMBx+AE21x+BBA_DBE_B1+type@sequential+block@a30079406b774766945f7df7ba37c95b/block-v1:IIMBx+AE21x+BBA_DBE_B1+type@vertical+block@3d2d25f969b84b3b87395be337ec5300",  
+        countdown1: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+AE21x+BBA_DBE_B1/block-v1:IIMBx+AE21x+BBA_DBE_B1+type@sequential+block@a30079406b774766945f7df7ba37c95b/block-v1:IIMBx+AE21x+BBA_DBE_B1+type@vertical+block@3d2d25f969b84b3b87395be337ec5300",
         countdown2: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+ES21x+BBA_DBE_B1/block-v1:IIMBx+ES21x+BBA_DBE_B1+type@sequential+block@6af5281590564e63870f26b57b78f841/block-v1:IIMBx+ES21x+BBA_DBE_B1+type@vertical+block@vertical7",
         countdown3: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+PJ21x+BBA_DBE_B1/block-v1:IIMBx+PJ21x+BBA_DBE_B1+type@sequential+block@3f3d99591cb14a9e9a133b3583251766/block-v1:IIMBx+PJ21x+BBA_DBE_B1+type@vertical+block@27405e39773d443288c557c7f97d7822",
         countdown4: ""
@@ -94,12 +100,45 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-//PWA
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js").then(() => {
-      console.log("Service Worker Registered");
-    });
-  });
+//PWA install button - simple instruction as direct prompt is complex for now
+const installButton = document.getElementById('installButton');
+const installButtonSidebar = document.getElementById('installButtonSidebar');
+
+installButton.addEventListener('click', () => {
+    alert('To install the app, look for the "Install" option in your browser menu (usually three dots or lines).');
+});
+installButtonSidebar.addEventListener('click', () => {
+    alert('To install the app, look for the "Install" option in your browser menu (usually three dots or lines).');
+});
+
+
+// Sidebar Functionality
+function toggleSidebar() {
+    document.getElementById("sidebar").style.width = document.getElementById("sidebar").style.width === "250px" ? "0" : "250px";
 }
 
+//Smooth scrolling for nav links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        let target = document.querySelector(this.getAttribute('href'));
+        if (!target) return; // Exit if target not found
+
+        target.scrollIntoView({
+            behavior: 'smooth'
+        });
+
+        if (document.getElementById("sidebar").style.width === "250px") { //If sidebar is open, close it after navigation on mobile
+            toggleSidebar();
+        }
+    });
+});
+
+
+// Initialize sidebar state if needed (e.g., close on page load for mobile)
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth <= 768) { // Example breakpoint, adjust as needed
+        document.getElementById("sidebar").style.width = "0";
+    }
+});
