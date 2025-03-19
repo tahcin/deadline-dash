@@ -183,8 +183,8 @@ function toggleSidebar() {
     const body = document.body;
 
     if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
-        sidebar.style.width = "0";
         sidebar.classList.remove('open');
+        sidebar.style.width = "0";
         body.style.overflow = "auto";
         overlay.classList.remove('active');
         sidebar.style.overflowY = 'hidden'; // Keep overflow-y: hidden during closing
