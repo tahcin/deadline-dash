@@ -11,14 +11,14 @@
     <!-- Open Graph (OG) for Social Media -->
     <meta property="og:title" content="Deadline Dash - Stay Ahead of Your Deadlines">
     <meta property="og:description" content="Track BBA DBE deadlines effortlessly with Deadline Dash. Countdown timers, alerts, and more!">
-    <meta property="og:image" content="https://deadline-dash.vercel.app/images/meta.png"> 
-    <meta property="og:url" content="https://deadline-dash.vercel.app">    
+    <meta property="og:image" content="https://deadline-dash.vercel.app/images/meta.png">
+    <meta property="og:url" content="https://deadline-dash.vercel.app">
     <!-- Indexing -->
     <meta name="robots" content="index, follow">
 
     <!-- Google Search Console -->
     <meta name="google-site-verification" content="hed01S5F60m5Bc_zL9Tnc72kUYKLSQW2umcESJLpYQo" />
-    
+
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
@@ -33,15 +33,15 @@
     <script type="application/ld+json">
     {
          "@context": "https://schema.org",
-         "@type": "SoftwareApplication",
-         "name": "Deadline Dash",
-         "url": "https://deadline-dash.vercel.app",
-         "image": "https://imgur.com/a/IVF6wwF",
-         "description": "Deadline Dash is a countdown tracker that helps you manage BBA DBE deadlines efficiently.",
-         "author": {
-                   "@type": "Person",
-                   "name": "Tahcin Sarwar"
-         }
+          "@type": "SoftwareApplication",
+          "name": "Deadline Dash",
+          "url": "https://deadline-dash.vercel.app",
+          "image": "https://imgur.com/a/IVF6wwF",
+          "description": "Deadline Dash is a countdown tracker that helps you manage BBA DBE deadlines efficiently.",
+          "author": {
+                    "@type": "Person",
+                    "name": "Tahcin Sarwar"
+          }
     }
     </script>
 
@@ -54,63 +54,119 @@
 
             gtag('config', 'G-FDZT4KL13Z');
 </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 <body>
-    <div class="toggle-container" id="darkModeToggle">
-        <span id="toggleIcon">🌙</span> <span id="toggleText">Dark Mode</span>
-    </div>    
+    <nav class="nav-bar">
+        <div class="nav-logo">
+            <a href="/" class="logo-text">Deadline Dash</a>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <ul class="nav-items">
+                <li><a href="#countdown" class="nav-link">CLA/Mid Term</a></li>
+                <li><a href="#live-sessions" class="nav-link">Live Sessions</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="dark-mode-toggle-li">
+                    <div class="dark-mode-toggle">
+                        <span class="toggle-label">Dark Mode</span>
+                        <input type="checkbox" id="darkModeSwitch" class="dark-mode-checkbox">
+                        <label for="darkModeSwitch" class="dark-mode-label">
+                            <span class="dark-mode-icon moon"><i class="fas fa-moon"></i></span>
+                            <span class="dark-mode-icon sun"><i class="fas fa-sun"></i></span>
+                            <span class="dark-mode-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                 <div class="install-btn-li">
+                     <button id="installButton" class="install-button">Install App</button>
+                 </div>
+             </div>
+        </div>
+        <div class="nav-icon">
+            <i class="fa fa-bars" onclick="toggleSidebar()"></i>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <a href="#" class="close-btn" onclick="toggleSidebar()"><i class="fa fa-times"></i></a>
 
-    <div class="countdown">
-        <div class="logo-container">
-            <img src="/images/bbadbe.jpg" alt="BBA DBE Logo" class="logo">
-        </div>        
-        <h1>CLA and Mid-Term Countdowns</h1>
-        <div id="countdown1" class="event">
-            <h2>Foundations of Business Communication II<br> Module 4 CLA</h2>
-            <div id="timer1"></div>
+            <div class="sidebar-links">
+                <a href="#countdown" class="sidebar-link" onclick="toggleSidebar()">CLA/Mid Term</a>
+                <a href="#live-sessions" class="sidebar-link" onclick="toggleSidebar()">Live Sessions</a>
+            </div>
+    
+            <div class="sidebar-footer">
+                <div class="dark-mode-toggle sidebar-dark-mode-toggle">
+                    <span class="toggle-label">Dark Mode</span>
+                    <input type="checkbox" id="darkModeSwitchSidebar" class="dark-mode-checkbox">
+                    <label for="darkModeSwitchSidebar" class="dark-mode-label">
+                        <span class="dark-mode-icon moon"><i class="fas fa-moon"></i></span>
+                        <span class="dark-mode-icon sun"><i class="fas fa-sun"></i></span>
+                        <span class="dark-mode-slider"></span>
+                   </label>
+                </div>
+                <button id="installButtonSidebar" class="install-button install-button-sidebar">Install App</button>
+            </div>
         </div>
-        <div id="countdown2" class="event">
-            <h2>Principles of Microeconomics<br> Module 4 CLA</h2>
-            <div id="timer2"></div>
+    </nav>
+
+
+    <div class="container">
+
+
+        <div class="countdown" id="countdown">
+            <div class="logo-container">
+                <img src="/images/bbadbe.jpg" alt="BBA DBE Logo" class="logo">
+            </div>
+            <h1>CLA and Mid-Term Countdowns</h1>
+            <div id="countdown1" class="event">
+                <h2>Foundations of Business Communication II<br> Module 4 CLA</h2>
+                <div id="timer1"></div>
+            </div>
+            <div id="countdown2" class="event">
+                <h2>Principles of Microeconomics<br> Module 4 CLA</h2>
+                <div id="timer2"></div>
+            </div>
+            <div id="countdown3" class="event">
+                <h2>Venturing on a Budget: Rs250 Venture<br>Module 3 CLA </h2>
+                <div id="timer3"></div>
+            </div>
+            <div id="countdown4" class="event">
+                <h2>Advanced Statistics for Business<br> Mid-Term 2 </h2>
+                <div id="timer4"></div>
+            </div>
         </div>
-        <div id="countdown3" class="event">
-            <h2>Venturing on a Budget: Rs250 Venture<br>Module 3 CLA </h2>
-            <div id="timer3"></div>
-        </div>
-        <div id="countdown4" class="event">
-            <h2>Advanced Statistics for Business<br> Mid-Term 2 </h2>
-            <div id="timer4"></div>
+
+        <div class="live-sessions" id="live-sessions">
+            <h1>Upcoming Live Sessions</h1>
+            <p>(Links will be updated when we get the mail for the session.)</p><br>
+
+            <div class="session">
+                <h2>Advanced Statistics</h2>
+                <h3>Modules 1 & 2 Problem solving </h3>
+                <p><strong>Date:</strong> March 18, 2025</p>
+                <p><strong>Time:</strong> 5:00 - 6:30 PM IST</p>
+                 <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_OTdlZmE2Y2EtMjVhNy00MzZhLTk3MTYtN2M0OTBjZTA2ZDIx%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25220e6a03b4-28b9-4d7f-ac3c-38163cd83600%2522%252c%2522Oid%2522%253a%252236a07157-e889-4db8-ac99-37ea230e462c%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=ce6e0739-a583-496b-95dc-3a8ad5bffb1e&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" target="_blank" class="join-button">Join Session</a>
+            </div>
+
+            <div class="session">
+                <h2>Venturing on a Budget: Rs250 Venture</h2>
+                <h3>Faculty Live Session </h3>
+                <p><strong>Date:</strong> March 20, 2025</p>
+                <p><strong>Time:</strong> TBA</p>
+                <a href="" target="_blank" class="join-button">Join Session</a>
+            </div>
+
+             <div class="session">
+                <h2>Foundations of Business Communication II </h2>
+                <h3>SME Live Session </h3>
+                <p><strong>Date:</strong> March 21, 2025</p>
+                <p><strong>Time:</strong> 5:00 PM IST</p>
+                <a href="" target="_blank" class="join-button">Join Session</a>
+            </div>
         </div>
     </div>
-    <div class="live-sessions">
-        <h1>Upcoming Live Sessions</h1>
-        <p>(Links will be updated when we get the mail for the session.)</p><br>
-    
-        <div class="session">
-            <h2>Advanced Statistics</h2>
-            <h3>Modules 1 & 2 Problem solving </h3>
-            <p><strong>Date:</strong> March 18, 2025</p>
-            <p><strong>Time:</strong> 6:00 - 7:30 PM IST</p>
-             <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_OTdlZmE2Y2EtMjVhNy00MzZhLTk3MTYtN2M0OTBjZTA2ZDIx%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25220e6a03b4-28b9-4d7f-ac3c-38163cd83600%2522%252c%2522Oid%2522%253a%252236a07157-e889-4db8-ac99-37ea230e462c%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=ce6e0739-a583-496b-95dc-3a8ad5bffb1e&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" target="_blank" class="join-button">Join Session</a>
-        </div>
-    
-        <div class="session">
-            <h2>Venturing on a Budget: Rs250 Venture</h2>
-            <h3>Faculty Live Session </h3>
-            <p><strong>Date:</strong> March 20, 2025</p>
-            <p><strong>Time:</strong> TBA</p>
-            <a href="" target="_blank" class="join-button">Join Session</a>
-        </div>
 
-         <div class="session">
-            <h2>Foundations of Business Communication II </h2>
-            <h3>SME Live Session </h3>
-            <p><strong>Date:</strong> March 21, 2025</p>
-            <p><strong>Time:</strong> 5:00 PM IST</p>
-            <a href="" target="_blank" class="join-button">Join Session</a>
-        </div>
-    </div>
 
     <footer>
         Made by <a href="https://www.linkedin.com/in/tahcinsarwar/" target="_blank">Tahcin Sarwar</a>, Made better by <a href="https://www.linkedin.com/in/priyanshisharma20/" target="_blank">Priyanshi Sharma</a>
