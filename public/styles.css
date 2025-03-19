@@ -744,12 +744,15 @@ p.install-info {
   margin-top: 6px;
   text-align: center;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 p.install-info a {
   color: #ff8800;
   text-decoration: none;
   font-weight: 500;
+  margin-left: 4px;
 }
 
 p.install-info a:hover {
