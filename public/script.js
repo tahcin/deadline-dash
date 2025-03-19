@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.classList.add("dark-mode");
         darkModeSwitch.checked = true;
         darkModeSwitchSidebar.checked = true;
-    }
+     }
 
     // Toggle dark mode function for switch
     darkModeSwitch.addEventListener("change", function() {
@@ -181,12 +181,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
-    
+
     if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
         sidebar.style.width = "0";
         sidebar.classList.remove('open');
         body.style.overflow = "auto"; // Allow scrolling again
-    } else {
+    } else { // opening sidebar
         sidebar.style.width = "250px";
         sidebar.classList.add('open');
         body.style.overflow = "hidden"; // Prevent background scrolling
