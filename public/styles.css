@@ -749,7 +749,8 @@ body.dark-mode .join-button:hover {
 
 .install-info-container a {
   color: #ffffff;
-  font-weight: 500;
+  font-size: 12px; /* Ensure same size as surrounding text */
+  font-weight: normal; /* Remove any bold styling */
   text-decoration: none;
   display: inline;
 }
@@ -757,6 +758,5 @@ body.dark-mode .join-button:hover {
 .install-info-container a:hover {
   text-decoration: underline;
 }
-
   
 
