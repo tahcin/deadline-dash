@@ -194,18 +194,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// sidebar fix
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const body = document.body;
-    
-    if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
-        sidebar.style.width = "0";
-        sidebar.classList.remove('open');
-        body.style.overflow = "auto"; // Allow scrolling again
-    } else {
-        sidebar.style.width = "250px";
-        sidebar.classList.add('open');
-        body.style.overflow = "hidden"; // Prevent background scrolling
-    }
-}
