@@ -736,3 +736,23 @@ body.dark-mode .join-button {
 body.dark-mode .join-button:hover {
     background: linear-gradient(135deg, #a6192e, #f0a500);
 }
+
+/* Sidebar para */
+p.install-info {
+  font-size: 14px;
+  color: #ddd;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 8px;
+  line-height: 1.6;
+}
+
+p.install-info strong {
+  color: #ffcc00;
+}
+
+p.install-info a {
+  color: #ff8800;
+  text-decoration: underline;
+  font-weight: bold;
+}
