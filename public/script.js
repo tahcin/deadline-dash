@@ -181,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
+    const overlay = document.getElementById('sidebarOverlay');
 
     if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
         sidebar.style.width = "0";
