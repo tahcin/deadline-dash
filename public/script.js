@@ -183,16 +183,6 @@ function toggleSidebar() {
     const body = document.body;
     const overlay = document.getElementById('sidebarOverlay');
 
-    if (sidebar.classList.contains('open')) {
-        sidebar.classList.remove('open'); // Close sidebar by removing 'open' class
-        body.style.overflow = "auto";
-        overlay.classList.remove('active');
-    } else {
-        sidebar.classList.add('open');    // Open sidebar by adding 'open' class
-        body.style.overflow = "hidden";
-        overlay.classList.add('active');
-    }
-
     if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
         sidebar.style.width = "0";
         sidebar.classList.remove('open');
