@@ -10,7 +10,7 @@ body {
     background: linear-gradient(135deg, #f8f8f8, #d1d1d1);
     color: #333;
     text-align: center;
-    padding: 0px 20px;
+    padding: 0px; /* Removed padding from body for full width nav */
     line-height: 1.5;
     transition: background 0.3s ease, color 0.3s ease;
 }
@@ -19,6 +19,384 @@ body {
 body.dark-mode {
     background: linear-gradient(135deg, #121212, #1a1a1a);
     color: #f5f5f5;
+}
+
+/* Container for content to not be full width and respect padding */
+.container {
+    padding: 20px;
+}
+
+
+/* Navigation Bar Styles */
+.nav-bar {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: sticky; /* Sticky navbar */
+    top: 0;
+    z-index: 100; /* Ensure it's above other content */
+    transition: background 0.3s ease;
+}
+
+body.dark-mode .nav-bar {
+    background: #1a1a1a;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Prevent logo text from wrapping */
+}
+
+
+.nav-logo .logo-text {
+    color: #a6192e;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.4em;
+    white-space: nowrap; /* Ensure logo text stays in one line */
+}
+
+body.dark-mode .nav-logo .logo-text {
+    color: #f0a500;
+}
+
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Changed to flex-end to push nav-items to right */
+    width: 100%; /* Take full width to allow space-between to work */
+}
+
+.nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* Add some right margin to nav-items for spacing from controls */
+}
+
+.nav-items li {
+    margin-left: 25px;
+}
+
+.nav-items li:first-child {
+    margin-left: 0;
+}
+
+.nav-items li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .nav-items li a {
+    color: #f5f5f5;
+}
+
+.nav-items li a:hover {
+    color: #a6192e;
+}
+
+body.dark-mode .nav-items li a:hover {
+    color: #f0a500;
+}
+
+/* Navigation Controls (Dark Mode Toggle, Install Button) */
+.nav-controls {
+    display: flex;
+    align-items: center; /* Vertically align items in nav-controls */
+    /* margin-left: auto;  Removing margin-left: auto from here */
+}
+
+.nav-controls > div { /* Directly target list items or divs within nav-controls */
+    margin-left: 20px; /* Spacing between controls - reduced from 25px */
+}
+.nav-controls > div:first-child {
+    margin-left: 0px; /* Spacing from nav links - set to 0 now as nav-items have right margin */
+}
+
+
+/* Dark Mode Toggle Switch */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.dark-mode-toggle .toggle-label {
+    margin-right: 0px; /* remove label text margin */
+    font-weight: 500;
+    color: #333;
+    transition: color 0.3s ease;
+    user-select: none; /* prevent text selection while toggling */
+    display: none; /* Hide "Dark Mode" label text in navbar */
+}
+body.dark-mode .dark-mode-toggle .toggle-label {
+    color: #f5f5f5;
+}
+
+
+.dark-mode-checkbox {
+    opacity: 0;
+    position: absolute;
+}
+
+.dark-mode-label {
+    background-color: #777; /* Gray background when off */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 60px; /* increased width */
+    height: 30px; /* increased height */
+    border-radius: 30px; /* adjust border-radius to match height */
+    position: relative; /* Make label position relative for slider positioning */
+    padding: 5px;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .dark-mode-label {
+    background-color: #222; /* Dark background when dark mode on */
+}
+
+.dark-mode-slider {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px; /* Half of label width */
+    height: 30px; /* Same as label height */
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    transform: translateX(0); /* Explicitly set initial position */
+}
+
+.dark-mode-icon {
+    position: absolute;
+    top: 50%; /* Vertical center */
+    transform: translateY(-50%); /* Fine-tune vertical centering */
+    font-size: 16px;
+    color: #fff; /* Icon color white */
+}
+
+.dark-mode-icon.moon {
+    left: 7px; /* Position moon icon on the left */
+    opacity: 0; /* Initially hide moon icon */
+    transition: opacity 0.3s;
+}
+
+.dark-mode-icon.sun {
+    right: 7px; /* Position sun icon on the right */
+    opacity: 1; /* Initially show sun icon */
+    transition: opacity 0.3s;
+}
+
+.dark-mode-checkbox:checked + .dark-mode-label .dark-mode-slider {
+    transform: translateX(30px);  /*  <----  PUT IT HERE, AND ONLY HERE (for slider movement) */
+    /* ... other styles for the slider in dark mode can also be here ... */
+}
+
+.dark-mode-checkbox:checked + .dark-mode-label .dark-mode-icon.moon {
+    opacity: 1; /* Show moon icon in dark mode */
+
+}
+
+.dark-mode-checkbox:checked + .dark-mode-label .dark-mode-icon.sun {
+    opacity: 0; /* Hide sun icon in dark mode */
+}
+
+
+/* Install Button in Nav */
+.install-button {
+    background: linear-gradient(135deg, #ffbb00, #ff6600); /* Orange gradient for install button */
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Increased padding */
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.install-button:hover {
+    background: linear-gradient(135deg, #ff6600, #ffbb00); /* Reversed gradient on hover */
+    transform: scale(1.05);
+}
+
+.install-button:active {
+    transform: scale(0.98);
+}
+
+body.dark-mode .install-button {
+    background: linear-gradient(135deg, #ffbb00, #ff6600); /* Keep orange gradient in dark mode */
+}
+
+
+/* Mobile Navigation Icon */
+.nav-icon {
+    display: none; /* Hidden by default on larger screens */
+    font-size: 1.8em;
+    cursor: pointer;
+    color: #333;
+}
+
+body.dark-mode .nav-icon {
+    color: #f5f5f5;
+}
+
+
+/* Sidebar Styles */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 101; /* Higher than navbar */
+    top: 0;
+    right: 0;
+    background-color: #f8f8f8; /* Light background for sidebar */
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
+    text-align: left;
+    box-shadow: -2px 0px 5px rgba(0,0,0,0.2); /* Subtle shadow on the left edge */
+    display: flex; /* Make sidebar a flex container */
+    flex-direction: column; /* Stack items vertically */
+}
+
+body.dark-mode .sidebar {
+    background-color: #1a1a1a; /* Dark background for sidebar in dark mode */
+    box-shadow: -2px 0px 5px rgba(255,255,255,0.1);
+}
+
+.sidebar-links {
+    flex: 1; /* Let this grow to take up available space */
+}
+
+.sidebar-footer {
+    margin-top: auto; /* Push to the bottom */
+    padding-bottom: 20px;
+}
+
+.sidebar a {
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 1.2em;
+    color: #333;
+    display: block;
+    transition: 0.3s;
+}
+
+body.dark-mode .sidebar a {
+    color: #f5f5f5;
+}
+
+
+.sidebar a:hover {
+    color: #a6192e;
+}
+
+body.dark-mode .sidebar a:hover {
+    color: #f0a500;
+}
+
+
+.sidebar .close-btn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 34px;
+    margin-left: 50px;
+    color: #333;
+}
+body.dark-mode .sidebar .close-btn {
+    color: #f5f5f5;
+}
+
+
+.sidebar-dark-mode-toggle {
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Vertically align items */
+    justify-content: flex-start; /* Align items to the start of the container */
+    padding: 10px 25px; /* Add padding to match sidebar links */
+    margin-top: 0; /* Remove the 60vh margin */
+    margin-bottom: 15px;
+}
+
+.sidebar-dark-mode-toggle .toggle-label {
+    margin-right: 10px; /* Add space between label and toggle */
+    font-weight: 500;
+    color: #333; /* Text color in light mode */
+    transition: color 0.3s ease;
+    user-select: none;
+    display: inline; /* Make sure label is visible */
+}
+
+
+/* Adjustments for dark mode toggle in sidebar */
+.sidebar .dark-mode-toggle {
+    justify-content: flex-start; /* Align to start in sidebar */
+    margin-left: 25px; /* Add left margin to align with sidebar links */
+    margin-right: 0; /* Reset right margin */
+}
+.sidebar-dark-mode-toggle .dark-mode-label {
+    margin-left: 0; /* Reset label's left margin if any */
+}
+.sidebar-dark-mode-toggle-li {
+    margin-left: 0;
+}
+.sidebar-dark-mode-toggle .toggle-label {
+    margin-right: 10px; /* Add margin for label in sidebar too, if needed */
+     display: inline; /* Show "Dark Mode" label text in sidebar */
+}
+
+
+.sidebar-dark-mode-toggle .dark-mode-label {
+    background-color: #777; /* Gray background when off */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 60px; /* increased width */
+    height: 30px; /* increased height */
+    border-radius: 30px; /* adjust border-radius to match height */
+    position: relative; /* Make label position relative for slider positioning */
+    padding: 5px;
+    transition: background-color 0.3s ease;
+    margin-left: 0; /* Reset margin that might have been set elsewhere */
+}
+
+body.dark-mode .sidebar-dark-mode-toggle .dark-mode-label {
+    background-color: #222; /* Dark background when dark mode on */
+}
+
+body.dark-mode .sidebar-dark-mode-toggle .toggle-label {
+    color: #f5f5f5; /* Text color in dark mode */
+}
+
+
+/* Install Button in Sidebar */
+.install-button-sidebar {
+    background: linear-gradient(135deg, #ffbb00, #ff6600); /* Orange gradient for install button */
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Increased padding */
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: calc(100% - 50px); /* Full width minus sidebar padding on both sides */
+    margin-left: 25px;
+    margin-right: 25px;
+    text-align: center; /* Ensure text is centered */
+    display: block; /* Make it a block element to take full width */
 }
 
 /* Logo */
@@ -41,6 +419,7 @@ body.dark-mode {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: background 0.3s, box-shadow 0.3s;
+    margin-top: 20px;
 }
 
 body.dark-mode .countdown {
@@ -85,9 +464,9 @@ body.dark-mode h2 {
     margin-top: 10px;
 }
 
-body.dark-mode #timer1, 
-body.dark-mode #timer2, 
-body.dark-mode #timer3, 
+body.dark-mode #timer1,
+body.dark-mode #timer2,
+body.dark-mode #timer3,
 body.dark-mode #timer4 {
     color: #f0a500;
 }
@@ -112,28 +491,6 @@ body.dark-mode .event {
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
-/* Toggle Button */
-.toggle-container {
-    margin: 10px auto;
-    display: flex;
-    justify-content: center;
-    background: #ddd;
-    padding: 10px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s, color 0.3s;
-    width: fit-content;
-}
-
-body.dark-mode .toggle-container {
-    background: #444;
-    color: white;
-}
 
 /* Footer */
 footer {
@@ -165,9 +522,20 @@ body.dark-mode footer a {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     body {
-        padding: 0px 15px;
+        padding: 0px; /* Reset body padding on smaller screens */
+    }
+    .container {
+        padding: 15px; /* Adjust container padding for smaller screens */
+    }
+
+    /* Hide nav links, show nav icon */
+    .nav-links {
+        display: none;
+    }
+    .nav-icon {
+        display: block; /* Show hamburger icon on smaller screens */
     }
 
     .countdown {
@@ -189,9 +557,12 @@ body.dark-mode footer a {
 }
 
 /* iPhone 12 and smaller screens */
-@media (max-width: 430px) {
+@media screen and (max-width: 430px) {
     body {
-        padding: 0px 10px;
+        padding: 0px; /* Reset body padding on even smaller screens if needed */
+    }
+    .container {
+        padding: 10px; /* Further reduce container padding for very small screens */
     }
 
     .countdown {
@@ -268,6 +639,7 @@ body.dark-mode .event:hover h2 {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: background 0.3s, box-shadow 0.3s;
+    margin-top: 20px;
 }
 
 body.dark-mode .live-sessions {
