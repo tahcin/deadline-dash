@@ -254,27 +254,39 @@ body.dark-mode .nav-icon {
 
 
 /* Sidebar Styles */
-/* Sidebar Styles */
 .sidebar {
     height: 100%;
-    width: 0;
+    width: 250px; /* Fixed width when open */
     position: fixed;
-    z-index: 101; /* Higher than navbar */
+    z-index: 101;
     top: 0;
     right: 0;
-    background-color: #f8f8f8; /* Light background for sidebar */
+    background-color: #f8f8f8;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: hidden; /* Keep overflow hidden */
     padding-top: 60px;
-    transition: 0.3s; /* Changed from 0.5s to 0.3s */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Transition transform and opacity */
     text-align: left;
-    box-shadow: -2px 0px 5px rgba(0,0,0,0.2); /* Subtle shadow on the left edge */
-    display: flex; /* Make sidebar a flex container */
-    flex-direction: column; /* Stack items vertically */
+    box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%); /* Initially hidden off-screen to the right */
+    opacity: 0; /* Initially transparent */
 }
 
-/* Add this to create an overlay when sidebar is open */
-.sidebar-overlay {
+body.dark-mode .sidebar {
+    background-color: #1a1a1a;
+    box-shadow: -2px 0px 5px rgba(255,255,255,0.1);
+}
+
+/* Sidebar is OPEN state (add this class via JavaScript) */
+.sidebar.open {
+    transform: translateX(0); /* Slide in from right */
+    opacity: 1; /* Fade in */
+}
+
+
+.sidebar-overlay { /* Keep overlay styles as they are */
     position: fixed;
     top: 0;
     left: 0;
@@ -290,11 +302,6 @@ body.dark-mode .nav-icon {
 .sidebar-overlay.active {
     display: block;
     opacity: 1;
-}
-
-body.dark-mode .sidebar {
-    background-color: #1a1a1a; /* Dark background for sidebar in dark mode */
-    box-shadow: -2px 0px 5px rgba(255,255,255,0.1);
 }
 
 .sidebar-links {
