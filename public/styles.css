@@ -750,4 +750,11 @@ p.install-info strong {
   color: #ffb400;
 }
 
+p.install-info{
+    font-size: 12px;
+    color: #bbb;
+    line-height: 1.3;
+}
+
+  
 
