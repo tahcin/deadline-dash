@@ -776,7 +776,7 @@ body.dark-mode .join-button:hover {
 }
 
 .install-info-container a {
-  color: #ffffff;
+  color: #b01116;
   font-size: 12px; /* Ensure same size as surrounding text */
   font-weight: normal; /* Remove any bold styling */
   text-decoration: none;
