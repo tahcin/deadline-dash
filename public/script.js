@@ -148,30 +148,24 @@ window.addEventListener("appinstalled", () => {
 });
 
 
+// Sidebar Functionality - REMOVE THIS FUNCTION COMPLETELY
+// function toggleSidebar() {
+//     const sidebar = document.getElementById('sidebar');
+//     const body = document.body;
+//     const overlay = document.getElementById('sidebarOverlay');
 
-// Sidebar Functionality
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const body = document.body;
-    const overlay = document.getElementById('sidebarOverlay');
-
-    if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
-        sidebar.style.width = "0";
-        sidebar.classList.remove('open');
-        body.style.overflow = "auto";
-        overlay.classList.remove('active');
-        sidebar.style.overflowY = 'hidden'; // Keep overflow-y: hidden during closing
-    } else {
-        sidebar.style.width = "250px";
-        sidebar.classList.add('open');
-        body.style.overflow = "hidden";
-        overlay.classList.add('active');
-        sidebar.style.overflowY = 'hidden'; // Apply overflow-y: hidden during opening transition
-        setTimeout(() => {
-            sidebar.style.overflowY = 'auto'; // Revert to auto after opening transition (important for scrollable sidebar content if needed in future)
-        }, 300); // Timeout should match your sidebar transition duration (0.3s in your CSS)
-    }
-}
+//     if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
+//         sidebar.style.width = "0";
+//         sidebar.classList.remove('open');
+//         body.style.overflow = "auto";
+//         overlay.classList.remove('active');
+//     } else {
+//         sidebar.style.width = "250px";
+//         sidebar.classList.add('open');
+//         body.style.overflow = "hidden";
+//         overlay.classList.add('active');
+//     }
+// }
 //Smooth scrolling for nav links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -199,18 +193,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// sidebar fix
+// sidebar fix - REPLACE THIS FUNCTION COMPLETELY
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
-    
-    if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
-        sidebar.style.width = "0";
-        sidebar.classList.remove('open');
-        body.style.overflow = "auto"; // Allow scrolling again
+    const overlay = document.getElementById('sidebarOverlay');
+
+    if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open'); // Close sidebar by removing 'open' class
+        body.style.overflow = "auto";
+        overlay.classList.remove('active');
     } else {
-        sidebar.style.width = "250px";
-        sidebar.classList.add('open');
-        body.style.overflow = "hidden"; // Prevent background scrolling
+        sidebar.classList.add('open');    // Open sidebar by adding 'open' class
+        body.style.overflow = "hidden";
+        overlay.classList.add('active');
     }
 }
