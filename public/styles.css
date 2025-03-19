@@ -265,7 +265,7 @@ body.dark-mode .nav-icon {
     overflow-x: hidden;
     overflow-y: hidden; /* Keep overflow hidden */
     padding-top: 60px;
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Transition transform and opacity */
+    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease; /* Transition transform and opacity */
     text-align: left;
     box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
     display: flex;
