@@ -181,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
-    const overlay = document.getElementById('sidebarOverlay');
 
     if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
         sidebar.style.width = "0";
@@ -198,5 +197,21 @@ function toggleSidebar() {
         setTimeout(() => {
             sidebar.style.overflowY = 'auto'; // Revert to auto after opening transition (important for scrollable sidebar content if needed in future)
         }, 300); // Timeout should match your sidebar transition duration (0.3s in your CSS)
+    }
+}
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    const overlay = document.getElementById('sidebarOverlay');
+
+    if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open'); // Close sidebar by removing 'open' class
+        body.style.overflow = "auto";
+        overlay.classList.remove('active');
+    } else {
+        sidebar.classList.add('open');    // Open sidebar by adding 'open' class
+        body.style.overflow = "hidden";
+        overlay.classList.add('active');
     }
 }
