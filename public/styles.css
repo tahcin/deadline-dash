@@ -264,6 +264,7 @@ body.dark-mode .nav-icon {
     right: 0;
     background-color: #f8f8f8; /* Light background for sidebar */
     overflow-x: hidden;
+    overflow-y: hidden;
     padding-top: 60px;
     transition: 0.3s; /* Changed from 0.5s to 0.3s */
     text-align: left;
