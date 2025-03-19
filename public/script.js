@@ -100,16 +100,53 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-//PWA install button - simple instruction as direct prompt is complex for now
-const installButton = document.getElementById('installButton');
-const installButtonSidebar = document.getElementById('installButtonSidebar');
+//PWA install button
+let deferredPrompt;
 
-installButton.addEventListener('click', () => {
-    alert('To install the app, look for the "Install" option in your browser menu (usually three dots or lines).');
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault(); // Prevent automatic prompt
+  deferredPrompt = event; // Store the event for later use
+
+  // Show both install buttons
+  const installButton = document.getElementById("installButton");
+  const installButtonSidebar = document.getElementById("installButtonSidebar");
+
+  if (installButton) installButton.style.display = "block";
+  if (installButtonSidebar) installButtonSidebar.style.display = "block";
 });
-installButtonSidebar.addEventListener('click', () => {
-    alert('To install the app, look for the "Install" option in your browser menu (usually three dots or lines).');
+
+// Function to handle install prompt
+async function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt(); // Show install prompt
+
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === "accepted") {
+      console.log("User accepted the install prompt");
+    } else {
+      console.log("User dismissed the install prompt");
+    }
+
+    deferredPrompt = null; // Reset prompt
+  }
+}
+
+// Add event listeners to both buttons
+document.getElementById("installButton")?.addEventListener("click", installPWA);
+document.getElementById("installButtonSidebar")?.addEventListener("click", installPWA);
+
+// Hide buttons when app is installed
+window.addEventListener("appinstalled", () => {
+  console.log("PWA was installed");
+
+  const installButton = document.getElementById("installButton");
+  const installButtonSidebar = document.getElementById("installButtonSidebar");
+
+  if (installButton) installButton.style.display = "none";
+  if (installButtonSidebar) installButtonSidebar.style.display = "none";
 });
+
 
 
 // Sidebar Functionality
