@@ -151,9 +151,22 @@ window.addEventListener("appinstalled", () => {
 
 // Sidebar Functionality
 function toggleSidebar() {
-    document.getElementById("sidebar").style.width = document.getElementById("sidebar").style.width === "250px" ? "0" : "250px";
+    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
+        sidebar.style.width = "0";
+        sidebar.classList.remove('open');
+        body.style.overflow = "auto";
+        overlay.classList.remove('active');
+    } else {
+        sidebar.style.width = "250px";
+        sidebar.classList.add('open');
+        body.style.overflow = "hidden";
+        overlay.classList.add('active');
+    }
 }
-
 //Smooth scrolling for nav links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -179,3 +192,20 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("sidebar").style.width = "0";
     }
 });
+
+
+// sidebar fix
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const body = document.body;
+    
+    if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
+        sidebar.style.width = "0";
+        sidebar.classList.remove('open');
+        body.style.overflow = "auto"; // Allow scrolling again
+    } else {
+        sidebar.style.width = "250px";
+        sidebar.classList.add('open');
+        body.style.overflow = "hidden"; // Prevent background scrolling
+    }
+}
