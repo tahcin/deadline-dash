@@ -738,22 +738,24 @@ body.dark-mode .join-button:hover {
 }
 
 /* Sidebar para */
-.install-info {
+.install-info-container {
   font-size: 12px;
   color: #888888;
-  margin-top: 8px;
-  padding: 10px 15px;
+  margin: 10px 8px;
+  padding: 8px;
   text-align: center;
-  line-height: 1.4;
-  display: block;
-  width: 100%;
+  line-height: 1.5;
 }
 
-.install-info a {
-  color: #ff9500;
+.install-info-container a {
+  color: #ffffff;
+  font-weight: 500;
   text-decoration: none;
   display: inline;
-  margin: 0 4px;
+}
+
+.install-info-container a:hover {
+  text-decoration: underline;
 }
 
   
