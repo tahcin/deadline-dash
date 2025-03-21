@@ -484,7 +484,7 @@ body.dark-mode h2 {
 }
 
 /* Timer */
-#timer1, #timer2, #timer3, #timer4 {
+#timer1, #timer2, #timer3, #timer4, #timer5, #timer6, #timer7, #timer8 {
     font-size: 1.8em;
     font-weight: 600;
     color: #a6192e;
@@ -495,7 +495,11 @@ body.dark-mode h2 {
 body.dark-mode #timer1,
 body.dark-mode #timer2,
 body.dark-mode #timer3,
-body.dark-mode #timer4 {
+body.dark-mode #timer4,
+body.dark-mode #timer5,
+body.dark-mode #timer6,
+body.dark-mode #timer7,
+body.dark-mode #timer8 {
     color: #f0a500;
 }
 
