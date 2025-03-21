@@ -55,16 +55,22 @@ function startCountdown(id, eventDate) {
 }
 
 // Define event dates
-const event1Date = new Date("March 19, 2025 23:30:00").getTime();
-const event2Date = new Date("March 19, 2025 23:30:00").getTime();
+const event1Date = new Date("March 27, 2025 23:30:00").getTime();
+const event2Date = new Date("April 16, 2025 23:30:00").getTime();
 const event3Date = new Date("March 19, 2025 23:30:00").getTime();
 const event4Date = new Date("March 26, 2025 23:30:00").getTime();
+
+
+const event5Date = new Date("April 16, 2025 23:30:00").getTime();
 
 // Start countdowns
 startCountdown("timer1", event1Date);
 startCountdown("timer2", event2Date);
 startCountdown("timer3", event3Date);
 startCountdown("timer4", event4Date);
+
+
+startCountdown("timer5", event5Date);
 
 
 //buttons
