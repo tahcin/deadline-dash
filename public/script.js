@@ -30,8 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.setItem("darkMode", "disabled");
         }
     });
-    // Initialize Notification Buttons (will be updated by OneSignal)
-    updateNotificationButtonUI('loading'); // Initial state (Define this function outside)
+    initializeSimpleNotificationButtons();
 });
 
 // Function to update the countdown every second
@@ -159,35 +158,8 @@ window.addEventListener("appinstalled", () => {
 });
 
 
-// --- START OF FILE script (13).js ---
 
-document.addEventListener("DOMContentLoaded", function() {
-    // ... (existing dark mode code) ...
 
-    // --- Notification Button Setup ---
-    initializeSimpleNotificationButtons(); // Call the setup function
-
-    // ... (existing countdowns, PWA install, smooth scroll, sidebar code) ...
-});
-
-// --- Keep Basic OneSignal Init ---
-// This is still needed so OneSignal knows about your site
-// and can register users *after* they grant permission.
-window.OneSignalDeferred = window.OneSignalDeferred || [];
-OneSignalDeferred.push(async function(OneSignal) {
-    try {
-        await OneSignal.init({
-            appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
-            // IMPORTANT: You might need `autoRegister: false` if you *only*
-            // want registration to happen after a button click, but often
-            // leaving it default (or true) is fine, as it respects browser permission.
-            // autoRegister: false,
-        });
-        console.log("OneSignal Initialized (for backend registration)");
-    } catch (error) {
-        console.error("OneSignal Basic Initialization Error:", error);
-    }
-});
 
 
 // --- Simple Notification Button Logic ---
