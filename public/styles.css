@@ -790,3 +790,35 @@ body.dark-mode .join-button:hover {
 .install-info-container a:hover {
   text-decoration: underline;
 }
+
+
+/* marquee */
+
+.marquee-container {
+    width: 100%;
+    background: #ffcc00; /* Highlight color */
+    color: #000;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+
+.marquee-container a {
+    text-decoration: none;
+    color: #000;
+    animation: marquee 10s linear infinite;
+    display: inline-block;
+  }
+
+@keyframes marquee {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
