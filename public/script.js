@@ -159,100 +159,143 @@ window.addEventListener("appinstalled", () => {
 });
 
 
-// --- OneSignal Integration & Notification Button Logic ---
+// --- START OF FILE script (13).js ---
+
+document.addEventListener("DOMContentLoaded", function() {
+    // ... (existing dark mode code) ...
+
+    // --- Notification Button Setup ---
+    initializeSimpleNotificationButtons(); // Call the setup function
+
+    // ... (existing countdowns, PWA install, smooth scroll, sidebar code) ...
+});
+
+// --- Keep Basic OneSignal Init ---
+// This is still needed so OneSignal knows about your site
+// and can register users *after* they grant permission.
 window.OneSignalDeferred = window.OneSignalDeferred || [];
 OneSignalDeferred.push(async function(OneSignal) {
     try {
         await OneSignal.init({
             appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
-            // Add other config options if you have them
+            // IMPORTANT: You might need `autoRegister: false` if you *only*
+            // want registration to happen after a button click, but often
+            // leaving it default (or true) is fine, as it respects browser permission.
+            // autoRegister: false,
         });
-
-        // Get button elements
-        const notificationButton = document.getElementById('notificationButton');
-        const notificationButtonSidebar = document.getElementById('notificationButtonSidebar');
-
-        // Function to update UI of both buttons based on permission status
-        const updateNotificationButtonUI = (permission) => {
-            const buttons = [notificationButton, notificationButtonSidebar];
-            buttons.forEach(button => {
-                if (!button) return; // Skip if button doesn't exist
-
-                const icon = button.querySelector('i');
-                const textSpan = button.querySelector('.notification-text');
-
-                // Reset classes and state
-                button.disabled = false;
-                button.classList.remove('subscribed', 'blocked');
-                icon.className = 'fas fa-bell'; // Default icon
-
-                switch (permission) {
-                    case 'granted':
-                        textSpan.textContent = 'Notifications On';
-                        icon.className = 'fas fa-check-circle'; // Check icon
-                        button.classList.add('subscribed');
-                        button.disabled = true; // Optionally disable if granted, as primary action is done
-                        break;
-                    case 'denied':
-                        textSpan.textContent = 'Blocked';
-                        icon.className = 'fas fa-bell-slash'; // Slashed bell icon
-                        button.classList.add('blocked');
-                        button.disabled = true; // Disable - user must change in browser settings
-                        break;
-                    case 'default':
-                        textSpan.textContent = 'Notify Me';
-                        icon.className = 'fas fa-bell'; // Regular bell icon
-                        button.disabled = false;
-                        break;
-                    case 'loading': // Initial state before check
-                    default:
-                        textSpan.textContent = 'Checking...';
-                        button.disabled = true;
-                        break;
-                }
-            });
-        };
-
-        // Initial check for notification permission
-        const currentPermission = await OneSignal.Notifications.permission;
-        updateNotificationButtonUI(currentPermission);
-        console.log("Initial Notification Permission:", currentPermission);
-
-
-        // Add click listener to both buttons
-        const handleNotificationClick = async () => {
-            // Re-check permission right before prompting
-            const permissionOnClick = await OneSignal.Notifications.permission;
-            if (permissionOnClick === 'default') {
-                 console.log("Requesting notification permission...");
-                 await OneSignal.Notifications.requestPermission();
-                 // The permissionChange listener below will handle the UI update
-            } else {
-                console.log(`Notification button clicked, but permission is already ${permissionOnClick}.`);
-                // Optionally show a message if denied:
-                // if (permissionOnClick === 'denied') {
-                //     alert("Notifications are blocked. Please enable them in your browser settings if you wish to subscribe.");
-                // }
-            }
-        };
-
-        notificationButton?.addEventListener('click', handleNotificationClick);
-        notificationButtonSidebar?.addEventListener('click', handleNotificationClick);
-
-
-        // Listen for permission changes (e.g., after user clicks Allow/Block)
-        OneSignal.Notifications.addEventListener('permissionChange', async (permissionChange) => {
-            const newPermission = permissionChange.to;
-            console.log("Notification Permission Changed To:", newPermission);
-            updateNotificationButtonUI(newPermission);
-        });
-
+        console.log("OneSignal Initialized (for backend registration)");
     } catch (error) {
-        console.error("OneSignal initialization or notification logic error:", error);
-        // Optionally update buttons to show an error state
-        updateNotificationButtonUI('error'); // You might want to define an 'error' case in updateUI
+        console.error("OneSignal Basic Initialization Error:", error);
     }
 });
+
+
+// --- Simple Notification Button Logic ---
+
+// Function to update button UI based on NATIVE browser permission
+const updateSimpleNotificationButtonUI = (permission) => {
+    const notificationButton = document.getElementById('notificationButton');
+    const notificationButtonSidebar = document.getElementById('notificationButtonSidebar');
+    const buttons = [notificationButton, notificationButtonSidebar];
+
+    buttons.forEach(button => {
+        if (!button) return; // Skip if button doesn't exist
+
+        const icon = button.querySelector('i');
+        const textSpan = button.querySelector('.notification-text');
+        if (!icon || !textSpan) return;
+
+        // Reset classes and state
+        button.disabled = false;
+        button.classList.remove('subscribed', 'blocked');
+        icon.className = 'fas fa-bell'; // Default icon
+
+        switch (permission) {
+            case 'granted':
+                textSpan.textContent = 'Notifications On'; // Or "Already Subscribed"
+                icon.className = 'fas fa-check-circle';
+                button.classList.add('subscribed');
+                button.disabled = true; // No action needed if already granted
+                break;
+            case 'denied':
+                textSpan.textContent = 'Notifications Blocked';
+                icon.className = 'fas fa-bell-slash';
+                button.classList.add('blocked');
+                button.disabled = true; // User must change in browser settings
+                break;
+            case 'default':
+            default: // Includes initial 'loading' or unknown state
+                textSpan.textContent = 'Notify Me'; // Or "Enable Notifications"
+                icon.className = 'fas fa-bell';
+                button.disabled = false; // Allow clicking to prompt
+                break;
+        }
+    });
+};
+
+// Function to handle the click event
+const handleSimpleNotificationClick = () => {
+    // Check permission again right before requesting
+    if (Notification.permission === 'default') {
+        Notification.requestPermission().then(newPermission => {
+            console.log("Browser Notification Permission:", newPermission);
+            // Update the UI based on the user's choice
+            updateSimpleNotificationButtonUI(newPermission);
+
+            // Optional: If you explicitly disabled autoRegister in OneSignal init,
+            // you might need to manually trigger registration here if granted.
+            // if (newPermission === 'granted') {
+            //    OneSignal.Notifications.registerForPushNotifications();
+            // }
+
+        }).catch(error => {
+            console.error("Error requesting notification permission:", error);
+            // Optionally update UI to show an error
+        });
+    } else {
+        // If permission is already granted or denied, clicking does nothing more here.
+        console.log(`Button clicked, but permission is already ${Notification.permission}`);
+        // Update UI just in case it was somehow out of sync
+        updateSimpleNotificationButtonUI(Notification.permission);
+    }
+};
+
+// Function to set everything up
+const initializeSimpleNotificationButtons = () => {
+    // Check if Notifications are supported by the browser
+    if (!('Notification' in window)) {
+        console.warn("This browser does not support desktop notification");
+        // Optionally hide the buttons or show a message
+        const notificationButton = document.getElementById('notificationButton');
+        const notificationButtonSidebar = document.getElementById('notificationButtonSidebar');
+        if (notificationButton) notificationButton.style.display = 'none';
+        if (notificationButtonSidebar) notificationButtonSidebar.style.display = 'none';
+        return; // Stop initialization
+    }
+
+    // Get button elements
+    const notificationButton = document.getElementById('notificationButton');
+    const notificationButtonSidebar = document.getElementById('notificationButtonSidebar');
+
+    // Initial UI update based on current permission
+    updateSimpleNotificationButtonUI(Notification.permission);
+
+    // Add click listeners
+    if (notificationButton) {
+        notificationButton.addEventListener('click', handleSimpleNotificationClick);
+    }
+    if (notificationButtonSidebar) {
+        notificationButtonSidebar.addEventListener('click', handleSimpleNotificationClick);
+    }
+
+    // Optional: Listen for external changes (less common without full SDK use, but possible)
+    // navigator.permissions?.query({ name: 'notifications' }).then(permissionStatus => {
+    //     permissionStatus.onchange = () => {
+    //         console.log('Native permission status changed externally.');
+    //         updateSimpleNotificationButtonUI(permissionStatus.state);
+    //     };
+    // });
+};
 
 
 
