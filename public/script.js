@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.setItem("darkMode", "disabled");
         }
     });
+    // Initialize Notification Buttons (will be updated by OneSignal)
+    updateNotificationButtonUI('loading'); // Initial state (Define this function outside)
 });
 
 // Function to update the countdown every second
@@ -156,6 +158,101 @@ window.addEventListener("appinstalled", () => {
   if (installButtonSidebar) installButtonSidebar.style.display = "none";
 });
 
+
+// --- OneSignal Integration & Notification Button Logic ---
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) {
+    try {
+        await OneSignal.init({
+            appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
+            // Add other config options if you have them
+        });
+
+        // Get button elements
+        const notificationButton = document.getElementById('notificationButton');
+        const notificationButtonSidebar = document.getElementById('notificationButtonSidebar');
+
+        // Function to update UI of both buttons based on permission status
+        const updateNotificationButtonUI = (permission) => {
+            const buttons = [notificationButton, notificationButtonSidebar];
+            buttons.forEach(button => {
+                if (!button) return; // Skip if button doesn't exist
+
+                const icon = button.querySelector('i');
+                const textSpan = button.querySelector('.notification-text');
+
+                // Reset classes and state
+                button.disabled = false;
+                button.classList.remove('subscribed', 'blocked');
+                icon.className = 'fas fa-bell'; // Default icon
+
+                switch (permission) {
+                    case 'granted':
+                        textSpan.textContent = 'Notifications On';
+                        icon.className = 'fas fa-check-circle'; // Check icon
+                        button.classList.add('subscribed');
+                        button.disabled = true; // Optionally disable if granted, as primary action is done
+                        break;
+                    case 'denied':
+                        textSpan.textContent = 'Blocked';
+                        icon.className = 'fas fa-bell-slash'; // Slashed bell icon
+                        button.classList.add('blocked');
+                        button.disabled = true; // Disable - user must change in browser settings
+                        break;
+                    case 'default':
+                        textSpan.textContent = 'Notify Me';
+                        icon.className = 'fas fa-bell'; // Regular bell icon
+                        button.disabled = false;
+                        break;
+                    case 'loading': // Initial state before check
+                    default:
+                        textSpan.textContent = 'Checking...';
+                        button.disabled = true;
+                        break;
+                }
+            });
+        };
+
+        // Initial check for notification permission
+        const currentPermission = await OneSignal.Notifications.permission;
+        updateNotificationButtonUI(currentPermission);
+        console.log("Initial Notification Permission:", currentPermission);
+
+
+        // Add click listener to both buttons
+        const handleNotificationClick = async () => {
+            // Re-check permission right before prompting
+            const permissionOnClick = await OneSignal.Notifications.permission;
+            if (permissionOnClick === 'default') {
+                 console.log("Requesting notification permission...");
+                 await OneSignal.Notifications.requestPermission();
+                 // The permissionChange listener below will handle the UI update
+            } else {
+                console.log(`Notification button clicked, but permission is already ${permissionOnClick}.`);
+                // Optionally show a message if denied:
+                // if (permissionOnClick === 'denied') {
+                //     alert("Notifications are blocked. Please enable them in your browser settings if you wish to subscribe.");
+                // }
+            }
+        };
+
+        notificationButton?.addEventListener('click', handleNotificationClick);
+        notificationButtonSidebar?.addEventListener('click', handleNotificationClick);
+
+
+        // Listen for permission changes (e.g., after user clicks Allow/Block)
+        OneSignal.Notifications.addEventListener('permissionChange', async (permissionChange) => {
+            const newPermission = permissionChange.to;
+            console.log("Notification Permission Changed To:", newPermission);
+            updateNotificationButtonUI(newPermission);
+        });
+
+    } catch (error) {
+        console.error("OneSignal initialization or notification logic error:", error);
+        // Optionally update buttons to show an error state
+        updateNotificationButtonUI('error'); // You might want to define an 'error' case in updateUI
+    }
+});
 
 
 
