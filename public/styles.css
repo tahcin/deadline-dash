@@ -792,4 +792,115 @@ body.dark-mode .join-button:hover {
 }
 
 
-/* marquee */
+/* Adjust spacing for all direct children divs in nav-controls */
+.nav-controls > div {
+    margin-left: 20px;
+}
+.nav-controls > div:first-child {
+    margin-left: 0px;
+}
+
+/* Notification Button Styles */
+.notification-button {
+    background-color: #eee; /* Light gray background */
+    color: #555; /* Darker gray text */
+    border: 1px solid #ccc;
+    padding: 9px 15px; /* Slightly smaller padding than install button */
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex; /* Align icon and text */
+    align-items: center;
+    font-size: 0.9em; /* Slightly smaller font */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.notification-button i {
+    margin-right: 6px; /* Space between icon and text */
+}
+
+.notification-button:hover {
+    background-color: #ddd;
+    border-color: #bbb;
+    transform: scale(1.03);
+}
+
+.notification-button:active {
+    transform: scale(0.99);
+}
+
+/* Notification Button States */
+.notification-button.subscribed {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green */
+    border-color: #c3e6cb;
+    cursor: default; /* Indicate non-interactive */
+}
+.notification-button.subscribed:hover {
+    background-color: #c3e6cb;
+    transform: scale(1); /* No scale on hover when subscribed */
+}
+
+.notification-button.blocked {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red */
+    border-color: #f5c6cb;
+    cursor: not-allowed; /* Indicate blocked */
+    opacity: 0.7;
+}
+.notification-button.blocked:hover {
+    background-color: #f5c6cb;
+    transform: scale(1); /* No scale on hover when blocked */
+}
+
+/* Dark Mode Notification Button */
+body.dark-mode .notification-button {
+    background-color: #333;
+    color: #ccc;
+    border-color: #555;
+}
+
+body.dark-mode .notification-button:hover {
+    background-color: #444;
+    border-color: #666;
+}
+
+body.dark-mode .notification-button.subscribed {
+    background-color: #1a3a21; /* Darker green */
+    color: #a7d7b4; /* Lighter green text */
+    border-color: #2a5734;
+}
+body.dark-mode .notification-button.subscribed:hover {
+    background-color: #2a5734;
+}
+
+body.dark-mode .notification-button.blocked {
+    background-color: #4d1f24; /* Darker red */
+    color: #f1b0b7; /* Lighter red text */
+    border-color: #721c24;
+}
+body.dark-mode .notification-button.blocked:hover {
+    background-color: #721c24;
+}
+
+/* Notification Button in Sidebar */
+.notification-button-sidebar {
+    width: calc(100% - 50px); /* Match install button width */
+    margin: 10px 25px 10px 25px; /* Add vertical margin */
+    justify-content: center; /* Center icon and text */
+    padding: 10px 15px; /* Consistent padding */
+    display: flex; /* Ensure flex display */
+}
+
+/* Responsive Adjustments if necessary (ensure controls fit) */
+@media screen and (max-width: 430px) {
+     /* Further adjustments for very small screens if needed */
+     .notification-button {
+        padding: 8px 12px; /* Slightly smaller */
+        font-size: 0.85em;
+     }
+     .nav-controls > div {
+        margin-left: 10px; /* Reduce spacing between controls */
+     }
+}
