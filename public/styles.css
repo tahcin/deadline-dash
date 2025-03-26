@@ -904,3 +904,65 @@ body.dark-mode .notification-button.blocked:hover {
         margin-left: 10px; /* Reduce spacing between controls */
      }
 }
+
+
+/* --- Marquee Section Styles --- */
+
+.marquee-container {
+    background-color: #e9e9e9; /* Light background, adjust as needed */
+    padding: 8px 0; /* Vertical padding, no horizontal padding needed */
+    overflow: hidden; /* Hide the text that goes outside */
+    white-space: nowrap; /* Keep the text on a single line */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow like navbar */
+    transition: background-color 0.3s ease;
+}
+
+.marquee-content {
+    display: inline-block; /* Important for animation */
+    padding-left: 100%; /* Start the text off-screen to the right */
+    animation: marqueeScroll 25s linear infinite; /* Adjust duration (25s) to change speed */
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.marquee-container a {
+    color: #a6192e; /* Link color matching your theme */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.marquee-container a:hover {
+    color: #f0a500; /* Hover color matching your theme */
+    text-decoration: underline;
+}
+
+/* Dark Mode Marquee */
+body.dark-mode .marquee-container {
+    background-color: #202020; /* Dark background */
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .marquee-container a {
+    color: #f0a500; /* Link color in dark mode */
+}
+
+body.dark-mode .marquee-container a:hover {
+    color: #ffbb00; /* Link hover color in dark mode */
+}
+
+/* Animation Keyframes */
+@keyframes marqueeScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%); /* Move text fully across to the left */
+    }
+}
+
+/* Pause animation on hover (optional) */
+.marquee-container:hover .marquee-content {
+    animation-play-state: paused;
+}
+
+/* --- End Marquee Section Styles --- */
