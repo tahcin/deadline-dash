@@ -920,7 +920,7 @@ body.dark-mode .notification-button.blocked:hover {
 .marquee-content {
     display: inline-block; /* Important for animation */
     padding-left: 100%; /* Start the text off-screen to the right */
-    animation: marqueeScroll 20s linear infinite; /* Adjust duration (25s) to change speed */
+    animation: marqueeScroll 17s linear infinite; /* Adjust duration (25s) to change speed */
     font-size: 0.9em;
     font-weight: 500;
 }
