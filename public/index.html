@@ -20,7 +20,7 @@
     <meta name="google-site-verification" content="hed01S5F60m5Bc_zL9Tnc72kUYKLSQW2umcESJLpYQo" />
 
     <link rel="stylesheet" href="/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
@@ -28,7 +28,6 @@
 
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
-
 
     <script type="application/ld+json">
     {
@@ -69,93 +68,95 @@
 
 </head>
 <body>
-    <nav class="nav-bar">
-        <div class="nav-logo">
-            <a href="/" class="logo-text">Deadline Dash</a>
-        </div>
-        <div class="nav-links" id="navLinks">
-            <ul class="nav-items">
-                <li><a href="#countdown" class="nav-link">CLA/Mid-Terms</a></li>
-                <li><a href="#assignments" class="nav-link">Assignments</a></li>
-                <li><a href="#live-sessions" class="nav-link">Live Sessions</a></li>
-            </ul>
-            <div class="nav-controls">
-                <div class="dark-mode-toggle-li">
-                    <div class="dark-mode-toggle">
+    <header>
+        <nav class="nav-bar">
+            <div class="nav-logo">
+                <a href="/" class="logo-text">Deadline Dash</a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <ul class="nav-items">
+                    <li><a href="#countdown" class="nav-link"><i class="fas fa-calendar-alt"></i> CLA/Mid-Terms</a></li>
+                    <li><a href="#assignments" class="nav-link"><i class="fas fa-tasks"></i> Assignments</a></li>
+                    <li><a href="#live-sessions" class="nav-link"><i class="fas fa-video"></i> Live Sessions</a></li>
+                </ul>
+                <div class="nav-controls">
+                    <div class="dark-mode-toggle-li">
+                        <div class="dark-mode-toggle">
+                            <span class="toggle-label">Dark Mode</span>
+                            <input type="checkbox" id="darkModeSwitch" class="dark-mode-checkbox">
+                            <label for="darkModeSwitch" class="dark-mode-label">
+                                <span class="dark-mode-icon moon"><i class="fas fa-moon"></i></span>
+                                <span class="dark-mode-icon sun"><i class="fas fa-sun"></i></span>
+                                <span class="dark-mode-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Notification Button -->
+                    <div class="notification-btn-li">
+                        <button id="notificationButton" class="notification-button">
+                            <i class="fas fa-bell"></i> <span class="notification-text">Notify Me</span>
+                        </button>
+                    </div>
+
+                    <div class="install-btn-li">
+                        <button id="installButton" class="install-button">
+                            <i class="fas fa-download"></i> Install App
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-icon">
+                <i class="fa fa-bars" onclick="toggleSidebar()"></i>
+            </div>
+            <div class="sidebar" id="sidebar">
+                <a href="#" class="close-btn" onclick="toggleSidebar()"><i class="fa fa-times"></i></a>
+
+                <div class="sidebar-links">
+                    <a href="#countdown" class="sidebar-link" onclick="toggleSidebar()"><i class="fas fa-calendar-alt"></i> CLA/Mid-Terms</a>
+                    <a href="#assignments" class="sidebar-link" onclick="toggleSidebar()"><i class="fas fa-tasks"></i> Assignments</a>
+                    <a href="#live-sessions" class="sidebar-link" onclick="toggleSidebar()"><i class="fas fa-video"></i> Live Sessions</a>
+                </div>
+        
+                <div class="sidebar-footer">
+                    <!-- Dark Mode Toggle (Sidebar) -->
+                    <div class="sidebar-dark-mode-toggle">
                         <span class="toggle-label">Dark Mode</span>
-                        <input type="checkbox" id="darkModeSwitch" class="dark-mode-checkbox">
-                        <label for="darkModeSwitch" class="dark-mode-label">
+                        <input type="checkbox" id="darkModeSwitchSidebar" class="dark-mode-checkbox">
+                        <label for="darkModeSwitchSidebar" class="dark-mode-label">
                             <span class="dark-mode-icon moon"><i class="fas fa-moon"></i></span>
                             <span class="dark-mode-icon sun"><i class="fas fa-sun"></i></span>
                             <span class="dark-mode-slider"></span>
                         </label>
                     </div>
-                </div>
-                <!-- Notification Button -->
-                <div class="notification-btn-li">
-                    <button id="notificationButton" class="notification-button">
+                    <!-- Notification Button (Sidebar) -->
+                    <button id="notificationButtonSidebar" class="notification-button notification-button-sidebar">
                         <i class="fas fa-bell"></i> <span class="notification-text">Notify Me</span>
                     </button>
-                </div>
-
-                <div class="install-btn-li">
-                     <button id="installButton" class="install-button">Install App</button>
-                </div>
-             </div>
-        </div>
-        <div class="nav-icon">
-            <i class="fa fa-bars" onclick="toggleSidebar()"></i>
-        </div>
-        <div class="sidebar" id="sidebar">
-            <a href="#" class="close-btn" onclick="toggleSidebar()"><i class="fa fa-times"></i></a>
-
-            <div class="sidebar-links">
-                <a href="#countdown" class="sidebar-link" onclick="toggleSidebar()">CLA/Mid-Terms</a>
-                <a href="#assignments" class="sidebar-link" onclick="toggleSidebar()">Assignments</a>
-                <a href="#live-sessions" class="sidebar-link" onclick="toggleSidebar()">Live Sessions</a>
-            </div>
-    
-            <div class="sidebar-footer">
-                <!-- Dark Mode Toggle (Sidebar) -->
-                <div class="dark-mode-toggle sidebar-dark-mode-toggle">
-                    <span class="toggle-label">Dark Mode</span>
-                    <input type="checkbox" id="darkModeSwitchSidebar" class="dark-mode-checkbox">
-                    <label for="darkModeSwitchSidebar" class="dark-mode-label">
-                        <span class="dark-mode-icon moon"><i class="fas fa-moon"></i></span>
-                        <span class="dark-mode-icon sun"><i class="fas fa-sun"></i></span>
-                        <span class="dark-mode-slider"></span>
-                   </label>
-                </div>
-                <!-- Notification Button (Sidebar) -->
-                <button id="notificationButtonSidebar" class="notification-button notification-button-sidebar">
-                     <i class="fas fa-bell"></i> <span class="notification-text">Notify Me</span>
-                </button>
-                <!-- Install Button (Sidebar) -->
-                <button id="installButtonSidebar" class="install-button install-button-sidebar">Install App</button>
-                <div class="install-info-container">
+                    <!-- Install Button (Sidebar) -->
+                    <button id="installButtonSidebar" class="install-button install-button-sidebar">
+                        <i class="fas fa-download"></i> Install App
+                    </button>
+                    <div class="install-info-container">
                         Install button won't work on iOS. <a href="https://ruddy-soursop-ccb.notion.site/How-to-Install-Deadline-Dash-on-iOS-1209f5f53c6680ada63fe4b0942deaaf?pvs=73" target="_blank">Install guide for iOS.</a></br> 
                         For MacOS, Works on Chrome, not Safari.
+                    </div>
                 </div>
-
-
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
+
     <!-- Marquee Section -->
     <div class="marquee-container">
         <div class="marquee-content">
             <a href="https://chat.whatsapp.com/DpUJ2d7WEs11WmWQNU5PAu" target="_blank" rel="noopener noreferrer">
-                🚀 Join our WhatsApp Community for updates and sneak peeks! 🚀
+                 Join our WhatsApp Community for updates and sneak peeks! <i class="fab fa-whatsapp"></i>
             </a>
         </div>
     </div>
 
-
-    <div class="container">
-
-        <div class="countdown" id="countdown">
-            
-            <h1>CLA and Mid-Terms</h1>
+    <main class="container">
+        <section class="countdown" id="countdown">
+            <h1><i class="fas fa-calendar-alt section-icon"></i> CLA and Mid-Terms</h1>
             <!--<h2>Yay! No Upcoming Deadlines</h2> -->
             <div id="countdown1" class="event">
                 <h2>Evolution of Business and Market<br> Module 1 CLA </h2>
@@ -165,7 +166,7 @@
                 <h2>Venturing on a Budget: Rs250 Venture<br>Module 4 CLA </h2>
                 <div id="timer2"></div>
             </div>
-             <!--<div id="countdown3" class="event">
+            <!--<div id="countdown3" class="event">
                 <h2>Venturing on a Budget: Rs250 Venture<br>Module 4 CLA </h2>
                 <div id="timer3"></div>
             </div>
@@ -173,16 +174,16 @@
                 <h2>Advanced Statistics for Business<br> Mid-Term 2 </h2>
                 <div id="timer4"></div>
             </div> -->
-        </div>
+        </section>
 
-        <div class="countdown" id="assignments">
-            <h1>Assignments</h1>
+        <section class="countdown" id="assignments">
+            <h1><i class="fas fa-tasks section-icon"></i> Assignments</h1>
             <!--<h2>Yay! No Upcoming Deadlines</h2> -->
             <div id="countdown5" class="event">
                 <h2>Venturing on a Budget: Rs250 Venture<br> Assignment 2 </h2>
                 <div id="timer5"></div>
             </div>
-              <!-- <div id="countdown2" class="event">
+            <!-- <div id="countdown2" class="event">
                 <h2>Venturing on a Budget: Rs250 Venture<br>Module 4 CLA </h2>
                 <div id="timer2"></div>
             </div>
@@ -194,49 +195,62 @@
                 <h2>Advanced Statistics for Business<br> Mid-Term 2 </h2>
                 <div id="timer4"></div>
             </div> -->
-        </div>
+        </section>
 
-        <div class="live-sessions" id="live-sessions">
-            <h1>Live Sessions</h1>
+        <section class="live-sessions" id="live-sessions">
+            <h1><i class="fas fa-video section-icon"></i> Live Sessions</h1>
             <!--<h2>Yay! No upcoming live sessions.</h2>-->
             <div class="session">
+                <i class="fas fa-chalkboard-teacher section-icon"></i>
                 <h2>Evolution of Business and Market </h2>
                 <h3>Webinar 1 </h3>
-                <p><strong>Date:</strong> April 05, 2025</p>
-                <p><strong>Time:</strong> 5:00 - 6:30 PM IST</p>
-                <a href="" target="_blank" class="join-button">Join Session</a>
+                <p><strong><i class="far fa-calendar-alt"></i> Date:</strong> April 05, 2025</p>
+                <p><strong><i class="far fa-clock"></i> Time:</strong> 5:00 - 6:30 PM IST</p>
+                <a href="" target="_blank" class="join-button">
+                    <i class="fas fa-sign-in-alt"></i> Join Session
+                </a>
             </div> 
             <div class="session">
+                <i class="fas fa-chalkboard-teacher section-icon"></i>
                 <h2>Evolution of Business and Market </h2>
                 <h3>Webinar 2 </h3>
-                <p><strong>Date:</strong> April 12, 2025</p>
-                <p><strong>Time:</strong> 5:00 - 6:30 PM IST</p>
-                <a href="" target="_blank" class="join-button">Join Session</a>
+                <p><strong><i class="far fa-calendar-alt"></i> Date:</strong> April 12, 2025</p>
+                <p><strong><i class="far fa-clock"></i> Time:</strong> 5:00 - 6:30 PM IST</p>
+                <a href="" target="_blank" class="join-button">
+                    <i class="fas fa-sign-in-alt"></i> Join Session
+                </a>
             </div> 
 
-             <div class="session">
+            <div class="session">
+                <i class="fas fa-chalkboard-teacher section-icon"></i>
                 <h2>Evolution of Business and Market </h2>
                 <h3>Webinar 3 </h3>
-                <p><strong>Date:</strong> April 18, 2025</p>
-                <p><strong>Time:</strong> 5:00 - 6:30 PM IST</p>
-                <a href="" target="_blank" class="join-button">Join Session</a>
+                <p><strong><i class="far fa-calendar-alt"></i> Date:</strong> April 18, 2025</p>
+                <p><strong><i class="far fa-clock"></i> Time:</strong> 5:00 - 6:30 PM IST</p>
+                <a href="" target="_blank" class="join-button">
+                    <i class="fas fa-sign-in-alt"></i> Join Session
+                </a>
             </div> 
-        </div>
+        </section>
+        
         <div class="logo-container">
             <img src="/images/bbadbe.jpg" alt="BBA DBE Logo" class="logo">
         </div>
-    </div>
+    </main>
     
     <footer>
-        Made by <a href="https://www.linkedin.com/in/tahcinsarwar/" target="_blank">Tahcin Sarwar</a>, Made better by <a href="https://www.linkedin.com/in/priyanshisharma20/" target="_blank">Priyanshi Sharma</a>
-        <br> For any feedback or additions, Reach out to us!
+        <div class="footer-content">
+            <p>Made by <a href="https://www.linkedin.com/in/tahcinsarwar/" target="_blank"><i class="fab fa-linkedin"></i> Tahcin Sarwar</a>, Made better by <a href="https://www.linkedin.com/in/priyanshisharma20/" target="_blank"><i class="fab fa-linkedin"></i> Priyanshi Sharma</a></p>
+            <p>For any feedback or additions, Reach out to us!</p>
+        </div>
     </footer>
+
     <script>
-            window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
     <script>
-            window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
     <script src="/script.js"></script>
