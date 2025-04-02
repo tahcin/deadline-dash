@@ -30,16 +30,72 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.setItem("darkMode", "disabled");
         }
     });
+    
+    // Initialize all timers immediately to prevent delay
+    initializeTimers();
+    
     initializeSimpleNotificationButtons();
 });
+
+// Initialize all countdown timers with initial values
+function initializeTimers() {
+    // Define event dates
+    const event1Date = new Date("April 02, 2025 23:30:00").getTime();
+    const event2Date = new Date("April 16, 2025 23:30:00").getTime();
+    const event3Date = new Date("March 19, 2025 23:30:00").getTime();
+    const event4Date = new Date("March 26, 2025 23:30:00").getTime();
+    const event5Date = new Date("April 16, 2025 23:30:00").getTime();
+    
+    // Pre-populate timers first with initial values
+    updateTimerDisplay("timer1", event1Date);
+    updateTimerDisplay("timer2", event2Date);
+    updateTimerDisplay("timer3", event3Date);
+    updateTimerDisplay("timer4", event4Date);
+    updateTimerDisplay("timer5", event5Date);
+    
+    // Then start the continuous countdown
+    startCountdown("timer1", event1Date);
+    startCountdown("timer2", event2Date);
+    startCountdown("timer3", event3Date);
+    startCountdown("timer4", event4Date);
+    startCountdown("timer5", event5Date);
+}
+
+// Function to immediately update a timer's display without waiting for interval
+function updateTimerDisplay(id, eventDate) {
+    const countdownElement = document.getElementById(id);
+    if (!countdownElement) return;
+    
+    const now = new Date().getTime();
+    const distance = eventDate - now;
+    
+    if (distance < 0) {
+        countdownElement.innerHTML = "EXPIRED";
+        return;
+    }
+    
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
 
 // Function to update the countdown every second
 function startCountdown(id, eventDate) {
     const countdownElement = document.getElementById(id);
+    if (!countdownElement) return;
 
     const interval = setInterval(function() {
         const now = new Date().getTime();
         const distance = eventDate - now;
+
+        if (distance < 0) {
+            clearInterval(interval);
+            countdownElement.innerHTML = "EXPIRED";
+            return;
+        }
 
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -47,32 +103,8 @@ function startCountdown(id, eventDate) {
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-        if (distance < 0) {
-            clearInterval(interval);
-            countdownElement.innerHTML = "EXPIRED";
-        }
     }, 1000);
 }
-
-// Define event dates
-const event1Date = new Date("April 02, 2025 23:30:00").getTime();
-const event2Date = new Date("April 16, 2025 23:30:00").getTime();
-const event3Date = new Date("March 19, 2025 23:30:00").getTime();
-const event4Date = new Date("March 26, 2025 23:30:00").getTime();
-
-
-const event5Date = new Date("April 16, 2025 23:30:00").getTime();
-
-// Start countdowns
-startCountdown("timer1", event1Date);
-startCountdown("timer2", event2Date);
-startCountdown("timer3", event3Date);
-startCountdown("timer4", event4Date);
-
-
-startCountdown("timer5", event5Date);
-
 
 //buttons
 document.addEventListener("DOMContentLoaded", function () {
@@ -320,5 +352,4 @@ function toggleSidebar() {
         }, 300); // Timeout should match your sidebar transition duration (0.3s in your CSS)
     }
 }
-
 
