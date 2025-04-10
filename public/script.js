@@ -78,10 +78,6 @@ document.addEventListener("DOMContentLoaded", function() {
     initializeSmoothScrolling();
     // --- End Smooth Scrolling Initialization ---
 
-    // --- Sidebar Initialization (for mobile) ---
-    initializeSidebarState();
-    // --- End Sidebar Initialization ---
-
 }); // End DOMContentLoaded
 
 // =========================================
