@@ -36,6 +36,7 @@ body {
     padding: 0px; /* Removed padding from body for full width nav */
     line-height: 1.6;
     transition: var(--transition);
+     overflow-x: hidden;
 }
 
 /* Dark Mode */
@@ -1315,3 +1316,6 @@ body.dark-mode .session {
 body.dark-mode .session:hover {
     border-left: 8px solid var(--accent-color);
 }
+
+
+
