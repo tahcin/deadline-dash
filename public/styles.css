@@ -94,38 +94,42 @@ body.dark-mode .nav-bar {
 .nav-logo {
     display: flex;
     align-items: center;
-    white-space: nowrap; /* Prevent logo text from wrapping */
 }
 
-.nav-logo .logo-text {
-    color: var(--primary-color);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 1.4rem;
-    letter-spacing: -0.5px;
-    white-space: nowrap; /* Ensure logo text stays in one line */
-    position: relative;
-    display: inline-block;
+/* Style for the logo link container */
+.nav-logo .logo-link {
+    display: inline-block; /* Allows setting height/width if needed */
+    line-height: 0; /* Prevents extra space below the image */
 }
 
-body.dark-mode .nav-logo .logo-text {
-    color: var(--accent-color);
+/* Common styles for both logo images */
+.nav-logo .logo-image {
+    height: 35px; /* Adjust this height as needed */
+    width: auto;  /* Maintain aspect ratio */
+    display: none; /* Hide both images initially */
+    vertical-align: middle; /* Aligns image nicely if link is display: inline-block */
 }
 
-.nav-logo .logo-text::before {
-    content: "🚀";
-    position: absolute;
-    left: -1.5rem;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
+/* Show the light logo by default */
+.nav-logo .logo-light {
+    display: inline-block; /* Or block */
 }
 
-.nav-logo:hover .logo-text::before {
-    opacity: 1;
-    transform: translateX(0);
+/* Hide the dark logo by default */
+.nav-logo .logo-dark {
+    display: none;
 }
+
+/* Dark mode styles - Show dark logo, hide light logo */
+body.dark-mode .nav-logo .logo-light {
+    display: none;
+}
+
+body.dark-mode .nav-logo .logo-dark {
+    display: inline-block; /* Or block */
+}
+
+
 
 .nav-links {
     display: flex;
@@ -1030,9 +1034,8 @@ header {
         color: var(--accent-color);
     }
 
-    /* Increase logo size for better visibility */
-    .nav-logo .logo-text {
-        font-size: 1.5rem;
+     .nav-logo .logo-image {
+         height: 30px; /* Slightly smaller logo on mobile */
     }
     
     /* Improve hamburger menu icon */
@@ -1080,8 +1083,8 @@ header {
         padding: 0.75rem 0.875rem;
     }
     
-    .nav-logo .logo-text {
-        font-size: 1.35rem;
+    .nav-logo .logo-image {
+         height: 28px; /* Even smaller logo */
     }
 }
 
