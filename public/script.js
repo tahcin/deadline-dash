@@ -45,7 +45,7 @@ function initializeTimers() {
     const event3Date = new Date("March 19, 2025 23:30:00").getTime();
     const event4Date = new Date("March 26, 2025 23:30:00").getTime();
     const event5Date = new Date("April 20, 2025 18:30:00").getTime();
-    const event6Date = new Date("April 22, 2025 23:30:00").getTime();
+    const event6Date = new Date("May 2, 2025 23:30:00").getTime();
     const event7Date = new Date("April 16, 2025 23:30:00").getTime();
     const event8Date = new Date("April 16, 2025 23:30:00").getTime();
     
