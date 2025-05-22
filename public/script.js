@@ -118,14 +118,14 @@ function startCountdown(id, eventDate) {
 //buttons
 document.addEventListener("DOMContentLoaded", function () {
     const buttonLinks = {
-        countdown1: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+ST21x+BBA_DBE_B1/block-v1:IIMBx+ST21x+BBA_DBE_B1+type@sequential+block@e6ea8ec5703347c784d826dcd1137799/block-v1:IIMBx+ST21x+BBA_DBE_B1+type@vertical+block@54de81e3cbcb426aa46bd6ab159f0236",
+        countdown1: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+EP31x+BBA_DBE_B1/block-v1:IIMBx+EP31x+BBA_DBE_B1+type@sequential+block@71c86d43625b40e4b1b4566e7cef08cb/block-v1:IIMBx+EP31x+BBA_DBE_B1+type@vertical+block@97b8e16b38d64d32b380fa93ed54c1e3",
         countdown2: "",
         countdown3: "",
         countdown4: "",
 
         
-        countdown5: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+PJ21x+BBA_DBE_B1/block-v1:IIMBx+PJ21x+BBA_DBE_B1+type@sequential+block@8e6f2b5137724553bfad3137e64ff36c/block-v1:IIMBx+PJ21x+BBA_DBE_B1+type@vertical+block@0e1cad34c58c4d4696d215dcbcf5954d",
-        countdown6: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+ID21x+BBA_DBE_B1/block-v1:IIMBx+ID21x+BBA_DBE_B1+type@sequential+block@0965e6e30733460c9b336ba8d7280b6a/block-v1:IIMBx+ID21x+BBA_DBE_B1+type@vertical+block@81a69d2c8a984c2e9d58924eec2f121a"
+        countdown5: "",
+        countdown6: ""
     };
 
     document.querySelectorAll(".event").forEach(eventBox => {
