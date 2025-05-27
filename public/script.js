@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", function() {
 // Initialize all countdown timers with initial values
 function initializeTimers() {
     // Define event dates
-    const event1Date = new Date("May 28, 2025 23:30:00").getTime();
-    const event2Date = new Date("April 16, 2025 23:30:00").getTime();
+    const event1Date = new Date("Jun 1, 2025 23:30:00").getTime();
+    const event2Date = new Date("Jun 1, 2025 23:30:00").getTime();
     const event3Date = new Date("March 19, 2025 23:30:00").getTime();
     const event4Date = new Date("March 26, 2025 23:30:00").getTime();
     const event5Date = new Date("April 20, 2025 18:30:00").getTime();
