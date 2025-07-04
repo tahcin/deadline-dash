@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function() {
 function initializeTimers() {
     // Define event dates
     const event1Date = new Date("Jun 22, 2025 23:30:00").getTime();
-    const event2Date = new Date("Jul 2, 2025 23:30:00").getTime();
-    const event3Date = new Date("Jul 2, 2025 23:30:00").getTime();
-    const event4Date = new Date("Jul 2, 2025 23:30:00").getTime();
+    const event2Date = new Date("Jul 9, 2025 23:30:00").getTime();
+    const event3Date = new Date("Jul 9, 2025 23:30:00").getTime();
+    const event4Date = new Date("Jul 9, 2025 23:30:00").getTime();
     const event5Date = new Date("April 20, 2025 18:30:00").getTime();
     const event6Date = new Date("May 7, 2025 23:30:00").getTime();
     const event7Date = new Date("April 16, 2025 23:30:00").getTime();
@@ -119,9 +119,9 @@ function startCountdown(id, eventDate) {
 document.addEventListener("DOMContentLoaded", function () {
     const buttonLinks = {
         countdown1: "",
-        countdown2: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+EP31x+BBA_DBE_B1/block-v1:IIMBx+EP31x+BBA_DBE_B1+type@sequential+block@ef2d8c439afe4b7c85f4fa5c001c05ca/block-v1:IIMBx+EP31x+BBA_DBE_B1+type@vertical+block@f59180232c8042a08f91e94bd93de8d5",
-        countdown3: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+SE31x+BBA_DBE_B1/block-v1:IIMBx+SE31x+BBA_DBE_B1+type@sequential+block@b363d0eb16854dc7879bdfd406f6138e/block-v1:IIMBx+SE31x+BBA_DBE_B1+type@vertical+block@ee9129f4b4ee430f996dfa5b1867a30a",
-        countdown4: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+MK31x+BBA_DBE_B1/block-v1:IIMBx+MK31x+BBA_DBE_B1+type@sequential+block@9131d2cbaa984d2da253b5d5b34b9730/block-v1:IIMBx+MK31x+BBA_DBE_B1+type@vertical+block@aeea0ac970b34b65a1281c8b6b29c2fa",
+        countdown2: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+EP31x+BBA_DBE_B1/block-v1:IIMBx+EP31x+BBA_DBE_B1+type@sequential+block@e39db992ed97416991885f130f3c61f5/block-v1:IIMBx+EP31x+BBA_DBE_B1+type@vertical+block@d08c6cdb5dca46bd98ac08836a14a02e",
+        countdown3: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+SE31x+BBA_DBE_B1/block-v1:IIMBx+SE31x+BBA_DBE_B1+type@sequential+block@1c510026b7a845a1b31ae6232c30fc4c/block-v1:IIMBx+SE31x+BBA_DBE_B1+type@vertical+block@44222db5d41f47c490b8f60ca35c2b42",
+        countdown4: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+MK31x+BBA_DBE_B1/block-v1:IIMBx+MK31x+BBA_DBE_B1+type@sequential+block@395d11377cb247cd8519146953a1b8cd/block-v1:IIMBx+MK31x+BBA_DBE_B1+type@vertical+block@a40e21aff2ec46ee825cebdd03b35ab5",
 
         
         countdown5: "",
