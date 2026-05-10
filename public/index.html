@@ -48,55 +48,12 @@
         gtag('config', 'G-FDZT4KL13Z');
     </script>
 
-    <script>
-        // OneSignal's loader injects a <script> with a hardcoded absolute URL
-        // to cdn.onesignal.com for its implementation file, which Brave/uBlock
-        // block via the EasyPrivacy list. Rewrite those URLs to our same-origin
-        // /onesignal-sdk/ proxy so the SDK can fully initialize.
-        (function () {
-            var CDN = 'https://cdn.onesignal.com/sdks/web/v16/';
-            var PROXY = '/onesignal-sdk/';
-            function rewrite(u) {
-                return (typeof u === 'string' && u.indexOf(CDN) === 0)
-                    ? PROXY + u.slice(CDN.length)
-                    : u;
-            }
-            var srcDesc = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src');
-            if (srcDesc && srcDesc.set) {
-                Object.defineProperty(HTMLScriptElement.prototype, 'src', {
-                    configurable: true,
-                    get: srcDesc.get,
-                    set: function (v) { return srcDesc.set.call(this, rewrite(v)); }
-                });
-            }
-            var origFetch = window.fetch;
-            if (origFetch) {
-                window.fetch = function (input, init) {
-                    if (typeof input === 'string') {
-                        input = rewrite(input);
-                    } else if (typeof Request !== 'undefined' && input instanceof Request) {
-                        var nu = rewrite(input.url);
-                        if (nu !== input.url) input = new Request(nu, input);
-                    }
-                    return origFetch.call(this, input, init);
-                };
-            }
-            var origOpen = XMLHttpRequest.prototype.open;
-            XMLHttpRequest.prototype.open = function (method, url) {
-                arguments[1] = rewrite(url);
-                return origOpen.apply(this, arguments);
-            };
-        })();
-    </script>
-
-    <script src="/onesignal-sdk/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function(OneSignal) {
             await OneSignal.init({
                 appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
-                serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
-                serviceWorkerParam: { scope: "/push/onesignal/" }
             });
         });
     </script>

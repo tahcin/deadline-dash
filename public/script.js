@@ -380,19 +380,6 @@ function getOneSignalSubscription() {
     return window.OneSignal?.User?.PushSubscription || null;
 }
 
-function withOneSignal(callback) {
-    return new Promise((resolve, reject) => {
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        window.OneSignalDeferred.push(async function (OneSignal) {
-            try {
-                resolve(await callback(OneSignal));
-            } catch (e) {
-                reject(e);
-            }
-        });
-    });
-}
-
 async function deriveNotificationState() {
     if (!('Notification' in window)) return 'unsupported';
     if (Notification.permission === 'denied') return 'blocked';
@@ -454,11 +441,7 @@ async function handleNotificationClick() {
     const state = await deriveNotificationState();
     if (state === 'prompt') {
         try {
-            await withOneSignal(async (OneSignal) => {
-                const sub = OneSignal.User.PushSubscription;
-                if (sub) await sub.optIn();
-                else await OneSignal.Notifications.requestPermission();
-            });
+            await Notification.requestPermission();
         } catch (e) {
             console.error(e);
         }
@@ -474,7 +457,8 @@ async function handleNotificationClick() {
     if (state === 'unsubscribed') {
         try {
             const sub = getOneSignalSubscription();
-            if (sub) await sub.optIn();
+            if (sub && sub.token) await sub.optIn();
+            else await Notification.requestPermission();
         } catch (e) {
             console.error(e);
         }
