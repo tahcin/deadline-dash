@@ -37,6 +37,16 @@ function formatCountdown(ms) {
     return `${seconds}s`;
 }
 
+function formatRoughTime(ms) {
+    if (ms <= 0) return 'now';
+    const minutes = Math.floor(ms / 60000);
+    if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''}`;
+    const days = Math.floor(hours / 24);
+    return `${days} day${days !== 1 ? 's' : ''}`;
+}
+
 function urgencyFor(dueMs, now) {
     const remaining = dueMs - now;
     if (remaining <= 0) return 'expired';
@@ -104,24 +114,31 @@ function renderHero(deadline) {
     if (!deadline) {
         hero.hidden = false;
         hero.dataset.empty = 'true';
+        hero.dataset.link = '';
+        hero.classList.remove('row--clickable');
         hero.innerHTML = `
             <span class="eyebrow">All clear</span>
-            <h1 class="hero-title">Nothing pending.</h1>
-            <p class="hero-course">No upcoming deadlines for Batch 2027 · Term 5. Stay sharp.</p>
+            <h1 class="hero-text"><span class="hero-emph">Nothing pending.</span> No upcoming deadlines for Batch 2027 &middot; Term 5.</h1>
         `;
         return;
     }
     hero.hidden = false;
     hero.dataset.empty = 'false';
     hero.dataset.link = deadline.link || '';
+    if (deadline.link) hero.classList.add('row--clickable');
+    else hero.classList.remove('row--clickable');
     const due = new Date(deadline.dueAt).getTime();
     hero.innerHTML = `
         <span class="eyebrow">Up Next</span>
-        <h1 class="hero-title">${escapeHtml(deadline.title)}</h1>
-        <p class="hero-course">${escapeHtml(deadline.courseName)}</p>
+        <h1 class="hero-text">
+            <span class="hero-emph">${escapeHtml(deadline.title)}</span>
+            of ${escapeHtml(deadline.courseName)} is due in
+            <span class="hero-emph hero-time" data-due="${due}" data-format="rough"></span>
+        </h1>
         <div class="hero-meta">
             <span class="hero-countdown" data-due="${due}"></span>
             <span class="hero-due">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
+            ${deadline.link ? '<span class="hero-cta">Open assessment ↗</span>' : ''}
         </div>
     `;
 }
@@ -137,7 +154,6 @@ function renderRow(deadline, index) {
     li.dataset.category = SECTION_BY_CATEGORY[deadline.category] || 'assignment';
     li.style.setProperty('--i', index);
     li.innerHTML = `
-        <span class="row-rail" aria-hidden="true"></span>
         <span class="row-tag">${escapeHtml(tag)}</span>
         <div class="row-body">
             <span class="row-title">${escapeHtml(deadline.title)}</span>
@@ -222,8 +238,8 @@ function renderAll(data) {
 
     renderHero(heroDeadline);
     renderGroups(restForGroups);
+    renderCalendar(visible);
 
-    // Hero clickability
     const hero = document.getElementById('hero');
     hero.onclick = () => {
         if (hero.dataset.empty === 'true') return;
@@ -231,6 +247,81 @@ function renderAll(data) {
     };
 
     tickAll();
+}
+
+function renderCalendar(deadlines) {
+    const cal = document.getElementById('calendar');
+    if (!cal) return;
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const firstOfMonth = new Date(year, month, 1);
+    const lastOfMonth = new Date(year, month + 1, 0);
+    const daysInMonth = lastOfMonth.getDate();
+
+    let firstCol = firstOfMonth.getDay() - 1;
+    if (firstCol < 0) firstCol = 6;
+
+    const byDate = {};
+    for (const d of deadlines) {
+        const dt = new Date(d.dueAt);
+        const key = `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`;
+        if (!byDate[key]) byDate[key] = [];
+        byDate[key].push(d);
+    }
+
+    const todayKey = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const monthName = firstOfMonth.toLocaleDateString('en-IN', { month: 'long' });
+
+    let html = `
+        <header class="calendar-head">
+            <h3>${monthName}</h3>
+            <span class="cal-year">${year}</span>
+        </header>
+        <div class="calendar-weekdays">
+            <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+        </div>
+        <div class="calendar-grid">
+    `;
+
+    for (let i = 0; i < firstCol; i++) {
+        html += '<span class="cal-cell cal-empty"></span>';
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const key = `${year}-${pad(month + 1)}-${pad(day)}`;
+        const dayDeadlines = byDate[key] || [];
+        const isToday = key === todayKey;
+        let urgency = '';
+        let dot = '';
+        if (dayDeadlines.length) {
+            const earliest = Math.min(...dayDeadlines.map(d => new Date(d.dueAt).getTime()));
+            const ms = earliest - Date.now();
+            if (ms < URGENT_MS) urgency = 'urgent';
+            else if (ms < WARNING_MS) urgency = 'warning';
+            else urgency = 'ok';
+            dot = '<span class="cal-dot"></span>';
+        }
+        const classes = ['cal-cell'];
+        if (isToday) classes.push('is-today');
+        if (dayDeadlines.length) classes.push('has-deadline');
+        const urgAttr = urgency ? ` data-urgency="${urgency}"` : '';
+        const titleAttr = dayDeadlines.length
+            ? ` title="${dayDeadlines.length} deadline${dayDeadlines.length !== 1 ? 's' : ''}"`
+            : '';
+        html += `<span class="${classes.join(' ')}"${urgAttr}${titleAttr}>${day}${dot}</span>`;
+    }
+
+    html += `</div>
+        <ul class="calendar-legend">
+            <li><span class="legend-dot urgent"></span>&lt;24h</li>
+            <li><span class="legend-dot warning"></span>&lt;72h</li>
+            <li><span class="legend-dot ok"></span>later</li>
+        </ul>
+    `;
+
+    cal.innerHTML = html;
 }
 
 /* ----- tick ----- */
@@ -254,20 +345,20 @@ function tickAll() {
         }
 
         const remaining = due - now;
-        const text = remaining <= 0 ? 'EXPIRED' : formatCountdown(remaining);
-        if (el.textContent !== text) el.textContent = text;
-
         const isExpired = remaining <= 0;
+        const isRough = el.dataset.format === 'rough';
+        let text;
+        if (isExpired) text = 'expired';
+        else if (isRough) text = formatRoughTime(remaining);
+        else text = formatCountdown(remaining);
+        if (el.textContent !== text) el.textContent = text;
         el.classList.toggle('expired', isExpired);
 
         const row = el.closest('.row');
-        if (row) {
-            row.dataset.urgency = isExpired ? 'expired' : urgencyFor(due, now);
-        }
+        if (row) row.dataset.urgency = isExpired ? 'expired' : urgencyFor(due, now);
     });
 
     if (removedAny) {
-        // re-render groups so empty states surface and counts update
         renderAll({ deadlines: allVisibleDeadlines });
     }
 }

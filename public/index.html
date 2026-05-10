@@ -14,7 +14,7 @@
     <meta property="og:url" content="https://deadline-dash.vercel.app">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#F8F8F8" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
 
     <meta name="google-site-verification" content="hed01S5F60m5Bc_zL9Tnc72kUYKLSQW2umcESJLpYQo" />
 
@@ -48,7 +48,6 @@
         gtag('config', 'G-FDZT4KL13Z');
     </script>
 
-    <!-- OneSignal -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -84,51 +83,55 @@
         <button class="inline-link" id="cohortUnsubscribe" type="button">tap to unsubscribe</button>.
     </aside>
 
-    <main class="feed">
-        <section class="hero" id="hero" hidden>
-            <span class="eyebrow">Up Next</span>
-            <h1 class="hero-title" id="heroTitle"></h1>
-            <p class="hero-course" id="heroCourse"></p>
-            <div class="hero-meta">
-                <span class="hero-countdown" id="heroCountdown" data-due=""></span>
-                <span class="hero-due" id="heroDue"></span>
-            </div>
-        </section>
+    <main class="layout">
+        <div class="primary">
+            <section class="hero" id="hero" hidden>
+                <span class="eyebrow">Up Next</span>
+                <h1 class="hero-text" id="heroText"></h1>
+                <div class="hero-meta">
+                    <span class="hero-countdown" id="heroCountdown" data-due=""></span>
+                    <span class="hero-due" id="heroDue"></span>
+                    <span class="hero-cta">Open assessment ↗</span>
+                </div>
+            </section>
 
-        <nav class="filters" id="filters">
-            <button class="filter-chip is-active" data-filter="all" type="button">All <span class="filter-count" data-count-for="all">0</span></button>
-            <button class="filter-chip" data-filter="cla" type="button">CLAs &amp; Mid-Terms <span class="filter-count" data-count-for="cla">0</span></button>
-            <button class="filter-chip" data-filter="assignment" type="button">Projects <span class="filter-count" data-count-for="assignment">0</span></button>
-            <button class="filter-chip" data-filter="liveSession" type="button">Live <span class="filter-count" data-count-for="liveSession">0</span></button>
-        </nav>
+            <nav class="filters" id="filters">
+                <button class="filter-chip is-active" data-filter="all" type="button">All <span class="filter-count" data-count-for="all">0</span></button>
+                <button class="filter-chip" data-filter="cla" type="button">CLAs &amp; Mid-Terms <span class="filter-count" data-count-for="cla">0</span></button>
+                <button class="filter-chip" data-filter="assignment" type="button">Projects <span class="filter-count" data-count-for="assignment">0</span></button>
+                <button class="filter-chip" data-filter="liveSession" type="button">Live <span class="filter-count" data-count-for="liveSession">0</span></button>
+            </nav>
 
-        <section class="group" data-category="cla" id="groupCla">
-            <header class="group-head">
-                <h2>CLAs &amp; Mid-Terms</h2>
-                <span class="group-count" data-count-for="cla">— active</span>
-            </header>
-            <ol class="rows" id="rowsCla"></ol>
-        </section>
+            <section class="group" data-category="cla" id="groupCla">
+                <header class="group-head">
+                    <h2>CLAs &amp; Mid-Terms</h2>
+                    <span class="group-count" data-count-for="cla">— active</span>
+                </header>
+                <ol class="rows" id="rowsCla"></ol>
+            </section>
 
-        <section class="group" data-category="assignment" id="groupAssignment">
-            <header class="group-head">
-                <h2>Projects</h2>
-                <span class="group-count" data-count-for="assignment">— active</span>
-            </header>
-            <ol class="rows" id="rowsAssignment"></ol>
-        </section>
+            <section class="group" data-category="assignment" id="groupAssignment">
+                <header class="group-head">
+                    <h2>Projects</h2>
+                    <span class="group-count" data-count-for="assignment">— active</span>
+                </header>
+                <ol class="rows" id="rowsAssignment"></ol>
+            </section>
 
-        <section class="group" data-category="liveSession" id="groupLiveSession">
-            <header class="group-head">
-                <h2>Live Sessions</h2>
-                <span class="group-count" data-count-for="liveSession">— active</span>
-            </header>
-            <ol class="rows" id="rowsLiveSession"></ol>
-        </section>
+            <section class="group" data-category="liveSession" id="groupLiveSession">
+                <header class="group-head">
+                    <h2>Live Sessions</h2>
+                    <span class="group-count" data-count-for="liveSession">— active</span>
+                </header>
+                <ol class="rows" id="rowsLiveSession"></ol>
+            </section>
+        </div>
+
+        <aside class="calendar" id="calendar" aria-label="Deadline calendar"></aside>
     </main>
 
     <footer class="colophon">
-        <p>set in Satoshi · managed by <a href="https://www.gradestone.in/" target="_blank" rel="noopener">Gradestone</a></p>
+        <p>set in <em>Satoshi</em> · managed by <a href="https://www.gradestone.in/" target="_blank" rel="noopener">Gradestone</a></p>
         <p><a href="https://chat.whatsapp.com/DpUJ2d7WEs11WmWQNU5PAu" target="_blank" rel="noopener">join the community ↗</a></p>
     </footer>
 
