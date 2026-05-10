@@ -380,17 +380,38 @@ function getOneSignalSubscription() {
     return window.OneSignal?.User?.PushSubscription || null;
 }
 
-function withOneSignal(callback) {
-    return new Promise((resolve, reject) => {
+let oneSignalInitPromise = null;
+
+function initOneSignal() {
+    if (oneSignalInitPromise) return oneSignalInitPromise;
+    oneSignalInitPromise = new Promise((resolve, reject) => {
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         window.OneSignalDeferred.push(async function (OneSignal) {
             try {
-                resolve(await callback(OneSignal));
+                await OneSignal.init({
+                    appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
+                    autoResubscribe: false,
+                    notifyButton: { enable: false },
+                    promptOptions: {
+                        slidedown: {
+                            prompts: [{ type: "push", autoPrompt: false }],
+                        },
+                    },
+                    welcomeNotification: { disable: true },
+                });
+                resolve(OneSignal);
             } catch (e) {
+                oneSignalInitPromise = null;
                 reject(e);
             }
         });
     });
+    return oneSignalInitPromise;
+}
+
+async function withOneSignal(callback) {
+    const OneSignal = await initOneSignal();
+    return callback(OneSignal);
 }
 
 async function deriveNotificationState() {
@@ -454,10 +475,7 @@ async function handleNotificationClick() {
     const state = await deriveNotificationState();
     if (state === 'prompt') {
         try {
-            await withOneSignal(async (OneSignal) => {
-                OneSignal.setConsentGiven(true);
-                await OneSignal.Notifications.requestPermission();
-            });
+            await withOneSignal((OneSignal) => OneSignal.Notifications.requestPermission());
         } catch (e) {
             console.error(e);
         }
@@ -473,7 +491,6 @@ async function handleNotificationClick() {
     if (state === 'unsubscribed') {
         try {
             await withOneSignal(async (OneSignal) => {
-                OneSignal.setConsentGiven(true);
                 const sub = OneSignal.User.PushSubscription;
                 if (sub) await sub.optIn();
                 else await OneSignal.Notifications.requestPermission();
@@ -495,15 +512,6 @@ function initNotifications() {
     }
     btn.addEventListener('click', handleNotificationClick);
     refreshNotificationButton();
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    window.OneSignalDeferred.push(async function (OneSignal) {
-        refreshNotificationButton();
-        try {
-            OneSignal.User.PushSubscription.addEventListener('change', refreshNotificationButton);
-        } catch (e) {
-            console.warn('OneSignal change listener failed', e);
-        }
-    });
 
     // cohort unsubscribe link mirrors the notification button's opt-out path
     const cohortBtn = document.getElementById('cohortUnsubscribe');
