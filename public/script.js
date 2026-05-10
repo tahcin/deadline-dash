@@ -446,8 +446,7 @@ function paintNotificationButton(state) {
             btn.style.display = 'none';
             break;
         case 'pending':
-            btn.textContent = 'Loading…';
-            btn.disabled = true;
+            btn.textContent = 'Subscribe';
             break;
         case 'blocked':
             btn.textContent = 'Blocked';
@@ -488,7 +487,7 @@ async function handleNotificationClick() {
         refreshNotificationButton();
         return;
     }
-    if (state === 'unsubscribed') {
+    if (state === 'unsubscribed' || state === 'pending') {
         try {
             await withOneSignal(async (OneSignal) => {
                 const sub = OneSignal.User.PushSubscription;
