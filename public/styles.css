@@ -30,6 +30,7 @@ ul, ol { list-style: none; }
 
     --col-max: 1200px;
     --gutter: clamp(1.25rem, 4vw, 2.5rem);
+    --nav-height: 4rem;
     --radius: 14px;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -167,7 +168,7 @@ body.dark-mode .dateline .logo-dark { display: inline-block; }
         grid-template-columns: minmax(0, 1fr) 300px;
         align-items: start;
     }
-    .calendar { position: sticky; top: 1.5rem; }
+    .calendar { position: sticky; top: calc(var(--nav-height) + 1rem); }
 }
 
 .primary { min-width: 0; }
@@ -408,12 +409,11 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
     background: var(--bg-card);
     border: 1px dashed var(--ink-hairline);
     border-radius: var(--radius);
-    padding: 1.5rem;
+    padding: 1.25rem;
     text-align: center;
     color: var(--ink-muted);
     font-size: 13.5px;
 }
-.empty-state::before { content: "✓ "; color: var(--ok); margin-right: 0.2rem; }
 
 /* ---------- calendar ---------- */
 .calendar {
