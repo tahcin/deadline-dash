@@ -431,6 +431,7 @@ async function withOneSignal(callback) {
 
 async function deriveNotificationState() {
     if (!('Notification' in window)) return 'unsupported';
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return 'unsupported';
     if (Notification.permission === 'denied') return 'blocked';
     if (Notification.permission === 'default') return 'prompt';
     const sub = getOneSignalSubscription();
@@ -492,7 +493,13 @@ async function handleNotificationClick() {
     const state = await deriveNotificationState();
     if (state === 'prompt') {
         try {
-            await withOneSignal((OneSignal) => OneSignal.Notifications.requestPermission());
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                await withOneSignal(async (OneSignal) => {
+                    const sub = OneSignal.User.PushSubscription;
+                    if (sub) await sub.optIn();
+                });
+            }
         } catch (e) {
             console.error(e);
         }
