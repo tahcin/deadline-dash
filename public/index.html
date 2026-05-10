@@ -93,7 +93,11 @@
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({ appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe" });
+            await OneSignal.init({
+                appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
+                serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
+                serviceWorkerParam: { scope: "/push/onesignal/" }
+            });
         });
     </script>
 </head>
