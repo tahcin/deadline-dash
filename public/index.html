@@ -60,25 +60,27 @@
 </head>
 <body>
     <header class="dateline">
-        <div class="brand">
-            <a href="/" class="brand-logo" aria-label="Deadline Dash">
-                <img src="/images/dd-lightmode.png" alt="Deadline Dash" class="logo-img logo-light">
-                <img src="/images/dd-darkmode.png" alt="Deadline Dash" class="logo-img logo-dark">
-            </a>
-            <span class="meta">
-                <span id="todayDate">—</span>
-                <span class="dot">·</span>
-                <span id="totalCount">— active</span>
-            </span>
+        <div class="dateline-inner">
+            <div class="brand">
+                <a href="/" class="brand-logo" aria-label="Deadline Dash">
+                    <img src="/images/dd-lightmode.png" alt="Deadline Dash" class="logo-img logo-light">
+                    <img src="/images/dd-darkmode.png" alt="Deadline Dash" class="logo-img logo-dark">
+                </a>
+                <span class="meta">
+                    <span id="todayDate">—</span>
+                    <span class="dot">·</span>
+                    <span id="totalCount">— active</span>
+                </span>
+            </div>
+            <nav class="utilities">
+                <button id="notificationButton" class="utility-btn" type="button">subscribe</button>
+                <button id="installButton" class="utility-btn" type="button" hidden>install</button>
+                <button id="darkModeToggle" class="utility-btn theme-toggle" type="button" aria-label="Toggle theme">◐</button>
+            </nav>
         </div>
-        <nav class="utilities">
-            <button id="notificationButton" class="utility-btn" type="button">subscribe</button>
-            <button id="installButton" class="utility-btn" type="button" hidden>install</button>
-            <button id="darkModeToggle" class="utility-btn theme-toggle" type="button" aria-label="Toggle theme">◐</button>
-        </nav>
     </header>
 
-    <aside class="cohort-note">
+    <aside class="cohort-note" id="cohortNote" hidden>
         Showing deadlines for <strong>Batch 2027 · Term 5</strong>. Different batch or on break?
         <button class="inline-link" id="cohortUnsubscribe" type="button">tap to unsubscribe</button>.
     </aside>

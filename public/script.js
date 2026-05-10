@@ -149,9 +149,8 @@ function renderRow(deadline, index) {
         </div>
     `;
     if (deadline.link) {
+        li.classList.add('row--clickable');
         li.addEventListener('click', () => window.open(deadline.link, '_blank', 'noopener'));
-    } else {
-        li.style.cursor = 'default';
     }
     return li;
 }
@@ -332,6 +331,9 @@ async function deriveNotificationState() {
 
 function paintNotificationButton(state) {
     const btn = document.getElementById('notificationButton');
+    const cohortNote = document.getElementById('cohortNote');
+    if (cohortNote) cohortNote.hidden = state !== 'subscribed';
+
     if (!btn) return;
     btn.disabled = false;
     btn.dataset.state = '';
