@@ -183,15 +183,37 @@ body.dark-mode .dateline .logo-dark { display: inline-block; }
     padding: 0 var(--gutter);
 }
 .cohort-note-inner {
-    padding: 0.65rem 0.85rem;
+    position: relative;
+    padding: 0.7rem 2.5rem 0.7rem 0.95rem;
     text-align: left;
     font-size: 12.5px;
     color: var(--ink-muted);
     line-height: 1.5;
-    border-left: 2px solid var(--accent);
     background: var(--accent-soft);
     border-radius: var(--radius);
 }
+
+.cohort-dismiss {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--ink-muted);
+    background: none;
+    border: 0;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color 140ms ease, background-color 140ms ease;
+}
+.cohort-dismiss:hover { color: var(--ink); background: rgba(0, 0, 0, 0.06); }
+body.dark-mode .cohort-dismiss:hover { background: rgba(255, 255, 255, 0.08); }
 
 .cohort-note[hidden] { display: none; }
 .cohort-note strong { color: var(--ink); font-weight: 600; }
@@ -697,7 +719,6 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
         opacity: 1;
         pointer-events: auto;
     }
-    .menu-backdrop[hidden] { display: none; }
 
     body.menu-open { overflow: hidden; }
 

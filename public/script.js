@@ -392,7 +392,8 @@ async function deriveNotificationState() {
 function paintNotificationButton(state) {
     const btn = document.getElementById('notificationButton');
     const cohortNote = document.getElementById('cohortNote');
-    if (cohortNote) cohortNote.hidden = state !== 'subscribed';
+    const dismissed = localStorage.getItem('cohortNoteDismissed') === '1';
+    if (cohortNote) cohortNote.hidden = state !== 'subscribed' || dismissed;
 
     if (!btn) return;
     btn.disabled = false;
@@ -477,6 +478,16 @@ function initNotifications() {
             } else {
                 handleNotificationClick();
             }
+        });
+    }
+
+    // dismiss button — persist so the note stays hidden across sessions
+    const cohortDismiss = document.getElementById('cohortDismiss');
+    if (cohortDismiss) {
+        cohortDismiss.addEventListener('click', () => {
+            const note = document.getElementById('cohortNote');
+            if (note) note.hidden = true;
+            try { localStorage.setItem('cohortNoteDismissed', '1'); } catch (e) {}
         });
     }
 }
