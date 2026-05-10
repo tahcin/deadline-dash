@@ -7,6 +7,7 @@ on GitHub Actions; windows are loose enough to tolerate cron drift.
 """
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -67,6 +68,43 @@ def fmt_time(due_iso: str) -> str:
         return dt.strftime("%a %d %b, %I:%M %p IST")
     except Exception:
         return ""
+
+
+def time_until_phrase(minutes_until: float) -> str:
+    if minutes_until < 60:
+        m = max(1, round(minutes_until))
+        return f"{m} minute{'s' if m != 1 else ''}"
+    hours = round(minutes_until / 60)
+    return f"{hours} hour{'s' if hours != 1 else ''}"
+
+
+CATEGORY_LABELS = {
+    "cla": "CLA",
+    "midterm": "Mid-Term",
+    "assignment": "Project",
+    "liveSession": "Live Session",
+}
+
+
+def deadline_phrase(d: dict) -> str:
+    """Build a sentence fragment like 'Module 1.11 CLA #1 of Course Name'."""
+    title = (d.get("title") or "").strip()
+    course = d.get("courseName") or "your course"
+    category = d.get("category", "other")
+    type_label = CATEGORY_LABELS.get(category, "Assignment")
+
+    m = re.match(r'^(\d+(?:\.\d+)?)\s+(.+)$', title)
+    if m:
+        prefix, rest = m.group(1), m.group(2)
+        sm = re.search(r'(\d+)\s*$', rest)
+        suffix = sm.group(1) if sm else None
+        label = f"Module {prefix} {type_label}"
+        if suffix:
+            label += f" #{suffix}"
+    else:
+        label = title or type_label
+
+    return f"{label} of {course}"
 
 
 def send_push(heading: str, body: str, link: str) -> None:
@@ -132,21 +170,18 @@ def main() -> None:
         entry["dueAt"] = d["dueAt"]
         sent = set(entry.get("sent", []))
 
-        course = d.get("courseName") or ""
-        title = d.get("title") or ""
         link = d.get("link") or ""
-        when = fmt_time(d["dueAt"])
-        body = f"{course} — {title} (due {when})" if when else f"{course} — {title}"
+        body = f"{deadline_phrase(d)} is due in {time_until_phrase(minutes_until)}"
 
         if minutes_until <= WINDOW_1H_MAX_MIN and "1h" not in sent:
             print(f"sending 1h reminder: {key}")
-            send_push("Deadline in 1 hour", body, link)
+            send_push("Deadline imminent", body, link)
             sent.add("1h")
             sent.add("24h")
             sent_count += 1
         elif minutes_until <= WINDOW_24H_MAX_MIN and "24h" not in sent:
             print(f"sending 24h reminder: {key}")
-            send_push("Deadline approaching", body, link)
+            send_push("Deadline reminder", body, link)
             sent.add("24h")
             sent_count += 1
 
