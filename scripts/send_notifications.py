@@ -186,7 +186,7 @@ def main() -> None:
             preview = "; ".join(deadline_phrase(d) for d in items[:3])
             if n > 3:
                 preview += f"; +{n - 3} more"
-            body = f"{n} deadlines due in {time_phrase} — {preview}"
+            body = f"{n} deadlines due in {time_phrase}: {preview}"
 
         # all items in the group share the same dueAt and therefore the same
         # send window. Track sent state per-item so adding a new deadline to an

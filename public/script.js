@@ -506,6 +506,7 @@ function initMobileMenu() {
     const toggle = document.getElementById('menuToggle');
     const menu = document.getElementById('utilityMenu');
     const backdrop = document.getElementById('menuBackdrop');
+    const closeBtn = document.getElementById('menuClose');
     if (!toggle || !menu || !backdrop) return;
 
     const close = () => {
@@ -525,6 +526,7 @@ function initMobileMenu() {
         const isOpen = menu.classList.contains('is-open');
         if (isOpen) close(); else open();
     });
+    if (closeBtn) closeBtn.addEventListener('click', close);
     backdrop.addEventListener('click', close);
     menu.querySelectorAll('.menu-link, #installButton').forEach(el => {
         el.addEventListener('click', close);

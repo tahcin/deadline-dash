@@ -77,11 +77,15 @@ body {
     top: 0;
     z-index: 100;
     background: var(--nav-bg);
+}
+.dateline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
-}
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .dateline { background: var(--bg); }
+    pointer-events: none;
 }
 
 .dateline-inner {
@@ -114,9 +118,12 @@ body.dark-mode .dateline .logo-dark { display: inline-block; }
 
 .utilities { display: flex; align-items: center; gap: 0.4rem; }
 .utility-menu { display: contents; }
+.menu-bottom { display: contents; }
 .menu-link { display: none; }
 .menu-toggle { display: none; }
+.menu-close { display: none; }
 .menu-backdrop { display: none; }
+.install-note { display: none; }
 
 .utility-btn {
     font-size: 13px;
@@ -649,7 +656,8 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
     .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
     .menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-    /* slide-in panel */
+    /* slide-in panel - explicit viewport dimensions because the backdrop-filter
+       on .dateline creates a containing block that confines fixed descendants */
     .utility-menu {
         display: flex;
         flex-direction: column;
@@ -657,11 +665,12 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
         position: fixed;
         top: 0;
         right: 0;
-        bottom: 0;
         width: min(280px, 82vw);
+        height: 100vh;
+        height: 100dvh;
         background: var(--bg);
         border-left: 1px solid var(--ink-hairline);
-        padding: 4.5rem 1.25rem 1.5rem;
+        padding: 1rem 1.25rem 1.5rem;
         transform: translateX(100%);
         transition: transform 240ms ease;
         z-index: 200;
@@ -669,6 +678,26 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
         box-shadow: -10px 0 24px rgba(0, 0, 0, 0.12);
     }
     .utility-menu.is-open { transform: translateX(0); }
+
+    .menu-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        align-self: flex-end;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        font-size: 24px;
+        line-height: 1;
+        color: var(--ink-muted);
+        background: none;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        margin-bottom: 0.5rem;
+        transition: color 140ms ease, background-color 140ms ease;
+    }
+    .menu-close:hover { color: var(--ink); background: var(--bg-soft); }
 
     .menu-link {
         display: block;
@@ -682,33 +711,69 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
     }
     .menu-link:hover { color: var(--primary); }
 
-    .utility-menu .utility-btn {
+    .menu-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: auto;
+        padding-top: 1.25rem;
+    }
+
+    .menu-bottom .utility-btn {
         width: 100%;
         text-align: center;
         font-size: 13px;
+        font-weight: 600;
         padding: 0.7rem 1rem;
-        margin-top: 0.5rem;
+        margin-top: 0;
     }
-    .utility-menu .utility-btn.theme-toggle {
-        width: auto;
-        align-self: flex-start;
-        font-size: 22px;
-        padding: 0.5rem 0;
-        margin-top: 0.85rem;
-        color: var(--ink-muted);
+    .menu-bottom .utility-btn.theme-toggle {
+        width: 100%;
+        align-self: stretch;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 0.7rem 1rem;
+        background: var(--ink);
+        color: var(--bg);
+        border: 1px solid var(--ink);
+        border-radius: var(--radius);
     }
-    .utility-menu .utility-btn.theme-toggle::after {
+    .menu-bottom .utility-btn.theme-toggle:hover:not(:disabled) {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+    }
+    .menu-bottom .utility-btn.theme-toggle::after {
         content: " Toggle theme";
         font-size: 13px;
-        font-weight: 500;
-        margin-left: 0.4rem;
-        vertical-align: middle;
+        font-weight: 600;
+        margin-left: 0.35rem;
     }
+
+    .install-note {
+        display: block;
+        margin-top: 0.6rem;
+        padding-top: 0.85rem;
+        border-top: 1px solid var(--ink-hairline);
+        font-size: 11.5px;
+        line-height: 1.5;
+        color: var(--ink-muted);
+    }
+    .install-note a {
+        color: var(--accent);
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 1px;
+    }
+    .install-note a:hover { color: var(--ink); }
 
     .menu-backdrop {
         display: block;
         position: fixed;
-        inset: 0;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
         background: rgba(0, 0, 0, 0.45);
         z-index: 150;
         opacity: 0;

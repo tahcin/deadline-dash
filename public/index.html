@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deadline Dash — Never miss a CLA again</title>
+    <title>Deadline Dash · Never miss a CLA again</title>
     <meta name="description" content="Track BBA DBE deadlines with live countdowns, push reminders at T-24h and T-1h, and one-tap navigation to each assessment.">
     <meta name="keywords" content="Deadline Dash, deadline tracker, countdown timer, BBA DBE, IIMBx">
     <meta name="author" content="Tahcin Sarwar">
 
-    <meta property="og:title" content="Deadline Dash — Stay Ahead of Your Deadlines">
+    <meta property="og:title" content="Deadline Dash · Stay Ahead of Your Deadlines">
     <meta property="og:description" content="Live deadline countdowns and push reminders for the BBA DBE program.">
     <meta property="og:image" content="https://deadline-dash.vercel.app/images/meta.png">
     <meta property="og:url" content="https://deadline-dash.vercel.app">
@@ -68,11 +68,18 @@
             <nav class="utilities">
                 <button id="notificationButton" class="utility-btn" type="button">Subscribe</button>
                 <div class="utility-menu" id="utilityMenu">
+                    <button id="menuClose" class="menu-close" type="button" aria-label="Close menu">×</button>
                     <a class="menu-link" href="#groupCla">CLAs &amp; Mid-Terms</a>
                     <a class="menu-link" href="#groupAssignment">Projects</a>
                     <a class="menu-link" href="#groupLiveSession">Live Sessions</a>
-                    <button id="installButton" class="utility-btn" type="button" hidden>Install</button>
-                    <button id="darkModeToggle" class="utility-btn theme-toggle" type="button" aria-label="Toggle theme">◐</button>
+                    <div class="menu-bottom">
+                        <button id="installButton" class="utility-btn" type="button" hidden>Install</button>
+                        <button id="darkModeToggle" class="utility-btn theme-toggle" type="button" aria-label="Toggle theme">◐</button>
+                        <p class="install-note">
+                            Install doesn't work on iOS. See the <a href="https://ruddy-soursop-ccb.notion.site/How-to-Install-Deadline-Dash-on-iOS-1209f5f53c6680ada63fe4b0942deaaf?pvs=73" target="_blank" rel="noopener">iOS install guide</a>.
+                            On macOS, works in Chrome, not Safari.
+                        </p>
+                    </div>
                 </div>
                 <button id="menuToggle" class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="utilityMenu">
                     <span></span><span></span><span></span>
@@ -103,7 +110,7 @@
             <section class="group" data-category="cla" id="groupCla">
                 <header class="group-head">
                     <h2>CLAs &amp; Mid-Terms</h2>
-                    <span class="group-count" data-count-for="cla">— Active</span>
+                    <span class="group-count" data-count-for="cla">0 Active</span>
                 </header>
                 <ol class="rows" id="rowsCla"></ol>
             </section>
@@ -111,7 +118,7 @@
             <section class="group" data-category="assignment" id="groupAssignment">
                 <header class="group-head">
                     <h2>Projects</h2>
-                    <span class="group-count" data-count-for="assignment">— Active</span>
+                    <span class="group-count" data-count-for="assignment">0 Active</span>
                 </header>
                 <ol class="rows" id="rowsAssignment"></ol>
             </section>
@@ -119,7 +126,7 @@
             <section class="group" data-category="liveSession" id="groupLiveSession">
                 <header class="group-head">
                     <h2>Live Sessions</h2>
-                    <span class="group-count" data-count-for="liveSession">— Active</span>
+                    <span class="group-count" data-count-for="liveSession">0 Active</span>
                 </header>
                 <ol class="rows" id="rowsLiveSession"></ol>
             </section>
