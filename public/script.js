@@ -380,6 +380,21 @@ function getOneSignalSubscription() {
     return window.OneSignal?.User?.PushSubscription || null;
 }
 
+async function getBrowserPushSubscription() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return null;
+    try {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const registration of registrations) {
+            if (!registration.scope.includes('/push/onesignal/')) continue;
+            const subscription = await registration.pushManager.getSubscription();
+            if (subscription) return subscription;
+        }
+    } catch (e) {
+        console.warn('Browser push subscription lookup failed', e);
+    }
+    return null;
+}
+
 let oneSignalInitPromise = null;
 
 function initOneSignal() {
@@ -419,7 +434,10 @@ async function deriveNotificationState() {
     if (Notification.permission === 'denied') return 'blocked';
     if (Notification.permission === 'default') return 'prompt';
     const sub = getOneSignalSubscription();
-    if (!sub) return 'pending';
+    if (!sub) {
+        const browserSub = await getBrowserPushSubscription();
+        return browserSub ? 'subscribed' : 'pending';
+    }
     if (sub.optedIn === false) return 'unsubscribed';
     // optedIn is just a stored preference — the user only actually receives
     // pushes when there's a real push subscription token behind it. If the SW
