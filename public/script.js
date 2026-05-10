@@ -1,64 +1,74 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const darkModeSwitch = document.getElementById("darkModeSwitch");
-    const darkModeSwitchSidebar = document.getElementById("darkModeSwitchSidebar");
+/* =====================================================================
+   DEADLINE DASH — runtime
+   ===================================================================== */
 
-
-    // Check and apply the saved dark mode preference
-    if (localStorage.getItem("darkMode") === "enabled") {
-        document.body.classList.add("dark-mode");
-        darkModeSwitch.checked = true;
-        darkModeSwitchSidebar.checked = true;
-     }
-
-    // Toggle dark mode function for switch
-    darkModeSwitch.addEventListener("change", function() {
-        document.body.classList.toggle("dark-mode");
-        darkModeSwitchSidebar.checked = this.checked; // Sync sidebar switch
-        if (this.checked) {
-            localStorage.setItem("darkMode", "enabled");
-        } else {
-            localStorage.setItem("darkMode", "disabled");
-        }
-    });
-    // Toggle dark mode function for sidebar switch (sync main switch)
-    darkModeSwitchSidebar.addEventListener("change", function() {
-        document.body.classList.toggle("dark-mode");
-        darkModeSwitch.checked = this.checked; // Sync main switch
-        if (this.checked) {
-            localStorage.setItem("darkMode", "enabled");
-        } else {
-            localStorage.setItem("darkMode", "disabled");
-        }
-    });
-    initializeSimpleNotificationButtons();
-    initializeDeadlines();
-});
-
-// --- Deadlines pipeline (consumes /deadlines.json produced by the GH Actions sync) ---
 const SECTION_BY_CATEGORY = {
-    cla: 'countdown',
-    midterm: 'countdown',
-    assignment: 'assignments',
-    liveSession: 'live-sessions',
-    other: 'assignments',
+    cla: 'cla',
+    midterm: 'cla',
+    assignment: 'assignment',
+    liveSession: 'liveSession',
+    other: 'assignment',
 };
-const EMPTY_MESSAGES = {
-    'countdown': 'Yay! No upcoming CLAs or Mid-Terms.',
-    'assignments': 'Yay! No upcoming assignments.',
-    'live-sessions': 'Yay! No upcoming live sessions.',
-};
-const SECTION_IDS = ['countdown', 'assignments', 'live-sessions'];
+const SECTION_IDS = ['cla', 'assignment', 'liveSession'];
 const GRACE_MS = 24 * 60 * 60 * 1000;
+const URGENT_MS = 24 * 60 * 60 * 1000;          // <24h => urgent
+const WARNING_MS = 72 * 60 * 60 * 1000;         // <72h => warning
 
-async function loadDeadlines() {
+/* ----- helpers ----- */
+
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+}
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+function formatCountdown(ms) {
+    if (ms <= 0) return 'EXPIRED';
+    const totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    if (days > 0) return `${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    if (hours > 0) return `${hours}h ${pad(minutes)}m ${pad(seconds)}s`;
+    if (minutes > 0) return `${minutes}m ${pad(seconds)}s`;
+    return `${seconds}s`;
+}
+
+function urgencyFor(dueMs, now) {
+    const remaining = dueMs - now;
+    if (remaining <= 0) return 'expired';
+    if (remaining < URGENT_MS) return 'urgent';
+    if (remaining < WARNING_MS) return 'warning';
+    return 'ok';
+}
+
+const COURSE_TAG_RE = /course-v1:[^+]+\+([A-Za-z0-9]+)\+/;
+function extractCourseTag(courseId) {
+    const m = COURSE_TAG_RE.exec(courseId || '');
+    return m ? m[1].toUpperCase() : '';
+}
+
+function formatDueLabel(iso) {
     try {
-        const res = await fetch('/deadlines.json');
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return await res.json();
+        const dt = new Date(iso);
+        return dt.toLocaleString('en-IN', {
+            timeZone: 'Asia/Kolkata',
+            weekday: 'short', day: '2-digit', month: 'short',
+            hour: '2-digit', minute: '2-digit', hour12: true
+        }).replace(',', ' ·') + ' IST';
     } catch (e) {
-        console.error('failed to load deadlines.json', e);
-        return { deadlines: [] };
+        return '';
     }
+}
+
+function formatTodayDate() {
+    return new Date().toLocaleDateString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
+    });
 }
 
 function shouldShow(d, now) {
@@ -71,186 +81,241 @@ function shouldShow(d, now) {
     return true;
 }
 
-function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, c => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
+/* ----- data ----- */
+
+async function loadDeadlines() {
+    try {
+        const res = await fetch('/deadlines.json');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+    } catch (e) {
+        console.error('failed to load deadlines.json', e);
+        return { deadlines: [] };
+    }
 }
 
-function ensureEmptyStates() {
-    for (const id of SECTION_IDS) {
-        const sec = document.getElementById(id);
-        if (!sec) continue;
-        const hasCard = sec.querySelector('.event, .session');
-        const hasEmpty = sec.querySelector('.empty-state');
-        if (!hasCard && !hasEmpty) {
-            const msg = document.createElement('h2');
-            msg.className = 'empty-state';
-            msg.textContent = EMPTY_MESSAGES[id];
-            sec.appendChild(msg);
-        } else if (hasCard && hasEmpty) {
-            hasEmpty.remove();
+/* ----- render ----- */
+
+let currentFilter = 'all';
+let allVisibleDeadlines = [];
+
+function renderHero(deadline) {
+    const hero = document.getElementById('hero');
+    if (!deadline) {
+        hero.hidden = false;
+        hero.dataset.empty = 'true';
+        hero.innerHTML = `
+            <span class="eyebrow">All clear</span>
+            <h1 class="hero-title">Nothing pending.</h1>
+            <p class="hero-course">No upcoming deadlines for Batch 2027 · Term 5. Stay sharp.</p>
+        `;
+        return;
+    }
+    hero.hidden = false;
+    hero.dataset.empty = 'false';
+    hero.dataset.link = deadline.link || '';
+    const due = new Date(deadline.dueAt).getTime();
+    hero.innerHTML = `
+        <span class="eyebrow">Up Next</span>
+        <h1 class="hero-title">${escapeHtml(deadline.title)}</h1>
+        <p class="hero-course">${escapeHtml(deadline.courseName)}</p>
+        <div class="hero-meta">
+            <span class="hero-countdown" data-due="${due}"></span>
+            <span class="hero-due">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
+        </div>
+    `;
+}
+
+function renderRow(deadline, index) {
+    const due = new Date(deadline.dueAt).getTime();
+    const urgency = urgencyFor(due, Date.now());
+    const tag = extractCourseTag(deadline.courseId);
+    const li = document.createElement('li');
+    li.className = 'row';
+    li.dataset.urgency = urgency;
+    li.dataset.link = deadline.link || '';
+    li.dataset.category = SECTION_BY_CATEGORY[deadline.category] || 'assignment';
+    li.style.setProperty('--i', index);
+    li.innerHTML = `
+        <span class="row-rail" aria-hidden="true"></span>
+        <span class="row-tag">${escapeHtml(tag)}</span>
+        <div class="row-body">
+            <span class="row-title">${escapeHtml(deadline.title)}</span>
+            <span class="row-course">${escapeHtml(deadline.courseName)}</span>
+        </div>
+        <div class="row-time">
+            <span class="row-countdown" data-due="${due}"></span>
+            <span class="row-due">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
+        </div>
+    `;
+    if (deadline.link) {
+        li.addEventListener('click', () => window.open(deadline.link, '_blank', 'noopener'));
+    } else {
+        li.style.cursor = 'default';
+    }
+    return li;
+}
+
+function renderGroups(deadlines) {
+    const grouped = { cla: [], assignment: [], liveSession: [] };
+    for (const d of deadlines) {
+        const sec = SECTION_BY_CATEGORY[d.category] || 'assignment';
+        grouped[sec].push(d);
+    }
+
+    const labels = {
+        cla: 'CLAs & Mid-Terms',
+        assignment: 'Projects',
+        liveSession: 'Live Sessions',
+    };
+
+    let globalIndex = 0;
+    for (const sec of SECTION_IDS) {
+        const list = document.getElementById('rows' + sec.charAt(0).toUpperCase() + sec.slice(1));
+        if (!list) continue;
+        list.innerHTML = '';
+        if (grouped[sec].length === 0) {
+            const empty = document.createElement('li');
+            empty.className = 'empty-state';
+            empty.textContent = `No upcoming ${labels[sec].toLowerCase()}.`;
+            list.appendChild(empty);
+        } else {
+            for (const d of grouped[sec]) {
+                list.appendChild(renderRow(d, globalIndex++));
+            }
         }
     }
+
+    document.querySelectorAll('[data-count-for]').forEach(el => {
+        const target = el.dataset.countFor;
+        const count = target === 'all' ? deadlines.length : (grouped[target] ? grouped[target].length : 0);
+        if (el.classList.contains('group-count')) {
+            el.textContent = count === 0 ? 'none active' : `${count} active`;
+        } else {
+            el.textContent = count;
+        }
+    });
+
+    const totalEl = document.getElementById('totalCount');
+    if (totalEl) totalEl.textContent = deadlines.length === 0 ? 'all clear' : `${deadlines.length} active`;
 }
 
-function renderDeadlines(data) {
-    for (const id of SECTION_IDS) {
-        const sec = document.getElementById(id);
-        if (!sec) continue;
-        sec.querySelectorAll('.event, .session, .empty-state').forEach(n => n.remove());
-    }
+function applyFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.classList.toggle('is-active', chip.dataset.filter === filter);
+    });
+    document.querySelectorAll('.group').forEach(g => {
+        g.hidden = filter !== 'all' && g.dataset.category !== filter;
+    });
+}
 
+function renderAll(data) {
     const now = Date.now();
     const visible = (data.deadlines || [])
         .filter(d => shouldShow(d, now))
         .sort((a, b) => new Date(a.dueAt) - new Date(b.dueAt));
 
-    for (const d of visible) {
-        const sectionId = SECTION_BY_CATEGORY[d.category] || 'assignments';
-        const section = document.getElementById(sectionId);
-        if (!section) continue;
-        const due = new Date(d.dueAt).getTime();
-        const card = document.createElement('div');
-        card.className = 'event';
-        if (d.link) card.style.cursor = 'pointer';
-        card.innerHTML = `
-            <h2>${escapeHtml(d.courseName)}<br>${escapeHtml(d.title)}</h2>
-            <div class="timer" data-due="${due}"></div>
-        `;
-        if (d.link) {
-            card.addEventListener('click', () => window.open(d.link, '_blank', 'noopener'));
-        }
-        section.appendChild(card);
-    }
+    allVisibleDeadlines = visible;
 
-    ensureEmptyStates();
-    tickDeadlines();
+    const heroDeadline = visible[0] || null;
+    const restForGroups = heroDeadline ? visible.slice(1) : [];
+
+    renderHero(heroDeadline);
+    renderGroups(restForGroups);
+
+    // Hero clickability
+    const hero = document.getElementById('hero');
+    hero.onclick = () => {
+        if (hero.dataset.empty === 'true') return;
+        if (hero.dataset.link) window.open(hero.dataset.link, '_blank', 'noopener');
+    };
+
+    tickAll();
 }
 
-function tickDeadlines() {
+/* ----- tick ----- */
+
+function tickAll() {
     const now = Date.now();
     let removedAny = false;
-    document.querySelectorAll('.timer[data-due]').forEach(el => {
+
+    document.querySelectorAll('[data-due]').forEach(el => {
         const due = parseInt(el.dataset.due, 10);
         if (!Number.isFinite(due)) return;
+
         if (now > due + GRACE_MS) {
-            const card = el.closest('.event');
-            if (card) card.remove();
-            removedAny = true;
+            const row = el.closest('.row');
+            const hero = el.closest('.hero');
+            if (row) { row.remove(); removedAny = true; }
+            else if (hero) {
+                renderHero(null);
+            }
             return;
         }
-        if (now >= due) {
-            if (el.textContent !== 'EXPIRED') el.textContent = 'EXPIRED';
-            return;
-        }
-        const distance = due - now;
-        const days = Math.floor(distance / 86400000);
-        const hours = Math.floor((distance % 86400000) / 3600000);
-        const minutes = Math.floor((distance % 3600000) / 60000);
-        const seconds = Math.floor((distance % 60000) / 1000);
-        el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    });
-    if (removedAny) ensureEmptyStates();
-}
 
-async function initializeDeadlines() {
-    const data = await loadDeadlines();
-    renderDeadlines(data);
-    setInterval(tickDeadlines, 1000);
-}
+        const remaining = due - now;
+        const text = remaining <= 0 ? 'EXPIRED' : formatCountdown(remaining);
+        if (el.textContent !== text) el.textContent = text;
 
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".join-button").forEach(button => {
-        if (!button.getAttribute("href") || button.getAttribute("href") === "") {
-            button.style.pointerEvents = "none";  // Disable clicks
-            button.style.opacity = "0.5";         // Reduce visibility
-            button.style.cursor = "not-allowed";  // Change cursor style
-            button.textContent = "Link Not Available"; // Update button text
+        const isExpired = remaining <= 0;
+        el.classList.toggle('expired', isExpired);
+
+        const row = el.closest('.row');
+        if (row) {
+            row.dataset.urgency = isExpired ? 'expired' : urgencyFor(due, now);
         }
     });
-});
 
-
-// --- PWA install button ---
-const installButton = document.getElementById("installButton");
-const installButtonSidebar = document.getElementById("installButtonSidebar");
-let deferredPrompt;
-
-// Function to hide install buttons
-const hideInstallButtons = () => {
-    if (installButton) installButton.style.display = 'none';
-    if (installButtonSidebar) installButtonSidebar.style.display = 'none';
-};
-
-// Check if running as an installed PWA (standalone mode) on page load
-// You might also want to check for 'minimal-ui' or 'fullscreen' depending on your manifest
-if (window.matchMedia('(display-mode: standalone)').matches) {
-    console.log("App is running in standalone mode. Hiding install buttons.");
-    hideInstallButtons();
-} else {
-    console.log("App is running in browser tab. Install buttons might be shown if installable.");
-    // Initially hide buttons - they will be shown by 'beforeinstallprompt' if applicable
-    // This prevents them showing if 'beforeinstallprompt' never fires
-     hideInstallButtons(); // Hide until we know it's installable
-}
-
-
-window.addEventListener("beforeinstallprompt", (event) => {
-    // Only show the prompt logic if NOT running standalone
-    if (!window.matchMedia('(display-mode: standalone)').matches) {
-        console.log("beforeinstallprompt fired - App is installable.");
-        event.preventDefault(); // Prevent automatic prompt
-        deferredPrompt = event; // Store the event
-
-        // Show both install buttons as it's installable
-        if (installButton) installButton.style.display = "block"; // Or inline-flex/flex if needed
-        if (installButtonSidebar) installButtonSidebar.style.display = "block"; // Or inline-flex/flex
-    } else {
-         console.log("beforeinstallprompt fired, but app is already standalone. Ignoring.");
-         // Ensure buttons remain hidden just in case
-         hideInstallButtons();
+    if (removedAny) {
+        // re-render groups so empty states surface and counts update
+        renderAll({ deadlines: allVisibleDeadlines });
     }
-});
+}
 
-// Function to handle install prompt (remains the same)
-async function installPWA() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt(); // Show install prompt
+/* ----- dark mode ----- */
+
+function initDarkMode() {
+    const toggle = document.getElementById('darkModeToggle');
+    const saved = localStorage.getItem('darkMode');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const enabled = saved ? saved === 'enabled' : prefersDark;
+    document.body.classList.toggle('dark-mode', enabled);
+    if (toggle) toggle.textContent = enabled ? '◑' : '◐';
+    if (toggle) toggle.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+        toggle.textContent = isDark ? '◑' : '◐';
+    });
+}
+
+/* ----- install button ----- */
+
+let deferredPrompt = null;
+
+function initInstallButton() {
+    const btn = document.getElementById('installButton');
+    if (!btn) return;
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        btn.hidden = true;
+        return;
+    }
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        btn.hidden = false;
+    });
+    btn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
-
-        if (outcome === "accepted") {
-            console.log("User accepted the install prompt");
-            hideInstallButtons(); // Hide buttons after acceptance
-        } else {
-            console.log("User dismissed the install prompt");
-        }
-        deferredPrompt = null; // Reset prompt
-    }
+        if (outcome === 'accepted') btn.hidden = true;
+        deferredPrompt = null;
+    });
+    window.addEventListener('appinstalled', () => { btn.hidden = true; });
 }
 
-// Add event listeners ONLY if the buttons exist and might be shown
-if (installButton) installButton.addEventListener("click", installPWA);
-if (installButtonSidebar) installButtonSidebar.addEventListener("click", installPWA);
-
-// Hide buttons when app is installed (this listener still runs)
-window.addEventListener("appinstalled", () => {
-    console.log("PWA was installed via appinstalled event.");
-    hideInstallButtons(); // Hide buttons explicitly
-    deferredPrompt = null; // Clear the prompt reference
-});
-
-// --- End of PWA install button ---
-
-
-
-
-
-// --- Notification button: 4-state machine ---
-// prompt: permission=default → click requests permission
-// subscribed: permission=granted + OneSignal optedIn → click opts out
-// unsubscribed: permission=granted + OneSignal optedOut → click opts back in
-// blocked: permission=denied → disabled
+/* ----- notifications: 4-state machine ----- */
 
 function getOneSignalSubscription() {
     return window.OneSignal?.User?.PushSubscription || null;
@@ -265,156 +330,115 @@ async function deriveNotificationState() {
     return 'subscribed';
 }
 
-const updateSimpleNotificationButtonUI = (state) => {
-    const buttons = [
-        document.getElementById('notificationButton'),
-        document.getElementById('notificationButtonSidebar'),
-    ];
-    buttons.forEach(button => {
-        if (!button) return;
-        const icon = button.querySelector('i');
-        const textSpan = button.querySelector('.notification-text');
-        if (!icon || !textSpan) return;
+function paintNotificationButton(state) {
+    const btn = document.getElementById('notificationButton');
+    if (!btn) return;
+    btn.disabled = false;
+    btn.dataset.state = '';
+    btn.style.display = '';
 
-        button.disabled = false;
-        button.classList.remove('subscribed', 'blocked');
-        icon.className = 'fas fa-bell';
-        button.style.display = '';
-
-        switch (state) {
-            case 'unsupported':
-                button.style.display = 'none';
-                break;
-            case 'blocked':
-                textSpan.textContent = 'Notifications Blocked';
-                icon.className = 'fas fa-bell-slash';
-                button.classList.add('blocked');
-                button.disabled = true;
-                break;
-            case 'subscribed':
-                textSpan.textContent = 'Unsubscribe';
-                icon.className = 'fas fa-bell-slash';
-                button.classList.add('subscribed');
-                break;
-            case 'prompt':
-            case 'unsubscribed':
-            default:
-                textSpan.textContent = 'Notify Me';
-                icon.className = 'fas fa-bell';
-                break;
-        }
-    });
-};
-
-async function refreshNotificationButtonState() {
-    const state = await deriveNotificationState();
-    updateSimpleNotificationButtonUI(state);
+    switch (state) {
+        case 'unsupported':
+            btn.style.display = 'none';
+            break;
+        case 'blocked':
+            btn.textContent = 'blocked';
+            btn.dataset.state = 'blocked';
+            btn.disabled = true;
+            break;
+        case 'subscribed':
+            btn.textContent = 'subscribed';
+            btn.dataset.state = 'active';
+            break;
+        case 'unsubscribed':
+        case 'prompt':
+        default:
+            btn.textContent = 'subscribe';
+            break;
+    }
 }
 
-const handleSimpleNotificationClick = async () => {
+async function refreshNotificationButton() {
+    const state = await deriveNotificationState();
+    paintNotificationButton(state);
+}
+
+async function handleNotificationClick() {
     const state = await deriveNotificationState();
     if (state === 'prompt') {
-        try {
-            await Notification.requestPermission();
-        } catch (e) {
-            console.error('requestPermission failed', e);
-        }
-        setTimeout(refreshNotificationButtonState, 500);
+        try { await Notification.requestPermission(); } catch (e) { console.error(e); }
+        setTimeout(refreshNotificationButton, 500);
         return;
     }
     if (state === 'subscribed') {
         const sub = getOneSignalSubscription();
-        if (sub) {
-            try { await sub.optOut(); } catch (e) { console.error('optOut failed', e); }
-        }
-        refreshNotificationButtonState();
+        if (sub) { try { await sub.optOut(); } catch (e) { console.error(e); } }
+        refreshNotificationButton();
         return;
     }
     if (state === 'unsubscribed') {
         const sub = getOneSignalSubscription();
-        if (sub) {
-            try { await sub.optIn(); } catch (e) { console.error('optIn failed', e); }
-        }
-        refreshNotificationButtonState();
+        if (sub) { try { await sub.optIn(); } catch (e) { console.error(e); } }
+        refreshNotificationButton();
         return;
-    }
-};
-
-const initializeSimpleNotificationButtons = () => {
-    const buttons = [
-        document.getElementById('notificationButton'),
-        document.getElementById('notificationButtonSidebar'),
-    ];
-
-    if (!('Notification' in window)) {
-        buttons.forEach(b => { if (b) b.style.display = 'none'; });
-        return;
-    }
-
-    buttons.forEach(b => { if (b) b.addEventListener('click', handleSimpleNotificationClick); });
-
-    refreshNotificationButtonState();
-
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    window.OneSignalDeferred.push(async function (OneSignal) {
-        refreshNotificationButtonState();
-        try {
-            OneSignal.User.PushSubscription.addEventListener('change', refreshNotificationButtonState);
-        } catch (e) {
-            console.warn('OneSignal subscription change listener failed', e);
-        }
-    });
-};
-
-
-
-//Smooth scrolling for nav links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        let target = document.querySelector(this.getAttribute('href'));
-        if (!target) return; // Exit if target not found
-
-        target.scrollIntoView({
-            behavior: 'smooth'
-        });
-
-        if (document.getElementById("sidebar").style.width === "250px") { //If sidebar is open, close it after navigation on mobile
-            toggleSidebar();
-        }
-    });
-});
-
-
-// Initialize sidebar state if needed (e.g., close on page load for mobile)
-document.addEventListener('DOMContentLoaded', function() {
-    if (window.innerWidth <= 768) { // Example breakpoint, adjust as needed
-        document.getElementById("sidebar").style.width = "0";
-    }
-});
-
-
-// sidebar fix
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const body = document.body;
-
-    if (sidebar.style.width === "250px" || sidebar.classList.contains('open')) {
-        sidebar.classList.remove('open');
-        sidebar.style.width = "0";
-        body.style.overflow = "auto";
-        overlay.classList.remove('active');
-        sidebar.style.overflowY = 'hidden'; // Keep overflow-y: hidden during closing
-    } else {
-        sidebar.style.width = "250px";
-        sidebar.classList.add('open');
-        body.style.overflow = "hidden";
-        overlay.classList.add('active');
-        sidebar.style.overflowY = 'hidden'; // Apply overflow-y: hidden during opening transition
-        setTimeout(() => {
-            sidebar.style.overflowY = 'auto'; // Revert to auto after opening transition (important for scrollable sidebar content if needed in future)
-        }, 300); // Timeout should match your sidebar transition duration (0.3s in your CSS)
     }
 }
 
+function initNotifications() {
+    const btn = document.getElementById('notificationButton');
+    if (!btn) return;
+    if (!('Notification' in window)) {
+        btn.style.display = 'none';
+        return;
+    }
+    btn.addEventListener('click', handleNotificationClick);
+    refreshNotificationButton();
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(async function (OneSignal) {
+        refreshNotificationButton();
+        try {
+            OneSignal.User.PushSubscription.addEventListener('change', refreshNotificationButton);
+        } catch (e) {
+            console.warn('OneSignal change listener failed', e);
+        }
+    });
+
+    // cohort unsubscribe link mirrors the notification button's opt-out path
+    const cohortBtn = document.getElementById('cohortUnsubscribe');
+    if (cohortBtn) {
+        cohortBtn.addEventListener('click', async () => {
+            const sub = getOneSignalSubscription();
+            if (sub && sub.optedIn !== false) {
+                try { await sub.optOut(); } catch (e) { console.error(e); }
+                refreshNotificationButton();
+                cohortBtn.textContent = 'unsubscribed';
+            } else {
+                handleNotificationClick();
+            }
+        });
+    }
+}
+
+/* ----- filters ----- */
+
+function initFilters() {
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => applyFilter(chip.dataset.filter));
+    });
+}
+
+/* ----- boot ----- */
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const todayEl = document.getElementById('todayDate');
+    if (todayEl) todayEl.textContent = formatTodayDate();
+
+    initDarkMode();
+    initInstallButton();
+    initNotifications();
+    initFilters();
+
+    const data = await loadDeadlines();
+    renderAll(data);
+    setInterval(tickAll, 1000);
+});

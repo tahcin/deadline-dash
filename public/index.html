@@ -3,198 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deadline Dash - Never miss a CLA again!</title>
-    <meta name="description" content="Developed by Tahcin Sarwar, Deadline Dash helps you track important BBA DBE deadlines with countdowns and reminders. Never miss an important date again!">
-    <meta name="keywords" content="Deadline Dash, deadline tracker, countdown timer, productivity, time management">
+    <title>Deadline Dash — Never miss a CLA again</title>
+    <meta name="description" content="Track BBA DBE deadlines with live countdowns, push reminders at T-24h and T-1h, and one-tap navigation to each assessment.">
+    <meta name="keywords" content="Deadline Dash, deadline tracker, countdown timer, BBA DBE, IIMBx">
     <meta name="author" content="Tahcin Sarwar">
 
-    <!-- Open Graph (OG) for Social Media -->
-    <meta property="og:title" content="Deadline Dash - Stay Ahead of Your Deadlines">
-    <meta property="og:description" content="Track BBA DBE deadlines effortlessly with Deadline Dash. Countdown timers, alerts, and more!">
+    <meta property="og:title" content="Deadline Dash — Stay Ahead of Your Deadlines">
+    <meta property="og:description" content="Live deadline countdowns and push reminders for the BBA DBE program.">
     <meta property="og:image" content="https://deadline-dash.vercel.app/images/meta.png">
     <meta property="og:url" content="https://deadline-dash.vercel.app">
-    <!-- Indexing -->
     <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#FBF8F1" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E0D0A" media="(prefers-color-scheme: dark)">
 
-    <!-- Google Search Console -->
     <meta name="google-site-verification" content="hed01S5F60m5Bc_zL9Tnc72kUYKLSQW2umcESJLpYQo" />
 
-    <link rel="stylesheet" href="/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="/images/favicon-v2.ico" type="image/x-icon">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-v2.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-v2.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-v2.png">
-
-    <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@300..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
 
     <script type="application/ld+json">
     {
-         "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          "name": "Deadline Dash",
-          "url": "https://deadline-dash.vercel.app",
-          "image": "https://imgur.com/a/IVF6wwF",
-          "description": "Deadline Dash is a countdown tracker that helps you manage BBA DBE deadlines efficiently.",
-          "author": {
-                    "@type": "Person",
-                    "name": "Tahcin Sarwar"
-          }
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Deadline Dash",
+        "url": "https://deadline-dash.vercel.app",
+        "image": "https://deadline-dash.vercel.app/images/meta.png",
+        "description": "Live deadline countdowns and push reminders for the BBA DBE program.",
+        "author": { "@type": "Person", "name": "Tahcin Sarwar" }
     }
     </script>
 
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FDZT4KL13Z"></script>
     <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-FDZT4KL13Z');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-FDZT4KL13Z');
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <!-- OneSignal -->   
+
+    <!-- OneSignal -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({
-                appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
-            });
+            await OneSignal.init({ appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe" });
         });
     </script>
-
 </head>
 <body>
-    <header>
-        <nav class="nav-bar">
-            <div class="nav-logo">
-                <a href="/" class="logo-link"> <!-- Changed class name slightly -->
-                    <img src="/images/dd-lightmode.png" alt="Deadline Dash Logo" class="logo-image logo-light">
-                    <img src="/images/dd-darkmode.png" alt="Deadline Dash Logo Dark Mode" class="logo-image logo-dark">
-                </a>
-            </div>
-            <div class="nav-links" id="navLinks">
-                <ul class="nav-items">
-                    <li><a href="#countdown" class="nav-link"><i class="fas fa-calendar-alt"></i> CLA/Mid-Terms</a></li>
-                    <li><a href="#assignments" class="nav-link"><i class="fas fa-tasks"></i> Assignments</a></li>
-                    <li><a href="#live-sessions" class="nav-link"><i class="fas fa-video"></i> Live Sessions</a></li>
-                </ul>
-                <div class="nav-controls">
-                    <div class="dark-mode-toggle-li">
-                        <div class="dark-mode-toggle">
-                            <span class="toggle-label">Dark Mode</span>
-                            <input type="checkbox" id="darkModeSwitch" class="dark-mode-checkbox">
-                            <label for="darkModeSwitch" class="dark-mode-label">
-                                <span class="dark-mode-icon moon"><i class="fas fa-moon"></i></span>
-                                <span class="dark-mode-icon sun"><i class="fas fa-sun"></i></span>
-                                <span class="dark-mode-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <!-- Notification Button -->
-                    <div class="notification-btn-li">
-                        <button id="notificationButton" class="notification-button">
-                            <i class="fas fa-bell"></i> <span class="notification-text">Notify Me</span>
-                        </button>
-                    </div>
-
-                    <div class="install-btn-li">
-                        <button id="installButton" class="install-button">
-                            <i class="fas fa-download"></i> Install App
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="nav-icon">
-                <i class="fa fa-bars" onclick="toggleSidebar()"></i>
-            </div>
-            <div class="sidebar" id="sidebar">
-                <a href="#" class="close-btn" onclick="toggleSidebar()"><i class="fa fa-times"></i></a>
-
-                <div class="sidebar-links">
-                    <a href="#countdown" class="sidebar-link" onclick="toggleSidebar()"><i class="fas fa-calendar-alt"></i> CLA/Mid-Terms</a>
-                    <a href="#assignments" class="sidebar-link" onclick="toggleSidebar()"><i class="fas fa-tasks"></i> Assignments</a>
-                    <a href="#live-sessions" class="sidebar-link" onclick="toggleSidebar()"><i class="fas fa-video"></i> Live Sessions</a>
-                </div>
-        
-                <div class="sidebar-footer">
-                    <!-- Dark Mode Toggle (Sidebar) -->
-                    <div class="sidebar-dark-mode-toggle">
-                        <span class="toggle-label">Dark Mode</span>
-                        <input type="checkbox" id="darkModeSwitchSidebar" class="dark-mode-checkbox">
-                        <label for="darkModeSwitchSidebar" class="dark-mode-label">
-                            <span class="dark-mode-icon moon"><i class="fas fa-moon"></i></span>
-                            <span class="dark-mode-icon sun"><i class="fas fa-sun"></i></span>
-                            <span class="dark-mode-slider"></span>
-                        </label>
-                    </div>
-                    <!-- Notification Button (Sidebar) -->
-                    <button id="notificationButtonSidebar" class="notification-button notification-button-sidebar">
-                        <i class="fas fa-bell"></i> <span class="notification-text">Notify Me</span>
-                    </button>
-                    <!-- Install Button (Sidebar) -->
-                    <button id="installButtonSidebar" class="install-button install-button-sidebar">
-                        <i class="fas fa-download"></i> Install App
-                    </button>
-                    <div class="install-info-container">
-                        Install button won't work on iOS. <a href="https://ruddy-soursop-ccb.notion.site/How-to-Install-Deadline-Dash-on-iOS-1209f5f53c6680ada63fe4b0942deaaf?pvs=73" target="_blank">Install guide for iOS.</a></br> 
-                        For MacOS, Works on Chrome, not Safari.
-                    </div>
-                </div>
-            </div>
+    <header class="dateline">
+        <div class="brand">
+            <a href="/" class="wordmark">Deadline <em>Dash</em></a>
+            <span class="meta">
+                <span id="todayDate">—</span>
+                <span class="dot">·</span>
+                <span id="totalCount">— active</span>
+            </span>
+        </div>
+        <nav class="utilities">
+            <button id="notificationButton" class="utility-btn" type="button">subscribe</button>
+            <button id="installButton" class="utility-btn" type="button" hidden>install</button>
+            <button id="darkModeToggle" class="utility-btn theme-toggle" type="button" aria-label="Toggle theme">◐</button>
         </nav>
     </header>
 
-    <!-- Marquee Section -->
-    <div class="marquee-container">
-        <div class="marquee-content">
-            <a href="https://chat.whatsapp.com/DpUJ2d7WEs11WmWQNU5PAu" target="_blank" rel="noopener noreferrer">
-                 Join our WhatsApp Community for updates and sneak peeks! <i class="fab fa-whatsapp"></i>
-            </a>
-        </div>
-    </div>
-
-    <aside class="cohort-disclaimer" style="max-width: 680px; margin: 1rem auto 0; padding: 0 1rem; text-align: center; font-size: 0.85rem; line-height: 1.5; opacity: 0.7; font-style: italic;">
-        Showing deadlines for BBA DBE Batch 2027 (Term 5). On term break or in a different batch? Tap "Notify Me" above to unsubscribe from notifications.
+    <aside class="cohort-note">
+        Showing deadlines for <strong>Batch 2027 · Term 5</strong>. Different batch or on break?
+        <button class="inline-link" id="cohortUnsubscribe" type="button">tap to unsubscribe</button>.
     </aside>
 
-    <main class="container">
-        <section class="countdown" id="countdown">
-            <h1><i class="fas fa-calendar-alt section-icon"></i> CLA and Mid-Terms</h1>
+    <main class="feed">
+        <section class="hero" id="hero" hidden>
+            <span class="eyebrow">Up Next</span>
+            <h1 class="hero-title" id="heroTitle"></h1>
+            <p class="hero-course" id="heroCourse"></p>
+            <div class="hero-meta">
+                <span class="hero-countdown" id="heroCountdown" data-due=""></span>
+                <span class="hero-due" id="heroDue"></span>
+            </div>
         </section>
 
-        <section class="countdown" id="assignments">
-            <h1><i class="fas fa-tasks section-icon"></i> Assignments</h1>
+        <nav class="filters" id="filters">
+            <button class="filter-chip is-active" data-filter="all" type="button">All <span class="filter-count" data-count-for="all">0</span></button>
+            <button class="filter-chip" data-filter="cla" type="button">CLAs &amp; Mid-Terms <span class="filter-count" data-count-for="cla">0</span></button>
+            <button class="filter-chip" data-filter="assignment" type="button">Projects <span class="filter-count" data-count-for="assignment">0</span></button>
+            <button class="filter-chip" data-filter="liveSession" type="button">Live <span class="filter-count" data-count-for="liveSession">0</span></button>
+        </nav>
+
+        <section class="group" data-category="cla" id="groupCla">
+            <header class="group-head">
+                <h2><span class="group-num">§ 01</span><span class="group-divider">—</span><span class="group-label">CLAs &amp; Mid-Terms</span></h2>
+                <span class="group-count" data-count-for="cla">— active</span>
+            </header>
+            <ol class="rows" id="rowsCla"></ol>
         </section>
 
-        <section class="live-sessions" id="live-sessions">
-            <h1><i class="fas fa-video section-icon"></i> Live Sessions</h1>
+        <section class="group" data-category="assignment" id="groupAssignment">
+            <header class="group-head">
+                <h2><span class="group-num">§ 02</span><span class="group-divider">—</span><span class="group-label">Projects</span></h2>
+                <span class="group-count" data-count-for="assignment">— active</span>
+            </header>
+            <ol class="rows" id="rowsAssignment"></ol>
         </section>
-        
-        <div class="logo-container">
-            <img src="/images/bbadbe.jpg" alt="BBA DBE Logo" class="logo">
-        </div>
+
+        <section class="group" data-category="liveSession" id="groupLiveSession">
+            <header class="group-head">
+                <h2><span class="group-num">§ 03</span><span class="group-divider">—</span><span class="group-label">Live Sessions</span></h2>
+                <span class="group-count" data-count-for="liveSession">— active</span>
+            </header>
+            <ol class="rows" id="rowsLiveSession"></ol>
+        </section>
     </main>
-    
-    <footer>
-        <div class="footer-content">
-            <p>Managed by <a href="https://www.gradestone.in/" target="_blank">Gradestone</a></br>
-            <p>Mail: contact@gradestone.in</p>
-        </div>
+
+    <footer class="colophon">
+        <p>set in <em>Instrument Serif</em> &amp; Geist · managed by <a href="https://www.gradestone.in/" target="_blank" rel="noopener">Gradestone</a></p>
+        <p><a href="https://chat.whatsapp.com/DpUJ2d7WEs11WmWQNU5PAu" target="_blank" rel="noopener">join the community ↗</a></p>
     </footer>
 
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    <script>
-        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/speed-insights/script.js"></script>
     <script src="/script.js"></script>
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 </body>
 </html>
