@@ -387,6 +387,12 @@ async function deriveNotificationState() {
     const sub = getOneSignalSubscription();
     if (!sub) return 'pending';
     if (sub.optedIn === false) return 'unsubscribed';
+    // optedIn is just a stored preference — the user only actually receives
+    // pushes when there's a real push subscription token behind it. If the SW
+    // failed to register a token (ad blocker, push service error, stale state),
+    // surface that as "Subscribe" so clicking can attempt to recover instead of
+    // claiming a working subscription that doesn't exist.
+    if (!sub.token) return 'unsubscribed';
     return 'subscribed';
 }
 
