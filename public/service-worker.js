@@ -1,40 +1,17 @@
-const CACHE_NAME = "app-cache-v2"; // Increment version when updating files
-const ASSETS_TO_CACHE = ["/", "/index.html", "/styles.css", "/script.js"];
+// Kill switch: any browser that still has the old service worker installed
+// will unregister it and wipe its caches on next visit, then fall back to
+// plain HTTP caching. Do not register a service worker from page code.
 
-// Install event - Caches assets and forces update
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
-  self.skipWaiting(); // Activate immediately
+self.addEventListener('install', () => {
+    self.skipWaiting();
 });
 
-// Activate event - Deletes old caches
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME) // Remove old cache versions
-          .map((name) => caches.delete(name))
-      );
-    })
-  );
-  self.clients.claim(); // Take control of clients immediately
-});
-
-// Fetch event - Tries network first, falls back to cache
-self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        return caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, response.clone()); // Update cache
-          return response;
-        });
-      })
-      .catch(() => caches.match(event.request)) // Use cache if offline
-  );
+self.addEventListener('activate', (event) => {
+    event.waitUntil((async () => {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((key) => caches.delete(key)));
+        await self.registration.unregister();
+        const clients = await self.clients.matchAll({ type: 'window' });
+        for (const client of clients) client.navigate(client.url);
+    })());
 });

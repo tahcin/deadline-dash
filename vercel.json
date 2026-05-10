@@ -7,15 +7,27 @@
       ]
     },
     {
+      "source": "/service-worker.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate, max-age=0" }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
+      ]
+    },
+    {
       "source": "/styles.css",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=60, stale-while-revalidate=300" }
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
       ]
     },
     {
       "source": "/script.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=60, stale-while-revalidate=300" }
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
       ]
     },
     {
