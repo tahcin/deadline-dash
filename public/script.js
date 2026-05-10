@@ -442,7 +442,7 @@ async function deriveNotificationState() {
     // optedIn is just a stored preference — the user only actually receives
     // pushes when there's a real push subscription token behind it. If the SW
     // failed to register a token (ad blocker, push service error, stale state),
-    // surface that as "Subscribe" so clicking can attempt to recover instead of
+    // surface that as "Notify Me" so clicking can attempt to recover instead of
     // claiming a working subscription that doesn't exist.
     if (!sub.token) return 'unsubscribed';
     return 'subscribed';
@@ -464,7 +464,7 @@ function paintNotificationButton(state) {
             btn.style.display = 'none';
             break;
         case 'pending':
-            btn.textContent = 'Subscribe';
+            btn.textContent = 'Notify Me';
             break;
         case 'blocked':
             btn.textContent = 'Blocked';
@@ -478,7 +478,7 @@ function paintNotificationButton(state) {
         case 'unsubscribed':
         case 'prompt':
         default:
-            btn.textContent = 'Subscribe';
+            btn.textContent = 'Notify Me';
             break;
     }
 }
