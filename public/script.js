@@ -61,14 +61,25 @@ function extractCourseTag(courseId) {
     return m ? m[1].toUpperCase() : '';
 }
 
+function normalizeAssessmentTitle(deadline) {
+    const sec = SECTION_BY_CATEGORY[deadline.category] || 'assignment';
+    if (sec !== 'cla') return deadline.title;
+    const t = String(deadline.title || '');
+    const isMidTerm = deadline.category === 'midterm' || /mid[\s-]*term/i.test(t);
+    const label = isMidTerm ? 'Mid-Term' : 'CLA';
+    const moduleMatch = t.match(/^\s*(\d+)\.\d+/) || t.match(/module\s+(\d+)/i);
+    return moduleMatch ? `Module ${moduleMatch[1]} ${label}` : label;
+}
+
 function formatDueLabel(iso) {
     try {
         const dt = new Date(iso);
-        return dt.toLocaleString('en-IN', {
+        const formatted = dt.toLocaleString('en-IN', {
             timeZone: 'Asia/Kolkata',
             weekday: 'short', day: '2-digit', month: 'short',
             hour: '2-digit', minute: '2-digit', hour12: true
-        }).replace(',', ' ·') + ' IST';
+        }).replace(',', ' ·');
+        return formatted.replace(/\b(am|pm)\b/g, m => m.toUpperCase()) + ' IST';
     } catch (e) {
         return '';
     }
@@ -127,9 +138,10 @@ function renderHero(deadline) {
     if (deadline.link) hero.classList.add('row--clickable');
     else hero.classList.remove('row--clickable');
     const due = new Date(deadline.dueAt).getTime();
+    const heroTitle = normalizeAssessmentTitle(deadline);
     hero.innerHTML = `
         <h1 class="hero-text">
-            <span class="hero-emph">${escapeHtml(deadline.title)}</span>
+            <span class="hero-emph">${escapeHtml(heroTitle)}</span>
             of ${escapeHtml(deadline.courseName)} is due in
             <span class="hero-emph hero-time" data-due="${due}" data-format="rough"></span>
         </h1>
@@ -144,17 +156,22 @@ function renderRow(deadline, index) {
     const due = new Date(deadline.dueAt).getTime();
     const urgency = urgencyFor(due, Date.now());
     const tag = extractCourseTag(deadline.courseId);
+    const section = SECTION_BY_CATEGORY[deadline.category] || 'assignment';
     const li = document.createElement('li');
     li.className = 'row';
     li.dataset.urgency = urgency;
     li.dataset.link = deadline.link || '';
-    li.dataset.category = SECTION_BY_CATEGORY[deadline.category] || 'assignment';
+    li.dataset.category = section;
     li.style.setProperty('--i', index);
+    const displayTitle = section === 'cla' ? normalizeAssessmentTitle(deadline) : deadline.title;
+    const bodyHtml = section === 'assignment'
+        ? `<span class="row-title">${escapeHtml(deadline.courseName)}</span>`
+        : `<span class="row-title">${escapeHtml(displayTitle)}</span>
+           <span class="row-course">${escapeHtml(deadline.courseName)}</span>`;
     li.innerHTML = `
         <span class="row-tag">${escapeHtml(tag)}</span>
         <div class="row-body">
-            <span class="row-title">${escapeHtml(deadline.title)}</span>
-            <span class="row-course">${escapeHtml(deadline.courseName)}</span>
+            ${bodyHtml}
         </div>
         <div class="row-time">
             <span class="row-countdown" data-due="${due}"></span>
@@ -189,7 +206,7 @@ function renderGroups(deadlines) {
         if (grouped[sec].length === 0) {
             const empty = document.createElement('li');
             empty.className = 'empty-state';
-            empty.textContent = `No upcoming ${labels[sec].toLowerCase()}.`;
+            empty.textContent = `No Upcoming ${labels[sec]}.`;
             list.appendChild(empty);
         } else {
             for (const d of grouped[sec]) {
@@ -202,14 +219,14 @@ function renderGroups(deadlines) {
         const target = el.dataset.countFor;
         const count = target === 'all' ? deadlines.length : (grouped[target] ? grouped[target].length : 0);
         if (el.classList.contains('group-count')) {
-            el.textContent = count === 0 ? 'none active' : `${count} active`;
+            el.textContent = count === 0 ? 'None Active' : `${count} Active`;
         } else {
             el.textContent = count;
         }
     });
 
     const totalEl = document.getElementById('totalCount');
-    if (totalEl) totalEl.textContent = deadlines.length === 0 ? 'all clear' : `${deadlines.length} active`;
+    if (totalEl) totalEl.textContent = deadlines.length === 0 ? 'All Clear' : `${deadlines.length} Active`;
 }
 
 function applyFilter(filter) {
@@ -345,7 +362,7 @@ function tickAll() {
         const isExpired = remaining <= 0;
         const isRough = el.dataset.format === 'rough';
         let text;
-        if (isExpired) text = 'expired';
+        if (isExpired) text = 'Expired';
         else if (isRough) text = formatRoughTime(remaining);
         else text = formatCountdown(remaining);
         if (el.textContent !== text) el.textContent = text;
@@ -432,18 +449,18 @@ function paintNotificationButton(state) {
             btn.style.display = 'none';
             break;
         case 'blocked':
-            btn.textContent = 'blocked';
+            btn.textContent = 'Blocked';
             btn.dataset.state = 'blocked';
             btn.disabled = true;
             break;
         case 'subscribed':
-            btn.textContent = 'subscribed';
+            btn.textContent = 'Subscribed';
             btn.dataset.state = 'active';
             break;
         case 'unsubscribed':
         case 'prompt':
         default:
-            btn.textContent = 'subscribe';
+            btn.textContent = 'Subscribe';
             break;
     }
 }
@@ -501,7 +518,7 @@ function initNotifications() {
             if (sub && sub.optedIn !== false) {
                 try { await sub.optOut(); } catch (e) { console.error(e); }
                 refreshNotificationButton();
-                cohortBtn.textContent = 'unsubscribed';
+                cohortBtn.textContent = 'Unsubscribed';
             } else {
                 handleNotificationClick();
             }
@@ -517,6 +534,43 @@ function initFilters() {
     });
 }
 
+/* ----- mobile menu ----- */
+
+function initMobileMenu() {
+    const toggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('utilityMenu');
+    const backdrop = document.getElementById('menuBackdrop');
+    if (!toggle || !menu || !backdrop) return;
+
+    const close = () => {
+        menu.classList.remove('is-open');
+        backdrop.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
+    };
+    const open = () => {
+        menu.classList.add('is-open');
+        backdrop.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('menu-open');
+    };
+
+    toggle.addEventListener('click', () => {
+        const isOpen = menu.classList.contains('is-open');
+        if (isOpen) close(); else open();
+    });
+    backdrop.addEventListener('click', close);
+    menu.querySelectorAll('.menu-link, #installButton').forEach(el => {
+        el.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.classList.contains('is-open')) close();
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 640 && menu.classList.contains('is-open')) close();
+    });
+}
+
 /* ----- boot ----- */
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -524,6 +578,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initInstallButton();
     initNotifications();
     initFilters();
+    initMobileMenu();
 
     const data = await loadDeadlines();
     renderAll(data);

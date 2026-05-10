@@ -66,16 +66,25 @@
                 </a>
             </div>
             <nav class="utilities">
-                <button id="notificationButton" class="utility-btn" type="button">subscribe</button>
-                <button id="installButton" class="utility-btn" type="button" hidden>install</button>
-                <button id="darkModeToggle" class="utility-btn theme-toggle" type="button" aria-label="Toggle theme">◐</button>
+                <button id="notificationButton" class="utility-btn" type="button">Subscribe</button>
+                <div class="utility-menu" id="utilityMenu">
+                    <a class="menu-link" href="#groupCla">CLAs &amp; Mid-Terms</a>
+                    <a class="menu-link" href="#groupAssignment">Projects</a>
+                    <a class="menu-link" href="#groupLiveSession">Live Sessions</a>
+                    <button id="installButton" class="utility-btn" type="button" hidden>Install</button>
+                    <button id="darkModeToggle" class="utility-btn theme-toggle" type="button" aria-label="Toggle theme">◐</button>
+                </div>
+                <button id="menuToggle" class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="utilityMenu">
+                    <span></span><span></span><span></span>
+                </button>
             </nav>
+            <div class="menu-backdrop" id="menuBackdrop" hidden></div>
         </div>
     </header>
 
     <aside class="cohort-note" id="cohortNote" hidden>
         Showing deadlines for <strong>Batch 2027 · Term 5</strong>. Different batch or on break?
-        <button class="inline-link" id="cohortUnsubscribe" type="button">tap to unsubscribe</button>.
+        <button class="inline-link" id="cohortUnsubscribe" type="button">Tap to unsubscribe</button>.
     </aside>
 
     <main class="layout">
@@ -86,7 +95,7 @@
                 <div class="hero-meta">
                     <span class="hero-countdown" id="heroCountdown" data-due=""></span>
                     <span class="hero-due" id="heroDue"></span>
-                    <span class="hero-cta">Open assessment ↗</span>
+                    <span class="hero-cta">Open Assessment ↗</span>
                 </div>
             </section>
 
@@ -94,13 +103,13 @@
                 <button class="filter-chip is-active" data-filter="all" type="button">All <span class="filter-count" data-count-for="all">0</span></button>
                 <button class="filter-chip" data-filter="cla" type="button">CLAs &amp; Mid-Terms <span class="filter-count" data-count-for="cla">0</span></button>
                 <button class="filter-chip" data-filter="assignment" type="button">Projects <span class="filter-count" data-count-for="assignment">0</span></button>
-                <button class="filter-chip" data-filter="liveSession" type="button">Live <span class="filter-count" data-count-for="liveSession">0</span></button>
+                <button class="filter-chip" data-filter="liveSession" type="button">Live Sessions <span class="filter-count" data-count-for="liveSession">0</span></button>
             </nav>
 
             <section class="group" data-category="cla" id="groupCla">
                 <header class="group-head">
                     <h2>CLAs &amp; Mid-Terms</h2>
-                    <span class="group-count" data-count-for="cla">— active</span>
+                    <span class="group-count" data-count-for="cla">— Active</span>
                 </header>
                 <ol class="rows" id="rowsCla"></ol>
             </section>
@@ -108,7 +117,7 @@
             <section class="group" data-category="assignment" id="groupAssignment">
                 <header class="group-head">
                     <h2>Projects</h2>
-                    <span class="group-count" data-count-for="assignment">— active</span>
+                    <span class="group-count" data-count-for="assignment">— Active</span>
                 </header>
                 <ol class="rows" id="rowsAssignment"></ol>
             </section>
@@ -116,7 +125,7 @@
             <section class="group" data-category="liveSession" id="groupLiveSession">
                 <header class="group-head">
                     <h2>Live Sessions</h2>
-                    <span class="group-count" data-count-for="liveSession">— active</span>
+                    <span class="group-count" data-count-for="liveSession">— Active</span>
                 </header>
                 <ol class="rows" id="rowsLiveSession"></ol>
             </section>
@@ -126,8 +135,8 @@
     </main>
 
     <footer class="colophon">
-        <p>managed by <a href="https://www.gradestone.in/" target="_blank" rel="noopener">Gradestone</a></p>
-        <p><a href="https://chat.whatsapp.com/DpUJ2d7WEs11WmWQNU5PAu" target="_blank" rel="noopener">join the community</a></p>
+        <p>Managed by <a href="https://www.gradestone.in/" target="_blank" rel="noopener">Gradestone</a></p>
+        <p><a href="https://chat.whatsapp.com/DpUJ2d7WEs11WmWQNU5PAu" target="_blank" rel="noopener">Join the community</a></p>
     </footer>
 
     <script src="/script.js"></script>
