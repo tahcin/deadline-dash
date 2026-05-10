@@ -30,114 +30,135 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.setItem("darkMode", "disabled");
         }
     });
-    
-    // Initialize all timers immediately to prevent delay
-    initializeTimers();
-    
     initializeSimpleNotificationButtons();
+    initializeDeadlines();
 });
 
-// Initialize all countdown timers with initial values
-function initializeTimers() {
-    // Define event dates
-    const event1Date = new Date("Sep 10, 2025 23:30:00").getTime();
-    const event2Date = new Date("Jul 23, 2025 23:30:00").getTime();
-    const event3Date = new Date("Jul 23, 2025 23:30:00").getTime();
-    const event4Date = new Date("Aug 3, 2025 23:30:00").getTime();
-    const event5Date = new Date("Aug 15, 2025 23:30:00").getTime();
-    const event6Date = new Date("Aug 13, 2025 23:59:00").getTime();
-    const event7Date = new Date("April 16, 2025 23:30:00").getTime();
-    const event8Date = new Date("April 16, 2025 23:30:00").getTime();
-    
-    // Pre-populate timers first with initial values
-    updateTimerDisplay("timer1", event1Date);
-    updateTimerDisplay("timer2", event2Date);
-    updateTimerDisplay("timer3", event3Date);
-    updateTimerDisplay("timer4", event4Date);
-    updateTimerDisplay("timer5", event5Date);
-    updateTimerDisplay("timer6", event6Date);
-    updateTimerDisplay("timer7", event7Date);
-    updateTimerDisplay("timer8", event8Date);
-    
-    // Then start the continuous countdown
-    startCountdown("timer1", event1Date);
-    startCountdown("timer2", event2Date);
-    startCountdown("timer3", event3Date);
-    startCountdown("timer4", event4Date);
-    startCountdown("timer5", event5Date);
-    startCountdown("timer6", event6Date);
-    startCountdown("timer7", event7Date);
-    startCountdown("timer8", event8Date);
-}
+// --- Deadlines pipeline (consumes /deadlines.json produced by the GH Actions sync) ---
+const SECTION_BY_CATEGORY = {
+    cla: 'countdown',
+    midterm: 'countdown',
+    assignment: 'assignments',
+    liveSession: 'live-sessions',
+    other: 'assignments',
+};
+const EMPTY_MESSAGES = {
+    'countdown': 'Yay! No upcoming CLAs or Mid-Terms.',
+    'assignments': 'Yay! No upcoming assignments.',
+    'live-sessions': 'Yay! No upcoming live sessions.',
+};
+const SECTION_IDS = ['countdown', 'assignments', 'live-sessions'];
+const GRACE_MS = 24 * 60 * 60 * 1000;
 
-// Function to immediately update a timer's display without waiting for interval
-function updateTimerDisplay(id, eventDate) {
-    const countdownElement = document.getElementById(id);
-    if (!countdownElement) return;
-    
-    const now = new Date().getTime();
-    const distance = eventDate - now;
-    
-    if (distance < 0) {
-        countdownElement.innerHTML = "EXPIRED";
-        return;
+async function loadDeadlines() {
+    try {
+        const res = await fetch('/deadlines.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+    } catch (e) {
+        console.error('failed to load deadlines.json', e);
+        return { deadlines: [] };
     }
-    
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-    countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
-// Function to update the countdown every second
-function startCountdown(id, eventDate) {
-    const countdownElement = document.getElementById(id);
-    if (!countdownElement) return;
+function shouldShow(d, now) {
+    if (d.complete) return false;
+    if (!d.learnerHasAccess) return false;
+    if (d.courseArchived) return false;
+    const due = new Date(d.dueAt).getTime();
+    if (!Number.isFinite(due)) return false;
+    if (now > due + GRACE_MS) return false;
+    return true;
+}
 
-    const interval = setInterval(function() {
-        const now = new Date().getTime();
-        const distance = eventDate - now;
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+}
 
-        if (distance < 0) {
-            clearInterval(interval);
-            countdownElement.innerHTML = "EXPIRED";
+function ensureEmptyStates() {
+    for (const id of SECTION_IDS) {
+        const sec = document.getElementById(id);
+        if (!sec) continue;
+        const hasCard = sec.querySelector('.event, .session');
+        const hasEmpty = sec.querySelector('.empty-state');
+        if (!hasCard && !hasEmpty) {
+            const msg = document.createElement('h2');
+            msg.className = 'empty-state';
+            msg.textContent = EMPTY_MESSAGES[id];
+            sec.appendChild(msg);
+        } else if (hasCard && hasEmpty) {
+            hasEmpty.remove();
+        }
+    }
+}
+
+function renderDeadlines(data) {
+    for (const id of SECTION_IDS) {
+        const sec = document.getElementById(id);
+        if (!sec) continue;
+        sec.querySelectorAll('.event, .session, .empty-state').forEach(n => n.remove());
+    }
+
+    const now = Date.now();
+    const visible = (data.deadlines || [])
+        .filter(d => shouldShow(d, now))
+        .sort((a, b) => new Date(a.dueAt) - new Date(b.dueAt));
+
+    for (const d of visible) {
+        const sectionId = SECTION_BY_CATEGORY[d.category] || 'assignments';
+        const section = document.getElementById(sectionId);
+        if (!section) continue;
+        const due = new Date(d.dueAt).getTime();
+        const card = document.createElement('div');
+        card.className = 'event';
+        if (d.link) card.style.cursor = 'pointer';
+        card.innerHTML = `
+            <h2>${escapeHtml(d.courseName)}<br>${escapeHtml(d.title)}</h2>
+            <div class="timer" data-due="${due}"></div>
+        `;
+        if (d.link) {
+            card.addEventListener('click', () => window.open(d.link, '_blank', 'noopener'));
+        }
+        section.appendChild(card);
+    }
+
+    ensureEmptyStates();
+    tickDeadlines();
+}
+
+function tickDeadlines() {
+    const now = Date.now();
+    let removedAny = false;
+    document.querySelectorAll('.timer[data-due]').forEach(el => {
+        const due = parseInt(el.dataset.due, 10);
+        if (!Number.isFinite(due)) return;
+        if (now > due + GRACE_MS) {
+            const card = el.closest('.event');
+            if (card) card.remove();
+            removedAny = true;
             return;
         }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }, 1000);
+        if (now >= due) {
+            if (el.textContent !== 'EXPIRED') el.textContent = 'EXPIRED';
+            return;
+        }
+        const distance = due - now;
+        const days = Math.floor(distance / 86400000);
+        const hours = Math.floor((distance % 86400000) / 3600000);
+        const minutes = Math.floor((distance % 3600000) / 60000);
+        const seconds = Math.floor((distance % 60000) / 1000);
+        el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    });
+    if (removedAny) ensureEmptyStates();
 }
 
-//buttons
-document.addEventListener("DOMContentLoaded", function () {
-    const buttonLinks = {
-        countdown1: "https://apps.iimbx.edu.in/learning/course/course-v1:IIMBx+AE31x+BBA_DBE_B1/block-v1:IIMBx+AE31x+BBA_DBE_B1+type@sequential+block@99f9085e530644ec9f0278f88b886489/block-v1:IIMBx+AE31x+BBA_DBE_B1+type@vertical+block@8bd0d01fad964075954e372cb17d0f37",
-        countdown2: "",
-        countdown3: "",
-        countdown4: "",
-        
-        countdown5: "",
-        countdown6: ""
-    };
-
-    document.querySelectorAll(".event").forEach(eventBox => {
-        eventBox.style.cursor = "pointer"; // Make it clear it's clickable
-
-        eventBox.addEventListener("click", function () {
-            const eventId = this.id;
-            if (buttonLinks[eventId]) {
-                window.open(buttonLinks[eventId], "_blank"); // Open in new tab
-            }
-        });
-    });
-});
+async function initializeDeadlines() {
+    const data = await loadDeadlines();
+    renderDeadlines(data);
+    setInterval(tickDeadlines, 1000);
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".join-button").forEach(button => {
