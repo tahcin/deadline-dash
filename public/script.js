@@ -385,7 +385,8 @@ async function deriveNotificationState() {
     if (Notification.permission === 'denied') return 'blocked';
     if (Notification.permission === 'default') return 'prompt';
     const sub = getOneSignalSubscription();
-    if (sub && sub.optedIn === false) return 'unsubscribed';
+    if (!sub) return 'pending';
+    if (sub.optedIn === false) return 'unsubscribed';
     return 'subscribed';
 }
 
@@ -403,6 +404,10 @@ function paintNotificationButton(state) {
     switch (state) {
         case 'unsupported':
             btn.style.display = 'none';
+            break;
+        case 'pending':
+            btn.textContent = 'Loading…';
+            btn.disabled = true;
             break;
         case 'blocked':
             btn.textContent = 'Blocked';

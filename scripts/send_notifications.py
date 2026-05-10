@@ -116,7 +116,6 @@ def send_push(heading: str, body: str, link: str) -> None:
     }
     if link:
         payload["web_url"] = link
-        payload["url"] = link
     r = requests.post(
         ONESIGNAL_API,
         json=payload,
