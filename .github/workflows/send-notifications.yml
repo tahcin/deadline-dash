@@ -1,19 +1,19 @@
-name: Sync IIMBx Deadlines
+name: Send Deadline Notifications
 
 on:
   schedule:
-    - cron: '17 * * * *'
+    - cron: '37 * * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: sync-deadlines
+  group: send-notifications
   cancel-in-progress: false
 
 jobs:
-  sync:
+  notify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,21 +24,21 @@ jobs:
 
       - run: pip install requests
 
-      - run: python scripts/sync_deadlines.py
+      - run: python scripts/send_notifications.py
         env:
-          IIMBX_EMAIL: ${{ secrets.IIMBX_EMAIL }}
-          IIMBX_PASSWORD: ${{ secrets.IIMBX_PASSWORD }}
+          ONESIGNAL_APP_ID: f2acf5a5-1a22-4313-8c55-58251657a7fe
+          ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
 
-      - name: Commit and push if changed
+      - name: Commit state if changed
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add public/deadlines.json
+          git add state/notifications-sent.json
           if git diff --cached --quiet; then
-            echo "no changes"
+            echo "no state changes"
             exit 0
           fi
-          git commit -m "chore: sync deadlines.json"
+          git commit -m "chore: update notifications-sent.json"
           for i in 1 2 3; do
             git pull --rebase origin main && git push && exit 0
             echo "push attempt $i failed, retrying"
