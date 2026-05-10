@@ -454,7 +454,10 @@ async function handleNotificationClick() {
     const state = await deriveNotificationState();
     if (state === 'prompt') {
         try {
-            await withOneSignal((OneSignal) => OneSignal.Notifications.requestPermission());
+            await withOneSignal(async (OneSignal) => {
+                OneSignal.setConsentGiven(true);
+                await OneSignal.Notifications.requestPermission();
+            });
         } catch (e) {
             console.error(e);
         }
@@ -470,6 +473,7 @@ async function handleNotificationClick() {
     if (state === 'unsubscribed') {
         try {
             await withOneSignal(async (OneSignal) => {
+                OneSignal.setConsentGiven(true);
                 const sub = OneSignal.User.PushSubscription;
                 if (sub) await sub.optIn();
                 else await OneSignal.Notifications.requestPermission();

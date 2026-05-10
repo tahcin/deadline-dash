@@ -54,7 +54,24 @@
         OneSignalDeferred.push(async function(OneSignal) {
             await OneSignal.init({
                 appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
+                requiresUserPrivacyConsent: true,
                 autoResubscribe: false,
+                notifyButton: {
+                    enable: false,
+                },
+                promptOptions: {
+                    slidedown: {
+                        prompts: [
+                            {
+                                type: "push",
+                                autoPrompt: false,
+                            },
+                        ],
+                    },
+                },
+                welcomeNotification: {
+                    disable: true,
+                },
             });
         });
     </script>
