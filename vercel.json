@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/onesignal-sdk/:path*",
+      "destination": "https://cdn.onesignal.com/sdks/web/v16/:path*"
+    }
+  ],
   "headers": [
     {
       "source": "/deadlines.json",
