@@ -456,6 +456,8 @@ function paintNotificationButton(state) {
     if (cohortNote) cohortNote.hidden = state !== 'subscribed' || dismissed;
 
     if (!btn) return;
+    btn.hidden = true;
+    return;
     btn.disabled = false;
     btn.dataset.state = '';
     btn.style.display = '';
