@@ -117,7 +117,6 @@ function renderHero(deadline) {
         hero.dataset.link = '';
         hero.classList.remove('row--clickable');
         hero.innerHTML = `
-            <span class="eyebrow">All clear</span>
             <h1 class="hero-text"><span class="hero-emph">Nothing pending.</span> No upcoming deadlines for Batch 2027 &middot; Term 5.</h1>
         `;
         return;
@@ -129,7 +128,6 @@ function renderHero(deadline) {
     else hero.classList.remove('row--clickable');
     const due = new Date(deadline.dueAt).getTime();
     hero.innerHTML = `
-        <span class="eyebrow">Up Next</span>
         <h1 class="hero-text">
             <span class="hero-emph">${escapeHtml(deadline.title)}</span>
             of ${escapeHtml(deadline.courseName)} is due in
@@ -138,7 +136,6 @@ function renderHero(deadline) {
         <div class="hero-meta">
             <span class="hero-countdown" data-due="${due}"></span>
             <span class="hero-due">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
-            ${deadline.link ? '<span class="hero-cta">Open assessment ↗</span>' : ''}
         </div>
     `;
 }
@@ -523,9 +520,6 @@ function initFilters() {
 /* ----- boot ----- */
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const todayEl = document.getElementById('todayDate');
-    if (todayEl) todayEl.textContent = formatTodayDate();
-
     initDarkMode();
     initInstallButton();
     initNotifications();
