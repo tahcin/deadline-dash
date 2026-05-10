@@ -52,7 +52,7 @@ const GRACE_MS = 24 * 60 * 60 * 1000;
 
 async function loadDeadlines() {
     try {
-        const res = await fetch('/deadlines.json', { cache: 'no-store' });
+        const res = await fetch('/deadlines.json');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
     } catch (e) {

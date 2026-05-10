@@ -75,6 +75,23 @@ def categorize(assignment_type: str) -> str:
     return "other"
 
 
+GRACE_SECONDS = 24 * 3600
+
+
+def is_relevant(d: dict, now_ts: float) -> bool:
+    if d["complete"]: return False
+    if not d["learnerHasAccess"]: return False
+    if d["courseArchived"]: return False
+    try:
+        from datetime import datetime as _dt
+        due = _dt.fromisoformat(d["dueAt"]).timestamp()
+    except Exception:
+        return False
+    if now_ts > due + GRACE_SECONDS:
+        return False
+    return True
+
+
 def main() -> None:
     email = os.environ["IIMBX_EMAIL"]
     password = os.environ["IIMBX_PASSWORD"]
@@ -104,6 +121,11 @@ def main() -> None:
                 "blockId": b.get("first_component_block_id") or "",
             })
 
+    now_ts = datetime.now(timezone.utc).timestamp()
+    total = len(deadlines)
+    deadlines = [d for d in deadlines if is_relevant(d, now_ts)]
+    relevant_course_ids = {d["courseId"] for d in deadlines}
+    courses = [c for c in courses if c["courseId"] in relevant_course_ids]
     deadlines.sort(key=lambda d: d["dueAt"] or "")
 
     out = {
@@ -113,7 +135,7 @@ def main() -> None:
     }
     target = Path(__file__).resolve().parent.parent / "public" / "deadlines.json"
     target.write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8")
-    print(f"wrote {len(deadlines)} deadlines to {target}")
+    print(f"wrote {len(deadlines)}/{total} relevant deadlines across {len(courses)} courses to {target}")
 
 
 if __name__ == "__main__":
