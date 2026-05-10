@@ -153,7 +153,9 @@ def main() -> None:
         pruned[k] = v
     state = pruned
 
-    sent_count = 0
+    # group visible upcoming deadlines by their exact dueAt so concurrent
+    # deadlines collapse into a single push instead of spamming N notifications.
+    groups: dict[str, list[dict]] = {}
     for d in deadlines:
         if not visible(d, now_ts):
             continue
@@ -161,31 +163,61 @@ def main() -> None:
             due_ts = datetime.fromisoformat(d["dueAt"]).timestamp()
         except Exception:
             continue
-        minutes_until = (due_ts - now_ts) / 60
-        if minutes_until <= 0:
+        if due_ts <= now_ts:
             continue
+        groups.setdefault(d["dueAt"], []).append(d)
 
-        key = deadline_key(d)
-        entry = state.setdefault(key, {"dueAt": d["dueAt"], "sent": []})
-        entry["dueAt"] = d["dueAt"]
-        sent = set(entry.get("sent", []))
+    sent_count = 0
+    for due_iso, items in sorted(groups.items()):
+        due_ts = datetime.fromisoformat(due_iso).timestamp()
+        minutes_until = (due_ts - now_ts) / 60
+        time_phrase = time_until_phrase(minutes_until)
+        link = items[0].get("link") or "" if len(items) == 1 else ""
 
-        link = d.get("link") or ""
-        body = f"{deadline_phrase(d)} is due in {time_until_phrase(minutes_until)}"
+        if len(items) == 1:
+            d = items[0]
+            heading_imminent = "Deadline imminent"
+            heading_24h = "Deadline reminder"
+            body = f"{deadline_phrase(d)} is due in {time_phrase}"
+        else:
+            n = len(items)
+            heading_imminent = f"{n} deadlines imminent"
+            heading_24h = f"{n} deadlines due soon"
+            preview = "; ".join(deadline_phrase(d) for d in items[:3])
+            if n > 3:
+                preview += f"; +{n - 3} more"
+            body = f"{n} deadlines due in {time_phrase} — {preview}"
 
-        if minutes_until <= WINDOW_1H_MAX_MIN and "1h" not in sent:
-            print(f"sending 1h reminder: {key}")
-            send_push("Deadline imminent", body, link)
-            sent.add("1h")
-            sent.add("24h")
+        # all items in the group share the same dueAt and therefore the same
+        # send window. Track sent state per-item so adding a new deadline to an
+        # already-notified time still gets covered (it will just resend the
+        # combined push, which is fine — better than missing it).
+        keys = [deadline_key(d) for d in items]
+        entries = []
+        for k, d in zip(keys, items):
+            entry = state.setdefault(k, {"dueAt": d["dueAt"], "sent": []})
+            entry["dueAt"] = d["dueAt"]
+            entries.append(entry)
+
+        all_sent_1h = all("1h" in set(e.get("sent", [])) for e in entries)
+        all_sent_24h = all("24h" in set(e.get("sent", [])) for e in entries)
+
+        if minutes_until <= WINDOW_1H_MAX_MIN and not all_sent_1h:
+            print(f"sending 1h reminder for {len(items)} deadline(s) at {due_iso}")
+            send_push(heading_imminent, body, link)
+            for e in entries:
+                s = set(e.get("sent", []))
+                s.add("1h"); s.add("24h")
+                e["sent"] = sorted(s)
             sent_count += 1
-        elif minutes_until <= WINDOW_24H_MAX_MIN and "24h" not in sent:
-            print(f"sending 24h reminder: {key}")
-            send_push("Deadline reminder", body, link)
-            sent.add("24h")
+        elif minutes_until <= WINDOW_24H_MAX_MIN and not all_sent_24h:
+            print(f"sending 24h reminder for {len(items)} deadline(s) at {due_iso}")
+            send_push(heading_24h, body, link)
+            for e in entries:
+                s = set(e.get("sent", []))
+                s.add("24h")
+                e["sent"] = sorted(s)
             sent_count += 1
-
-        entry["sent"] = sorted(sent)
 
     save_state(state)
     print(f"sent {sent_count} notifications, tracking {len(state)} entries")

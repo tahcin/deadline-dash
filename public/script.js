@@ -120,37 +120,6 @@ async function loadDeadlines() {
 let currentFilter = 'all';
 let allVisibleDeadlines = [];
 
-function renderHero(deadline) {
-    const hero = document.getElementById('hero');
-    if (!deadline) {
-        hero.hidden = false;
-        hero.dataset.empty = 'true';
-        hero.dataset.link = '';
-        hero.classList.remove('row--clickable');
-        hero.innerHTML = `
-            <h1 class="hero-text"><span class="hero-emph">Nothing pending.</span> No upcoming deadlines for Batch 2027 &middot; Term 5.</h1>
-        `;
-        return;
-    }
-    hero.hidden = false;
-    hero.dataset.empty = 'false';
-    hero.dataset.link = deadline.link || '';
-    if (deadline.link) hero.classList.add('row--clickable');
-    else hero.classList.remove('row--clickable');
-    const due = new Date(deadline.dueAt).getTime();
-    const heroTitle = normalizeAssessmentTitle(deadline);
-    hero.innerHTML = `
-        <h1 class="hero-text">
-            <span class="hero-emph">${escapeHtml(heroTitle)}</span>
-            of ${escapeHtml(deadline.courseName)} is due in
-            <span class="hero-emph hero-time" data-due="${due}" data-format="rough"></span>
-        </h1>
-        <div class="hero-meta">
-            <span class="hero-countdown" data-due="${due}"></span>
-            <span class="hero-due">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
-        </div>
-    `;
-}
 
 function renderRow(deadline, index) {
     const due = new Date(deadline.dueAt).getTime();
@@ -247,18 +216,8 @@ function renderAll(data) {
 
     allVisibleDeadlines = visible;
 
-    const heroDeadline = visible[0] || null;
-    const restForGroups = heroDeadline ? visible.slice(1) : [];
-
-    renderHero(heroDeadline);
-    renderGroups(restForGroups);
+    renderGroups(visible);
     renderCalendar(visible);
-
-    const hero = document.getElementById('hero');
-    hero.onclick = () => {
-        if (hero.dataset.empty === 'true') return;
-        if (hero.dataset.link) window.open(hero.dataset.link, '_blank', 'noopener');
-    };
 
     tickAll();
 }
@@ -350,11 +309,7 @@ function tickAll() {
 
         if (now > due + GRACE_MS) {
             const row = el.closest('.row');
-            const hero = el.closest('.hero');
             if (row) { row.remove(); removedAny = true; }
-            else if (hero) {
-                renderHero(null);
-            }
             return;
         }
 
