@@ -448,6 +448,7 @@ function isIOSWithoutStandalone() {
 function classifySubscribeError(e) {
     const name = e?.name || '';
     const msg = String(e?.message || e || '').toLowerCase();
+    if (msg.includes('timed out')) return 'timeout';
     if (name === 'AbortError' || msg.includes('push service') || msg.includes('registration failed')) {
         return 'pushServiceBlocked';
     }
@@ -532,6 +533,23 @@ const NOTIFY_DIALOG_VARIANTS = {
             { label: 'Try again', kind: 'primary', action: 'subscribe' },
         ],
     }),
+    timeout: () => ({
+        title: 'Setup is taking too long',
+        body: `
+            <p>The browser couldn't finish setting up reminders within 25 seconds. This usually means the push service is slow or unreachable on this network.</p>
+            <p>What to try:</p>
+            <ul>
+                <li>Check your internet connection and try again.</li>
+                <li>Turn off battery saver / data saver mode.</li>
+                <li>On Android: make sure Google Play Services is up to date.</li>
+                <li>If you're on a VPN or restricted network, try without it.</li>
+            </ul>
+        `,
+        actions: [
+            { label: 'Cancel', kind: 'secondary', action: 'close' },
+            { label: 'Try again', kind: 'primary', action: 'subscribe' },
+        ],
+    }),
 };
 
 let notifyDialogAutoCloseTimer = null;
@@ -599,46 +617,80 @@ function closeNotifyDialog() {
     document.body.classList.remove('notify-dialog-open');
 }
 
+const SUBSCRIBE_TIMEOUT_MS = 25000;
+
+function withTimeout(promise, ms, label) {
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(
+            () => reject(new Error(`${label} timed out after ${ms}ms`)),
+            ms,
+        )),
+    ]);
+}
+
 async function performSubscribeFromDialog() {
-    // iOS Safari requires Notification.requestPermission() to run inside the
-    // user-gesture window from the Subscribe click. Read permission state
-    // synchronously and call requestPermission with no async hops in front of
-    // it so the gesture isn't lost.
+    // Read permission state synchronously so iOS Safari sees us inside the
+    // Subscribe-click user gesture when we route into OneSignal.
     const currentPermission = (typeof Notification !== 'undefined') ? Notification.permission : 'denied';
+    console.log('[Notify] subscribe: starting, permission =', currentPermission, 'OneSignal loaded =', !!window.OneSignal);
 
     if (currentPermission === 'denied') {
         openNotifyDialog('permissionDenied');
         return;
     }
 
-    if (currentPermission === 'default') {
-        let permission;
-        try {
-            permission = await Notification.requestPermission();
-        } catch (e) {
-            console.error('Permission request failed', e);
-            openNotifyDialog('error');
-            return;
-        }
-        if (permission === 'denied') {
-            openNotifyDialog('permissionDenied');
-            return;
-        }
-        if (permission === 'default') {
-            // Chrome for Android refusing to prompt because of a floating overlay,
-            // or the user dismissed the prompt without choosing.
-            openNotifyDialog('permissionBlockedByOverlay');
-            return;
-        }
-    }
-
-    // Permission is now 'granted'. Register the subscription.
     openNotifyDialog('loading');
     try {
-        await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optIn());
-        openNotifyDialog('success');
+        await withTimeout(
+            withOneSignal(async (OneSignal) => {
+                // Primary subscribe flow uses OneSignal.Notifications.requestPermission().
+                // This is THE documented v16 API for first-time subscribers: it asks the
+                // native browser prompt AND registers the subscription with OneSignal's
+                // backend as one orchestrated call, with the SDK owning the permission-
+                // state transition. Calling native Notification.requestPermission()
+                // ourselves and then optIn() puts the SDK's permission tracker in a stale
+                // state and optIn() deadlocks waiting for a change event that already
+                // fired - that was the Chrome-Android infinite-spinner bug.
+                if (Notification.permission === 'default') {
+                    console.log('[Notify] subscribe: calling OneSignal.Notifications.requestPermission()');
+                    await OneSignal.Notifications.requestPermission();
+                    console.log('[Notify] subscribe: permission after request =', Notification.permission);
+                }
+
+                // optIn() is only the right call for a returning user whose subscription
+                // exists but is opted out. For first-time subscribers, requestPermission()
+                // above already created the subscription.
+                const sub = OneSignal.User.PushSubscription;
+                if (sub && sub.optedIn === false) {
+                    console.log('[Notify] subscribe: re-opting in existing subscription');
+                    await sub.optIn();
+                }
+            }),
+            SUBSCRIBE_TIMEOUT_MS,
+            'Subscribe',
+        );
+
+        const finalPermission = (typeof Notification !== 'undefined') ? Notification.permission : 'default';
+        const sub = window.OneSignal?.User?.PushSubscription || null;
+        console.log('[Notify] subscribe: done. permission =', finalPermission, 'token =', !!sub?.token, 'optedIn =', sub?.optedIn);
+
+        if (finalPermission === 'denied') {
+            openNotifyDialog('permissionDenied');
+        } else if (finalPermission === 'default') {
+            // Permission didn't move off default. On Chrome for Android this happens
+            // when a floating overlay (chat head, screen-share bubble, picture-in-
+            // picture from another app) is on screen.
+            openNotifyDialog('permissionBlockedByOverlay');
+        } else if (sub?.token && sub?.optedIn !== false) {
+            openNotifyDialog('success');
+        } else {
+            // Permission granted but no token came back - push service couldn't
+            // mint a subscription. Same root cause as the Brave AbortError path.
+            openNotifyDialog('pushServiceBlocked');
+        }
     } catch (e) {
-        console.error('Subscribe failed', e);
+        console.error('[Notify] subscribe failed', e);
         openNotifyDialog(classifySubscribeError(e));
     } finally {
         refreshNotificationButton();
