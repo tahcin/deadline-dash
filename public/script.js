@@ -431,6 +431,234 @@ async function withOneSignal(callback) {
     return callback(OneSignal);
 }
 
+/* ----- notify confirmation dialog ----- */
+
+function isIOSWithoutStandalone() {
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    return isIOS && !isStandalone;
+}
+
+function classifySubscribeError(e) {
+    const name = e?.name || '';
+    const msg = String(e?.message || e || '').toLowerCase();
+    if (name === 'AbortError' || msg.includes('push service') || msg.includes('registration failed')) {
+        return 'pushServiceBlocked';
+    }
+    return 'error';
+}
+
+const NOTIFY_DIALOG_VARIANTS = {
+    intro: () => ({
+        title: 'Get deadline reminders',
+        body: `
+            <p>We'll send a push notification <strong>24 hours</strong> and <strong>1 hour</strong> before each deadline.</p>
+            <p>No account required. You can turn reminders off anytime from the same button.</p>
+            ${isIOSWithoutStandalone()
+                ? `<p><strong>iPhone users:</strong> add this site to your Home Screen first, then open it from there. See the <a class="inline-link" target="_blank" rel="noopener" href="https://ruddy-soursop-ccb.notion.site/How-to-Install-Deadline-Dash-on-iOS-1209f5f53c6680ada63fe4b0942deaaf?pvs=73">install guide</a>.</p>`
+                : ''}
+        `,
+        actions: [
+            { label: 'Cancel', kind: 'secondary', action: 'close' },
+            { label: 'Subscribe', kind: 'primary', action: 'subscribe' },
+        ],
+    }),
+    unsubscribe: () => ({
+        title: 'Turn off reminders?',
+        body: `<p>You'll stop receiving deadline notifications. You can resubscribe anytime.</p>`,
+        actions: [
+            { label: 'Keep them on', kind: 'secondary', action: 'close' },
+            { label: 'Unsubscribe', kind: 'danger', action: 'unsubscribe' },
+        ],
+    }),
+    loading: (opts) => ({
+        title: opts?.title || 'Setting up reminders…',
+        body: `<p class="notify-dialog-loading"><span class="notify-dialog-spinner" aria-hidden="true"></span><span>Just a moment.</span></p>`,
+        actions: [],
+        disableClose: true,
+    }),
+    success: () => ({
+        title: 'You’re set',
+        body: `<p>We'll ping you 24 hours and 1 hour before each deadline.</p>`,
+        actions: [
+            { label: 'Done', kind: 'primary', action: 'close' },
+        ],
+        autoCloseMs: 1800,
+    }),
+    permissionDenied: () => ({
+        title: 'Notifications are blocked',
+        body: `
+            <p>Your browser is blocking notifications for this site, so we can't ask for permission again from here.</p>
+            <p>To re-enable: click the <strong>lock icon</strong> in the address bar → <strong>Site settings</strong> → set <strong>Notifications</strong> to <em>Allow</em>, then reload.</p>
+        `,
+        actions: [
+            { label: 'OK', kind: 'primary', action: 'close' },
+        ],
+    }),
+    permissionBlockedByOverlay: () => ({
+        title: 'Permission prompt was blocked',
+        body: `
+            <p>Chrome refuses to show permission prompts when another app is drawing on the screen — chat heads, screen-share bubbles, picture-in-picture, accessibility overlays.</p>
+            <p>Close any floating overlays from other apps, then try again.</p>
+        `,
+        actions: [
+            { label: 'Cancel', kind: 'secondary', action: 'close' },
+            { label: 'Try again', kind: 'primary', action: 'subscribe' },
+        ],
+    }),
+    pushServiceBlocked: () => ({
+        title: 'Your browser is blocking the push service',
+        body: `
+            <p>The browser couldn't reach the push messaging service, so no subscription was created.</p>
+            <p><strong>Brave:</strong> open <code>brave://settings/privacy</code> → enable <em>"Use Google services for push messaging"</em> → reload this page.</p>
+            <p><strong>Other browsers:</strong> check that an extension or network policy isn't blocking FCM / Mozilla autopush.</p>
+        `,
+        actions: [
+            { label: 'Cancel', kind: 'secondary', action: 'close' },
+            { label: 'Try again', kind: 'primary', action: 'subscribe' },
+        ],
+    }),
+    error: () => ({
+        title: 'Something went wrong',
+        body: `<p>We couldn't set up reminders just now. Please try again — if it keeps failing, your browser may be in private mode or have notifications restricted.</p>`,
+        actions: [
+            { label: 'Cancel', kind: 'secondary', action: 'close' },
+            { label: 'Try again', kind: 'primary', action: 'subscribe' },
+        ],
+    }),
+};
+
+let notifyDialogAutoCloseTimer = null;
+
+function renderNotifyDialog(variantName, opts) {
+    const dialog = document.getElementById('notifyDialog');
+    const titleEl = document.getElementById('notifyDialogTitle');
+    const bodyEl = document.getElementById('notifyDialogBody');
+    const actionsEl = document.getElementById('notifyDialogActions');
+    const closeEl = document.getElementById('notifyDialogClose');
+    if (!dialog || !titleEl || !bodyEl || !actionsEl) return;
+
+    const variantBuilder = NOTIFY_DIALOG_VARIANTS[variantName];
+    if (!variantBuilder) return;
+    const variant = variantBuilder(opts);
+
+    titleEl.textContent = variant.title;
+    bodyEl.innerHTML = variant.body;
+    actionsEl.innerHTML = '';
+
+    for (const action of variant.actions) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `notify-dialog-btn notify-dialog-btn--${action.kind}`;
+        btn.textContent = action.label;
+        btn.addEventListener('click', () => onNotifyDialogAction(action.action));
+        actionsEl.appendChild(btn);
+    }
+
+    if (closeEl) closeEl.hidden = !!variant.disableClose;
+    dialog.dataset.variant = variantName;
+    dialog.dataset.disableClose = variant.disableClose ? '1' : '';
+
+    if (notifyDialogAutoCloseTimer) {
+        clearTimeout(notifyDialogAutoCloseTimer);
+        notifyDialogAutoCloseTimer = null;
+    }
+    if (variant.autoCloseMs) {
+        notifyDialogAutoCloseTimer = setTimeout(() => closeNotifyDialog(), variant.autoCloseMs);
+    }
+}
+
+function openNotifyDialog(variantName, opts) {
+    const dialog = document.getElementById('notifyDialog');
+    if (!dialog) return;
+    renderNotifyDialog(variantName, opts);
+    if (!dialog.open) {
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+        document.body.classList.add('notify-dialog-open');
+    }
+}
+
+function closeNotifyDialog() {
+    const dialog = document.getElementById('notifyDialog');
+    if (!dialog) return;
+    if (notifyDialogAutoCloseTimer) {
+        clearTimeout(notifyDialogAutoCloseTimer);
+        notifyDialogAutoCloseTimer = null;
+    }
+    if (dialog.open) {
+        if (typeof dialog.close === 'function') dialog.close();
+        else dialog.removeAttribute('open');
+    }
+    document.body.classList.remove('notify-dialog-open');
+}
+
+async function performSubscribeFromDialog() {
+    // iOS Safari requires Notification.requestPermission() to run inside the
+    // user-gesture window from the Subscribe click. Read permission state
+    // synchronously and call requestPermission with no async hops in front of
+    // it so the gesture isn't lost.
+    const currentPermission = (typeof Notification !== 'undefined') ? Notification.permission : 'denied';
+
+    if (currentPermission === 'denied') {
+        openNotifyDialog('permissionDenied');
+        return;
+    }
+
+    if (currentPermission === 'default') {
+        let permission;
+        try {
+            permission = await Notification.requestPermission();
+        } catch (e) {
+            console.error('Permission request failed', e);
+            openNotifyDialog('error');
+            return;
+        }
+        if (permission === 'denied') {
+            openNotifyDialog('permissionDenied');
+            return;
+        }
+        if (permission === 'default') {
+            // Chrome for Android refusing to prompt because of a floating overlay,
+            // or the user dismissed the prompt without choosing.
+            openNotifyDialog('permissionBlockedByOverlay');
+            return;
+        }
+    }
+
+    // Permission is now 'granted' — register the subscription.
+    openNotifyDialog('loading');
+    try {
+        await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optIn());
+        openNotifyDialog('success');
+    } catch (e) {
+        console.error('Subscribe failed', e);
+        openNotifyDialog(classifySubscribeError(e));
+    } finally {
+        refreshNotificationButton();
+    }
+}
+
+async function performUnsubscribeFromDialog() {
+    openNotifyDialog('loading', { title: 'Turning off reminders…' });
+    try {
+        await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optOut());
+        closeNotifyDialog();
+    } catch (e) {
+        console.error('Unsubscribe failed', e);
+        openNotifyDialog('error');
+    } finally {
+        refreshNotificationButton();
+    }
+}
+
+function onNotifyDialogAction(action) {
+    if (action === 'close') { closeNotifyDialog(); return; }
+    if (action === 'subscribe') { performSubscribeFromDialog(); return; }
+    if (action === 'unsubscribe') { performUnsubscribeFromDialog(); return; }
+}
+
 async function deriveNotificationState() {
     if (!('Notification' in window)) return 'unsupported';
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) return 'unsupported';
@@ -490,38 +718,13 @@ async function refreshNotificationButton() {
 }
 
 async function handleNotificationClick() {
-    const btn = document.getElementById('notificationButton');
-    if (btn) btn.disabled = true;
-    try {
-        const state = await deriveNotificationState();
+    const state = await deriveNotificationState();
 
-        if (state === 'subscribed') {
-            await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optOut());
-            await refreshNotificationButton();
-            return;
-        }
-
-        if (state === 'prompt') {
-            // iOS Safari needs the native permission prompt inside a user gesture;
-            // works the same on every other browser too.
-            const permission = await Notification.requestPermission();
-            if (permission === 'granted') {
-                await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optIn());
-            }
-            await refreshNotificationButton();
-            return;
-        }
-
-        if (state === 'unsubscribed' || state === 'pending') {
-            await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optIn());
-            await refreshNotificationButton();
-            return;
-        }
-    } catch (e) {
-        console.error('Notification action failed', e);
-    } finally {
-        if (btn) btn.disabled = false;
-    }
+    if (state === 'unsupported') return;
+    if (state === 'blocked') { openNotifyDialog('permissionDenied'); return; }
+    if (state === 'subscribed') { openNotifyDialog('unsubscribe'); return; }
+    // prompt | unsubscribed | pending → show the intro and let the user confirm
+    openNotifyDialog('intro');
 }
 
 function initNotifications() {
@@ -549,21 +752,31 @@ function initNotifications() {
             refreshNotificationButton();
         });
 
-    // cohort unsubscribe link mirrors the notification button's opt-out path
+    // dialog: close button, ESC, and backdrop click
+    const dialog = document.getElementById('notifyDialog');
+    const dialogClose = document.getElementById('notifyDialogClose');
+    if (dialog) {
+        if (dialogClose) dialogClose.addEventListener('click', closeNotifyDialog);
+        // backdrop click: native <dialog> reports e.target === dialog when the
+        // user clicks outside the content (i.e., on the ::backdrop).
+        dialog.addEventListener('click', (e) => {
+            if (dialog.dataset.disableClose === '1') return;
+            if (e.target === dialog) closeNotifyDialog();
+        });
+        // ESC: <dialog> fires a 'cancel' event before closing — block it during
+        // loading so the user can't interrupt an in-flight subscribe.
+        dialog.addEventListener('cancel', (e) => {
+            if (dialog.dataset.disableClose === '1') e.preventDefault();
+        });
+        dialog.addEventListener('close', () => {
+            document.body.classList.remove('notify-dialog-open');
+        });
+    }
+
+    // cohort unsubscribe link routes through the confirmation dialog
     const cohortBtn = document.getElementById('cohortUnsubscribe');
     if (cohortBtn) {
-        cohortBtn.addEventListener('click', async () => {
-            try {
-                await withOneSignal(async (OneSignal) => {
-                    const sub = OneSignal.User.PushSubscription;
-                    if (sub && sub.optedIn !== false) await sub.optOut();
-                });
-                cohortBtn.textContent = 'Unsubscribed';
-                await refreshNotificationButton();
-            } catch (e) {
-                console.error(e);
-            }
-        });
+        cohortBtn.addEventListener('click', () => openNotifyDialog('unsubscribe'));
     }
 
     // dismiss button — persist so the note stays hidden across sessions
