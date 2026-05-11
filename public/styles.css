@@ -119,7 +119,6 @@ body.dark-mode .dateline .logo-dark { display: inline-block; }
 .utilities { display: flex; align-items: center; gap: 0.4rem; }
 .utility-menu { display: contents; }
 .menu-bottom { display: contents; }
-.menu-link { display: none; }
 .menu-toggle { display: none; }
 .menu-close { display: none; }
 .menu-backdrop { display: none; }
@@ -879,18 +878,6 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
         transition: color 140ms ease, background-color 140ms ease;
     }
     .menu-close:hover { color: var(--ink); background: var(--bg-soft); }
-
-    .menu-link {
-        display: block;
-        font-size: 14.5px;
-        font-weight: 600;
-        color: var(--ink);
-        padding: 0.85rem 0.25rem;
-        border-bottom: 1px solid var(--ink-hairline);
-        text-decoration: none;
-        letter-spacing: -0.005em;
-    }
-    .menu-link:hover { color: var(--primary); }
 
     .menu-bottom {
         display: flex;

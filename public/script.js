@@ -863,7 +863,7 @@ function initMobileMenu() {
     });
     if (closeBtn) closeBtn.addEventListener('click', close);
     backdrop.addEventListener('click', close);
-    menu.querySelectorAll('.menu-link, #installButton').forEach(el => {
+    menu.querySelectorAll('#installButton').forEach(el => {
         el.addEventListener('click', close);
     });
     document.addEventListener('keydown', (e) => {
