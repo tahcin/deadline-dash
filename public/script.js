@@ -405,7 +405,9 @@ function initOneSignal() {
             try {
                 await OneSignal.init({
                     appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
-                    autoResubscribe: false,
+                    serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
+                    serviceWorkerParam: { scope: "/push/onesignal/" },
+                    autoResubscribe: true,
                     notifyButton: { enable: false },
                     promptOptions: {
                         slidedown: {
@@ -456,19 +458,13 @@ function paintNotificationButton(state) {
     if (cohortNote) cohortNote.hidden = state !== 'subscribed' || dismissed;
 
     if (!btn) return;
-    btn.hidden = true;
-    return;
     btn.disabled = false;
     btn.dataset.state = '';
-    btn.style.display = '';
 
     switch (state) {
         case 'unsupported':
-            btn.style.display = 'none';
-            break;
-        case 'pending':
-            btn.textContent = 'Notify Me';
-            break;
+            btn.hidden = true;
+            return;
         case 'blocked':
             btn.textContent = 'Blocked';
             btn.dataset.state = 'blocked';
@@ -478,12 +474,14 @@ function paintNotificationButton(state) {
             btn.textContent = 'Subscribed';
             btn.dataset.state = 'active';
             break;
+        case 'pending':
         case 'unsubscribed':
         case 'prompt':
         default:
             btn.textContent = 'Notify Me';
             break;
     }
+    btn.hidden = false;
 }
 
 async function refreshNotificationButton() {
@@ -492,64 +490,78 @@ async function refreshNotificationButton() {
 }
 
 async function handleNotificationClick() {
-    const state = await deriveNotificationState();
-    if (state === 'prompt') {
-        try {
+    const btn = document.getElementById('notificationButton');
+    if (btn) btn.disabled = true;
+    try {
+        const state = await deriveNotificationState();
+
+        if (state === 'subscribed') {
+            await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optOut());
+            await refreshNotificationButton();
+            return;
+        }
+
+        if (state === 'prompt') {
+            // iOS Safari needs the native permission prompt inside a user gesture;
+            // works the same on every other browser too.
             const permission = await Notification.requestPermission();
             if (permission === 'granted') {
-                await withOneSignal(async (OneSignal) => {
-                    const sub = OneSignal.User.PushSubscription;
-                    if (sub) await sub.optIn();
-                });
+                await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optIn());
             }
-        } catch (e) {
-            console.error(e);
+            await refreshNotificationButton();
+            return;
         }
-        setTimeout(refreshNotificationButton, 500);
-        return;
-    }
-    if (state === 'subscribed') {
-        const sub = getOneSignalSubscription();
-        if (sub) { try { await sub.optOut(); } catch (e) { console.error(e); } }
-        refreshNotificationButton();
-        return;
-    }
-    if (state === 'unsubscribed' || state === 'pending') {
-        try {
-            await withOneSignal(async (OneSignal) => {
-                const sub = OneSignal.User.PushSubscription;
-                if (sub) await sub.optIn();
-                else await OneSignal.Notifications.requestPermission();
-            });
-        } catch (e) {
-            console.error(e);
+
+        if (state === 'unsubscribed' || state === 'pending') {
+            await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optIn());
+            await refreshNotificationButton();
+            return;
         }
-        refreshNotificationButton();
-        return;
+    } catch (e) {
+        console.error('Notification action failed', e);
+    } finally {
+        if (btn) btn.disabled = false;
     }
 }
 
 function initNotifications() {
     const btn = document.getElementById('notificationButton');
     if (!btn) return;
-    if (!('Notification' in window)) {
-        btn.style.display = 'none';
+    if (!('Notification' in window) || !('serviceWorker' in navigator) || !('PushManager' in window)) {
+        btn.hidden = true;
         return;
     }
     btn.addEventListener('click', handleNotificationClick);
+
+    // Paint immediately from whatever state we can derive without OneSignal,
+    // then kick off init so returning subscribers don't see a "Notify Me" flash.
     refreshNotificationButton();
+    initOneSignal()
+        .then((OneSignal) => {
+            const sub = OneSignal?.User?.PushSubscription;
+            if (sub && typeof sub.addEventListener === 'function') {
+                sub.addEventListener('change', refreshNotificationButton);
+            }
+            return refreshNotificationButton();
+        })
+        .catch((e) => {
+            console.warn('OneSignal init failed', e);
+            refreshNotificationButton();
+        });
 
     // cohort unsubscribe link mirrors the notification button's opt-out path
     const cohortBtn = document.getElementById('cohortUnsubscribe');
     if (cohortBtn) {
         cohortBtn.addEventListener('click', async () => {
-            const sub = getOneSignalSubscription();
-            if (sub && sub.optedIn !== false) {
-                try { await sub.optOut(); } catch (e) { console.error(e); }
-                refreshNotificationButton();
+            try {
+                await withOneSignal(async (OneSignal) => {
+                    const sub = OneSignal.User.PushSubscription;
+                    if (sub && sub.optedIn !== false) await sub.optOut();
+                });
                 cohortBtn.textContent = 'Unsubscribed';
-            } else {
-                handleNotificationClick();
+                await refreshNotificationButton();
+            } catch (e) {
+                console.error(e);
             }
         });
     }
