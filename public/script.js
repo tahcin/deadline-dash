@@ -374,7 +374,12 @@ function initInstallButton() {
     window.addEventListener('appinstalled', () => { btn.hidden = true; });
 }
 
-/* ----- notifications: 4-state machine ----- */
+/* ----- notifications -----
+   deriveNotificationState() produces one of:
+     unsupported | blocked | prompt | pending | unsubscribed | subscribed
+   handleNotificationClick() routes each state to the right confirmation
+   dialog variant (see NOTIFY_DIALOG_VARIANTS below).
+   ----------------------------------------------------------------------- */
 
 function getOneSignalSubscription() {
     return window.OneSignal?.User?.PushSubscription || null;
@@ -798,6 +803,38 @@ function initFilters() {
     });
 }
 
+/* ----- responsive calendar placement -----
+   The calendar normally lives in the right sidebar (≥1024px) or below the feed
+   (641–1023px). On phones (≤640px) we relocate the same element into the
+   slide-in menu so it's reachable without scrolling past the feed. Single DOM
+   element — no duplicate calendars to keep in sync.
+   ----------------------------------------------------------------------- */
+const MOBILE_CALENDAR_MQ = '(max-width: 640px)';
+
+function placeCalendar() {
+    const cal = document.getElementById('calendar');
+    const slot = document.getElementById('calendarSlot');
+    const layout = document.querySelector('.layout');
+    if (!cal || !slot || !layout) return;
+    const isMobile = window.matchMedia(MOBILE_CALENDAR_MQ).matches;
+    const inSlot = cal.parentElement === slot;
+    if (isMobile && !inSlot) {
+        slot.appendChild(cal);
+    } else if (!isMobile && inSlot) {
+        layout.appendChild(cal);
+    }
+}
+
+function initResponsiveCalendar() {
+    placeCalendar();
+    if (typeof window.matchMedia === 'function') {
+        const mq = window.matchMedia(MOBILE_CALENDAR_MQ);
+        const handler = () => placeCalendar();
+        if (typeof mq.addEventListener === 'function') mq.addEventListener('change', handler);
+        else if (typeof mq.addListener === 'function') mq.addListener(handler);
+    }
+}
+
 /* ----- mobile menu ----- */
 
 function initMobileMenu() {
@@ -848,5 +885,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const data = await loadDeadlines();
     renderAll(data);
+    // Calendar is rendered into its current parent by renderAll → renderCalendar.
+    // Move it to the mobile slot (if applicable) after the first render so the
+    // initial DOM order is correct; subsequent viewport changes are handled by
+    // the matchMedia listener.
+    initResponsiveCalendar();
     setInterval(tickAll, 1000);
 });

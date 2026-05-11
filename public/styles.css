@@ -772,8 +772,30 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
     .calendar { max-width: 360px; margin-left: auto; margin-right: auto; width: 100%; }
 }
 
-@media (max-width: 640px) {
-    .calendar { display: none; }
+/* When the calendar lives inside the mobile slide-in menu, slim it down so
+   it fits the narrow panel and reads as a compact at-a-glance view. */
+.calendar-slot:empty { display: none; }
+.utility-menu .calendar {
+    background: var(--bg-soft);
+    border: 1px solid var(--ink-hairline);
+    padding: 0.85rem;
+    margin: 0.5rem 0 0;
+    max-width: none;
+    width: 100%;
+    box-shadow: none;
+}
+.utility-menu .calendar-head { margin-bottom: 0.55rem; }
+.utility-menu .calendar-head h3 { font-size: 13.5px; }
+.utility-menu .calendar-head .cal-year { font-size: 11px; }
+.utility-menu .calendar-weekdays { gap: 3px; font-size: 9.5px; margin-bottom: 0.35rem; }
+.utility-menu .calendar-grid { gap: 3px; }
+.utility-menu .cal-cell { font-size: 11px; }
+.utility-menu .cal-cell .cal-dot { bottom: 2px; width: 3px; height: 3px; }
+.utility-menu .calendar-legend {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    font-size: 10.5px;
+    gap: 0.6rem;
 }
 
 @media (max-width: 640px) {

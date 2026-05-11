@@ -1,20 +1,27 @@
 {
   "name": "Deadline Dash",
   "short_name": "DeadlineDash",
+  "description": "Live deadline countdowns and push reminders for the BBA DBE program.",
   "start_url": "/index.html",
+  "scope": "/",
+  "id": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#F8F8F8",
+  "theme_color": "#F8F8F8",
   "icons": [
     {
       "src": "/images/android-chrome-192x192-v2.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/images/android-chrome-512x512-v2.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
