@@ -410,7 +410,7 @@ function initOneSignal() {
             try {
                 await OneSignal.init({
                     appId: "f2acf5a5-1a22-4313-8c55-58251657a7fe",
-                    serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
+                    serviceWorkerPath: "/push/onesignal/OneSignalSDKWorker.js",
                     serviceWorkerParam: { scope: "/push/onesignal/" },
                     autoResubscribe: true,
                     notifyButton: { enable: false },
