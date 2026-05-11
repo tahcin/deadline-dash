@@ -1,5 +1,5 @@
 /* =====================================================================
-   DEADLINE DASH — runtime
+   DEADLINE DASH - runtime
    ===================================================================== */
 
 const SECTION_BY_CATEGORY = {
@@ -504,7 +504,7 @@ const NOTIFY_DIALOG_VARIANTS = {
     permissionBlockedByOverlay: () => ({
         title: 'Permission prompt was blocked',
         body: `
-            <p>Chrome refuses to show permission prompts when another app is drawing on the screen — chat heads, screen-share bubbles, picture-in-picture, accessibility overlays.</p>
+            <p>Chrome refuses to show permission prompts when another app is drawing on the screen: chat heads, screen-share bubbles, picture-in-picture, accessibility overlays.</p>
             <p>Close any floating overlays from other apps, then try again.</p>
         `,
         actions: [
@@ -526,7 +526,7 @@ const NOTIFY_DIALOG_VARIANTS = {
     }),
     error: () => ({
         title: 'Something went wrong',
-        body: `<p>We couldn't set up reminders just now. Please try again — if it keeps failing, your browser may be in private mode or have notifications restricted.</p>`,
+        body: `<p>We couldn't set up reminders just now. Please try again. If it keeps failing, your browser may be in private mode or have notifications restricted.</p>`,
         actions: [
             { label: 'Cancel', kind: 'secondary', action: 'close' },
             { label: 'Try again', kind: 'primary', action: 'subscribe' },
@@ -632,7 +632,7 @@ async function performSubscribeFromDialog() {
         }
     }
 
-    // Permission is now 'granted' — register the subscription.
+    // Permission is now 'granted'. Register the subscription.
     openNotifyDialog('loading');
     try {
         await withOneSignal((OneSignal) => OneSignal.User.PushSubscription.optIn());
@@ -675,7 +675,7 @@ async function deriveNotificationState() {
         return browserSub ? 'subscribed' : 'pending';
     }
     if (sub.optedIn === false) return 'unsubscribed';
-    // optedIn is just a stored preference — the user only actually receives
+    // optedIn is just a stored preference. The user only actually receives
     // pushes when there's a real push subscription token behind it. If the SW
     // failed to register a token (ad blocker, push service error, stale state),
     // surface that as "Notify Me" so clicking can attempt to recover instead of
@@ -768,7 +768,7 @@ function initNotifications() {
             if (dialog.dataset.disableClose === '1') return;
             if (e.target === dialog) closeNotifyDialog();
         });
-        // ESC: <dialog> fires a 'cancel' event before closing — block it during
+        // ESC: <dialog> fires a 'cancel' event before closing. Block it during
         // loading so the user can't interrupt an in-flight subscribe.
         dialog.addEventListener('cancel', (e) => {
             if (dialog.dataset.disableClose === '1') e.preventDefault();
@@ -784,7 +784,7 @@ function initNotifications() {
         cohortBtn.addEventListener('click', () => openNotifyDialog('unsubscribe'));
     }
 
-    // dismiss button — persist so the note stays hidden across sessions
+    // dismiss button: persist so the note stays hidden across sessions
     const cohortDismiss = document.getElementById('cohortDismiss');
     if (cohortDismiss) {
         cohortDismiss.addEventListener('click', () => {
@@ -807,7 +807,7 @@ function initFilters() {
    The calendar normally lives in the right sidebar (≥1024px) or below the feed
    (641–1023px). On phones (≤640px) we relocate the same element into the
    slide-in menu so it's reachable without scrolling past the feed. Single DOM
-   element — no duplicate calendars to keep in sync.
+   element. No duplicate calendars to keep in sync.
    ----------------------------------------------------------------------- */
 const MOBILE_CALENDAR_MQ = '(max-width: 640px)';
 
