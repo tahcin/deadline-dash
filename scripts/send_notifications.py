@@ -110,7 +110,7 @@ def send_push(heading: str, body: str, link: str) -> None:
     payload = {
         "app_id": APP_ID,
         "target_channel": "push",
-        "included_segments": ["Subscribed Users"],
+        "included_segments": ["Total Subscriptions"],
         "headings": {"en": heading},
         "contents": {"en": body},
     }
