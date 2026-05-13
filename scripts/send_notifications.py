@@ -49,7 +49,6 @@ def deadline_key(d: dict) -> str:
 
 
 def visible(d: dict, now_ts: float) -> bool:
-    if d.get("complete"): return False
     if not d.get("learnerHasAccess"): return False
     if d.get("courseArchived"): return False
     try:
