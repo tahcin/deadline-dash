@@ -93,7 +93,6 @@ function formatTodayDate() {
 }
 
 function shouldShow(d, now) {
-    if (d.complete) return false;
     if (!d.learnerHasAccess) return false;
     if (d.courseArchived) return false;
     const due = new Date(d.dueAt).getTime();
