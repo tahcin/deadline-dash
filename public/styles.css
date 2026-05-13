@@ -537,6 +537,18 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
 .row[data-urgency="warning"]::before { background: var(--warning); }
 .row[data-urgency="ok"]::before { background: var(--ok); }
 .row[data-urgency="expired"]::before { background: var(--ink-faint); }
+.row[data-urgency="done"]::before { background: var(--ink-faint); }
+
+.row[data-complete="true"] { opacity: 0.6; }
+.row[data-complete="true"] .row-title {
+    text-decoration: line-through;
+    text-decoration-color: var(--ink-faint);
+    text-decoration-thickness: 1px;
+}
+.row[data-complete="true"] .row-done-badge {
+    color: var(--ok);
+    font-weight: 600;
+}
 
 .row.row--clickable { cursor: pointer; }
 .row.row--clickable:hover {
@@ -693,6 +705,7 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
 .cal-cell[data-urgency="urgent"] .cal-dot { background: var(--urgent); }
 .cal-cell[data-urgency="warning"] .cal-dot { background: var(--warning); }
 .cal-cell[data-urgency="ok"] .cal-dot { background: var(--ok); }
+.cal-cell[data-urgency="done"] .cal-dot { background: var(--ink-faint); }
 .cal-cell.is-today[data-urgency] .cal-dot { background: var(--bg); }
 
 .cal-empty { visibility: hidden; }

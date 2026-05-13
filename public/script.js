@@ -93,7 +93,6 @@ function formatTodayDate() {
 }
 
 function shouldShow(d, now) {
-    if (d.complete) return false;
     if (!d.learnerHasAccess) return false;
     if (d.courseArchived) return false;
     const due = new Date(d.dueAt).getTime();
@@ -123,7 +122,8 @@ let allVisibleDeadlines = [];
 
 function renderRow(deadline, index) {
     const due = new Date(deadline.dueAt).getTime();
-    const urgency = urgencyFor(due, Date.now());
+    const isDone = !!deadline.complete;
+    const urgency = isDone ? 'done' : urgencyFor(due, Date.now());
     const tag = extractCourseTag(deadline.courseId);
     const section = SECTION_BY_CATEGORY[deadline.category] || 'assignment';
     const li = document.createElement('li');
@@ -131,19 +131,23 @@ function renderRow(deadline, index) {
     li.dataset.urgency = urgency;
     li.dataset.link = deadline.link || '';
     li.dataset.category = section;
+    if (isDone) li.dataset.complete = 'true';
     li.style.setProperty('--i', index);
     const displayTitle = section === 'cla' ? normalizeAssessmentTitle(deadline) : deadline.title;
     const bodyHtml = section === 'assignment'
         ? `<span class="row-title">${escapeHtml(deadline.courseName)}</span>`
         : `<span class="row-title">${escapeHtml(displayTitle)}</span>
            <span class="row-course">${escapeHtml(deadline.courseName)}</span>`;
+    const countdownInner = isDone
+        ? `<span class="row-countdown row-done-badge" data-due="${due}">✓ Done</span>`
+        : `<span class="row-countdown" data-due="${due}"></span>`;
     li.innerHTML = `
         <span class="row-tag">${escapeHtml(tag)}</span>
         <div class="row-body">
             ${bodyHtml}
         </div>
         <div class="row-time">
-            <span class="row-countdown" data-due="${due}"></span>
+            ${countdownInner}
             <span class="row-due">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
         </div>
     `;
@@ -186,16 +190,34 @@ function renderGroups(deadlines) {
 
     document.querySelectorAll('[data-count-for]').forEach(el => {
         const target = el.dataset.countFor;
-        const count = target === 'all' ? deadlines.length : (grouped[target] ? grouped[target].length : 0);
+        const pool = target === 'all' ? deadlines : (grouped[target] || []);
+        const active = pool.filter(d => !d.complete).length;
+        const done = pool.filter(d => d.complete).length;
         if (el.classList.contains('group-count')) {
-            el.textContent = count === 0 ? 'None Active' : `${count} Active`;
+            if (active === 0 && done === 0) {
+                el.textContent = 'None Active';
+            } else if (done === 0) {
+                el.textContent = `${active} Active`;
+            } else {
+                el.textContent = `${active} Active · ${done} Done`;
+            }
         } else {
-            el.textContent = count;
+            el.textContent = active;
         }
     });
 
     const totalEl = document.getElementById('totalCount');
-    if (totalEl) totalEl.textContent = deadlines.length === 0 ? 'All Clear' : `${deadlines.length} Active`;
+    if (totalEl) {
+        const activeTotal = deadlines.filter(d => !d.complete).length;
+        const doneTotal = deadlines.filter(d => d.complete).length;
+        if (activeTotal === 0 && doneTotal === 0) {
+            totalEl.textContent = 'All Clear';
+        } else if (doneTotal === 0) {
+            totalEl.textContent = `${activeTotal} Active`;
+        } else {
+            totalEl.textContent = `${activeTotal} Active · ${doneTotal} Done`;
+        }
+    }
 }
 
 function applyFilter(filter) {
@@ -265,23 +287,30 @@ function renderCalendar(deadlines) {
     for (let day = 1; day <= daysInMonth; day++) {
         const key = `${year}-${pad(month + 1)}-${pad(day)}`;
         const dayDeadlines = byDate[key] || [];
+        const activeOnDay = dayDeadlines.filter(d => !d.complete);
         const isToday = key === todayKey;
         let urgency = '';
         let dot = '';
         if (dayDeadlines.length) {
-            const earliest = Math.min(...dayDeadlines.map(d => new Date(d.dueAt).getTime()));
-            const ms = earliest - Date.now();
-            if (ms < URGENT_MS) urgency = 'urgent';
-            else if (ms < WARNING_MS) urgency = 'warning';
-            else urgency = 'ok';
+            if (activeOnDay.length === 0) {
+                urgency = 'done';
+            } else {
+                const earliest = Math.min(...activeOnDay.map(d => new Date(d.dueAt).getTime()));
+                const ms = earliest - Date.now();
+                if (ms < URGENT_MS) urgency = 'urgent';
+                else if (ms < WARNING_MS) urgency = 'warning';
+                else urgency = 'ok';
+            }
             dot = '<span class="cal-dot"></span>';
         }
         const classes = ['cal-cell'];
         if (isToday) classes.push('is-today');
         if (dayDeadlines.length) classes.push('has-deadline');
         const urgAttr = urgency ? ` data-urgency="${urgency}"` : '';
+        const activeCount = activeOnDay.length;
+        const doneCount = dayDeadlines.length - activeCount;
         const titleAttr = dayDeadlines.length
-            ? ` title="${dayDeadlines.length} deadline${dayDeadlines.length !== 1 ? 's' : ''}"`
+            ? ` title="${activeCount} active${doneCount ? `, ${doneCount} done` : ''}"`
             : '';
         html += `<span class="${classes.join(' ')}"${urgAttr}${titleAttr}>${day}${dot}</span>`;
     }
@@ -313,6 +342,9 @@ function tickAll() {
             return;
         }
 
+        const row = el.closest('.row');
+        if (row && row.dataset.complete === 'true') return;
+
         const remaining = due - now;
         const isExpired = remaining <= 0;
         const isRough = el.dataset.format === 'rough';
@@ -323,7 +355,6 @@ function tickAll() {
         if (el.textContent !== text) el.textContent = text;
         el.classList.toggle('expired', isExpired);
 
-        const row = el.closest('.row');
         if (row) row.dataset.urgency = isExpired ? 'expired' : urgencyFor(due, now);
     });
 

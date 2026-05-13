@@ -79,7 +79,6 @@ GRACE_SECONDS = 24 * 3600
 
 
 def is_relevant(d: dict, now_ts: float) -> bool:
-    if d["complete"]: return False
     if not d["learnerHasAccess"]: return False
     if d["courseArchived"]: return False
     try:
