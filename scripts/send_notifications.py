@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Send T-24h and T-1h push notifications via OneSignal for upcoming deadlines.
+"""Send T-12h and T-1h push notifications via OneSignal for upcoming deadlines.
 
 Reads public/deadlines.json (produced by sync_deadlines.py), tracks state in
 state/notifications-sent.json so we never double-send. Designed to run hourly
@@ -24,7 +24,7 @@ STATE = ROOT / "state" / "notifications-sent.json"
 
 IST = timezone(timedelta(hours=5, minutes=30), "IST")
 WINDOW_1H_MAX_MIN = 90              # treat anything <= 90min away as "1h reminder time"
-WINDOW_24H_MAX_MIN = 25 * 60        # 25 hours; gives 1h slack for cron drift
+WINDOW_12H_MAX_MIN = 13 * 60        # 13 hours; gives 1h slack for cron drift
 GRACE_SECONDS = 24 * 3600
 PRUNE_DAYS = 7
 
@@ -33,9 +33,16 @@ def load_state() -> dict:
     if not STATE.exists():
         return {}
     try:
-        return json.loads(STATE.read_text(encoding="utf-8"))
+        data = json.loads(STATE.read_text(encoding="utf-8"))
     except Exception:
         return {}
+    # Migrate the old "24h" bucket label to "12h" (window was shortened).
+    # Anyone already notified at T-24h shouldn't re-fire when they reach T-12h.
+    for entry in data.values():
+        sent = entry.get("sent") or []
+        if "24h" in sent and "12h" not in sent:
+            entry["sent"] = sorted(set(sent + ["12h"]))
+    return data
 
 
 def save_state(state: dict) -> None:
@@ -189,12 +196,12 @@ def main() -> None:
         if len(items) == 1:
             d = items[0]
             heading_imminent = "Deadline imminent"
-            heading_24h = "Deadline reminder"
+            heading_12h = "Deadline reminder"
             body = f"{deadline_phrase(d)} is due in {time_phrase}"
         else:
             n = len(items)
             heading_imminent = f"{n} deadlines imminent"
-            heading_24h = f"{n} deadlines due soon"
+            heading_12h = f"{n} deadlines due soon"
             preview = "; ".join(deadline_phrase(d) for d in items[:3])
             if n > 3:
                 preview += f"; +{n - 3} more"
@@ -212,22 +219,22 @@ def main() -> None:
             entries.append(entry)
 
         all_sent_1h = all("1h" in set(e.get("sent", [])) for e in entries)
-        all_sent_24h = all("24h" in set(e.get("sent", [])) for e in entries)
+        all_sent_12h = all("12h" in set(e.get("sent", [])) for e in entries)
 
         if minutes_until <= WINDOW_1H_MAX_MIN and not all_sent_1h:
             print(f"sending 1h reminder for {len(items)} deadline(s) at {due_iso}")
             send_push(heading_imminent, body, link)
             for e in entries:
                 s = set(e.get("sent", []))
-                s.add("1h"); s.add("24h")
+                s.add("1h"); s.add("12h")
                 e["sent"] = sorted(s)
             sent_count += 1
-        elif minutes_until <= WINDOW_24H_MAX_MIN and not all_sent_24h:
-            print(f"sending 24h reminder for {len(items)} deadline(s) at {due_iso}")
-            send_push(heading_24h, body, link)
+        elif minutes_until <= WINDOW_12H_MAX_MIN and not all_sent_12h:
+            print(f"sending 12h reminder for {len(items)} deadline(s) at {due_iso}")
+            send_push(heading_12h, body, link)
             for e in entries:
                 s = set(e.get("sent", []))
-                s.add("24h")
+                s.add("12h")
                 e["sent"] = sorted(s)
             sent_count += 1
 
