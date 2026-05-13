@@ -9,9 +9,8 @@ import json
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 import requests
 
@@ -23,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DEADLINES = ROOT / "public" / "deadlines.json"
 STATE = ROOT / "state" / "notifications-sent.json"
 
-IST = ZoneInfo("Asia/Kolkata")
+IST = timezone(timedelta(hours=5, minutes=30), "IST")
 WINDOW_1H_MAX_MIN = 90              # treat anything <= 90min away as "1h reminder time"
 WINDOW_24H_MAX_MIN = 25 * 60        # 25 hours; gives 1h slack for cron drift
 GRACE_SECONDS = 24 * 3600
@@ -110,6 +109,7 @@ def deadline_phrase(d: dict) -> str:
 def send_push(heading: str, body: str, link: str) -> None:
     payload = {
         "app_id": APP_ID,
+        "target_channel": "push",
         "included_segments": ["Subscribed Users"],
         "headings": {"en": heading},
         "contents": {"en": body},
@@ -129,6 +129,20 @@ def send_push(heading: str, body: str, link: str) -> None:
     if not r.ok:
         print(f"  ERROR: OneSignal {r.status_code}: {r.text}", file=sys.stderr)
         r.raise_for_status()
+    try:
+        data = r.json()
+    except ValueError as exc:
+        raise RuntimeError(f"OneSignal returned non-JSON response: {r.text[:500]}") from exc
+
+    notification_id = data.get("id")
+    recipients = data.get("recipients")
+    errors = data.get("errors")
+    if errors or not notification_id or recipients == 0:
+        raise RuntimeError(
+            "OneSignal accepted the request but did not create a deliverable push: "
+            + json.dumps(data, sort_keys=True)
+        )
+    print(f"  OneSignal notification {notification_id} queued for {recipients} recipient(s)")
 
 
 def main() -> None:
