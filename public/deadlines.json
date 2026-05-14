@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T15:37:37.156920+00:00",
+  "generatedAt": "2026-05-14T18:12:21.025393+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+MD52x+BBA_DBE_B1",
@@ -18,19 +18,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+SE51x+BBA_DBE_B1",
-      "courseName": "Digital Design Tools and Documentation & Presentation",
-      "courseArchived": false,
-      "title": "7.10 CLA - Module 7",
-      "assignmentType": "Continuous Learning Assessments",
-      "category": "cla",
-      "dueAt": "2026-05-13T23:30:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+SE51x+BBA_DBE_B1/jump_to/block-v1:IIMBx+SE51x+BBA_DBE_B1+type@sequential+block@1cc5017432094fc4a1544bc653073615",
-      "blockId": "block-v1:IIMBx+SE51x+BBA_DBE_B1+type@problem+block@ba7f5193c8d84df98c9c3e228c8976e2"
-    },
     {
       "courseId": "course-v1:IIMBx+EP51x+BBA_DBE_B1",
       "courseName": "Generating Entrepreneurial Resources",
