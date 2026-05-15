@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-15T17:03:46.691690+00:00",
+  "generatedAt": "2026-05-15T18:58:14.655722+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+MD52x+BBA_DBE_B1",
@@ -18,19 +18,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+EP51x+BBA_DBE_B1",
-      "courseName": "Generating Entrepreneurial Resources",
-      "courseArchived": false,
-      "title": "8.18 Continuous Learning Assessment - 8",
-      "assignmentType": "Continuous Learning Assessment",
-      "category": "cla",
-      "dueAt": "2026-05-14T23:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+EP51x+BBA_DBE_B1/jump_to/block-v1:IIMBx+EP51x+BBA_DBE_B1+type@sequential+block@aa694c4f22b14addba3162b0fa1d1f06",
-      "blockId": "block-v1:IIMBx+EP51x+BBA_DBE_B1+type@problem+block@problem97"
-    },
     {
       "courseId": "course-v1:IIMBx+EP51x+BBA_DBE_B1",
       "courseName": "Generating Entrepreneurial Resources",
