@@ -1,14 +1,9 @@
 {
-  "generatedAt": "2026-05-21T17:36:39.086645+00:00",
+  "generatedAt": "2026-05-21T20:15:04.237521+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+MD52x+BBA_DBE_B1",
       "name": "New Product Development",
-      "isArchived": false
-    },
-    {
-      "courseId": "course-v1:IIMBx+EP51x+BBA_DBE_B1",
-      "name": "Generating Entrepreneurial Resources",
       "isArchived": false
     },
     {
@@ -18,19 +13,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+EP51x+BBA_DBE_B1",
-      "courseName": "Generating Entrepreneurial Resources",
-      "courseArchived": false,
-      "title": "Submission",
-      "assignmentType": "Project Submission",
-      "category": "assignment",
-      "dueAt": "2026-05-20T23:30:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+EP51x+BBA_DBE_B1/jump_to/block-v1:IIMBx+EP51x+BBA_DBE_B1+type@sequential+block@a54cb93f1f0942ff993a45f9356e30dc",
-      "blockId": "block-v1:IIMBx+EP51x+BBA_DBE_B1+type@html+block@58133395848744068b30c668b00de427"
-    },
     {
       "courseId": "course-v1:IIMBx+SE51x+BBA_DBE_B1",
       "courseName": "Digital Design Tools and Documentation & Presentation",
