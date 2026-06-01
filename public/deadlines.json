@@ -1,31 +1,13 @@
 {
-  "generatedAt": "2026-06-01T12:12:23.207976+00:00",
+  "generatedAt": "2026-06-01T18:18:45.970287+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+MD52x+BBA_DBE_B1",
       "name": "New Product Development",
       "isArchived": false
-    },
-    {
-      "courseId": "course-v1:IIMBx+SE51x+BBA_DBE_B1",
-      "name": "Digital Design Tools and Documentation & Presentation",
-      "isArchived": false
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+SE51x+BBA_DBE_B1",
-      "courseName": "Digital Design Tools and Documentation & Presentation",
-      "courseArchived": false,
-      "title": "8.3 Project Submission",
-      "assignmentType": "Final Project",
-      "category": "assignment",
-      "dueAt": "2026-05-31T23:30:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+SE51x+BBA_DBE_B1/jump_to/block-v1:IIMBx+SE51x+BBA_DBE_B1+type@sequential+block@e2fc859b704341749e42fd2dab26fd6e",
-      "blockId": "block-v1:IIMBx+SE51x+BBA_DBE_B1+type@edx_sga+block@00580a3bcb574d76974dee5652210ff3"
-    },
     {
       "courseId": "course-v1:IIMBx+MD52x+BBA_DBE_B1",
       "courseName": "New Product Development",
