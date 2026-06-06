@@ -1,25 +1,5 @@
 {
-  "generatedAt": "2026-06-06T16:36:46.265530+00:00",
-  "courses": [
-    {
-      "courseId": "course-v1:IIMBx+MD52x+BBA_DBE_B1",
-      "name": "New Product Development",
-      "isArchived": false
-    }
-  ],
-  "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+MD52x+BBA_DBE_B1",
-      "courseName": "New Product Development",
-      "courseArchived": false,
-      "title": "Project Submission",
-      "assignmentType": "Project",
-      "category": "assignment",
-      "dueAt": "2026-06-05T23:30:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+MD52x+BBA_DBE_B1/jump_to/block-v1:IIMBx+MD52x+BBA_DBE_B1+type@sequential+block@f7fa9f9fe3424c9b919ae5cf63e8a417",
-      "blockId": "block-v1:IIMBx+MD52x+BBA_DBE_B1+type@html+block@html7"
-    }
-  ]
+  "generatedAt": "2026-06-06T18:42:14.941889+00:00",
+  "courses": [],
+  "deadlines": []
 }
