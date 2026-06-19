@@ -2,6 +2,7 @@
 """Fetch IIMBx deadlines and write public/deadlines.json."""
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -64,7 +65,9 @@ def fetch_dates(session: requests.Session, course_id: str) -> list[dict]:
 
 def categorize(assignment_type: str) -> str:
     t = assignment_type.lower()
-    if "continuous learning assessment" in t:
+    # Continuous Learning Assessments arrive either spelled out or abbreviated
+    # ("CLA"/"CLAs") depending on the course's grading config in the LMS.
+    if "continuous learning assessment" in t or re.search(r"\bclas?\b", t):
         return "cla"
     if "mid-term" in t or "midterm" in t:
         return "midterm"
