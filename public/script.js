@@ -207,6 +207,41 @@ function applyFilter(filter) {
     });
 }
 
+// Course codes encode the term as the digit right after the department prefix
+// (e.g. "OM61x" -> term 6). Derive it from the active courses so the cohort
+// disclaimer never needs hardcoding. During a term transition (courses from two
+// terms present at once) we surface the highest term — the one you're moving into.
+function deriveCohortTerm(data) {
+    const ids = new Set();
+    for (const c of (data.courses || [])) {
+        if (!c.isArchived && c.courseId) ids.add(c.courseId);
+    }
+    if (!ids.size) {
+        // fall back to whatever deadlines we have if the courses list is absent
+        for (const d of (data.deadlines || [])) {
+            if (d.courseId) ids.add(d.courseId);
+        }
+    }
+    let term = null;
+    for (const id of ids) {
+        // course-v1:IIIMBx+OM61x+BBA_DBE_B1 -> code segment "OM61x"
+        const code = String(id).split('+')[1] || '';
+        const m = code.match(/^[A-Za-z]+(\d)/);
+        if (m) {
+            const t = parseInt(m[1], 10);
+            if (term === null || t > term) term = t;
+        }
+    }
+    return term;
+}
+
+function applyCohortTerm(data) {
+    const el = document.getElementById('cohortTerm');
+    if (!el) return;
+    const term = deriveCohortTerm(data);
+    if (term !== null) el.textContent = `Term ${term}`;
+}
+
 function renderAll(data) {
     const now = Date.now();
     const visible = (data.deadlines || [])
@@ -936,6 +971,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const data = await loadDeadlines();
     renderAll(data);
+    applyCohortTerm(data);
     // Calendar is rendered into its current parent by renderAll → renderCalendar.
     // Move it to the mobile slot (if applicable) after the first render so the
     // initial DOM order is correct; subsequent viewport changes are handled by
