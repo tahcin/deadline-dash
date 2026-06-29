@@ -4,13 +4,32 @@ import json
 import os
 import re
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
+import certifi
 import requests
 
 LMS = "https://iimbx.edu.in"
 UA = "deadline-dash-sync/1.0"
+
+# iimbx.edu.in serves an incomplete/mismatched certificate chain: its leaf
+# (*.iimbx.edu.in) is issued by DigiCert "RapidSSL TLS RSA CA G1", but the
+# server bundles unrelated Sectigo intermediates, so clients can't build a
+# trust path ("unable to get local issuer certificate"). We supply the correct
+# intermediate ourselves and let it chain to the DigiCert root in certifi —
+# this keeps TLS verification fully enabled rather than disabling it.
+_INTERMEDIATE = Path(__file__).resolve().parent / "certs" / "RapidSSLTLSRSACAG1.pem"
+
+
+def make_ca_bundle() -> str:
+    """Return a CA bundle path: certifi roots plus the missing intermediate."""
+    bundle = certifi.contents() + "\n" + _INTERMEDIATE.read_text(encoding="utf-8")
+    fd, path = tempfile.mkstemp(prefix="iimbx-ca-", suffix=".pem")
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        f.write(bundle)
+    return path
 
 
 def login(session: requests.Session, email: str, password: str) -> None:
@@ -99,6 +118,7 @@ def main() -> None:
     password = os.environ["IIMBX_PASSWORD"]
 
     s = requests.Session()
+    s.verify = make_ca_bundle()
     login(s, email, password)
     courses = fetch_courses(s)
     print(f"found {len(courses)} enrolled courses")
