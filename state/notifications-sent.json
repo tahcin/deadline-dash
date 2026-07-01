@@ -5,24 +5,12 @@
       "12h"
     ]
   },
-  "course-v1:IIIMBx+MD62x+BBA_DBE_B1|block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@5f04da38d9854988a42e57972e89af61|2026-06-24T22:30:00+05:30": {
-    "dueAt": "2026-06-24T22:30:00+05:30",
-    "sent": [
-      "12h"
-    ]
-  },
   "course-v1:IIIMBx+MK61x+BBA_DBE_B1|block-v1:IIIMBx+MK61x+BBA_DBE_B1+type@html+block@186083165da94a75b59f7713b8dde3f5|2026-08-12T22:30:00+05:30": {
     "dueAt": "2026-08-12T22:30:00+05:30",
     "sent": []
   },
   "course-v1:IIIMBx+OM61x+BBA_DBE_B1|block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@9eda27961e404c1c863cc824c37bd1c6|2026-07-01T22:30:00+05:30": {
     "dueAt": "2026-07-01T22:30:00+05:30",
-    "sent": [
-      "12h"
-    ]
-  },
-  "course-v1:IIIMBx+OM61x+BBA_DBE_B1|block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@dc2b0609d16144978de5324ee3c97d3a|2026-06-24T22:30:00+05:30": {
-    "dueAt": "2026-06-24T22:30:00+05:30",
     "sent": [
       "12h"
     ]
