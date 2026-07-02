@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T01:26:47.192202+00:00",
+  "generatedAt": "2026-07-02T06:12:08.901670+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
@@ -25,7 +25,7 @@
       "title": "2.7 Continuous Learning Assessment-2",
       "assignmentType": "Continuous Learning Assessment",
       "category": "cla",
-      "dueAt": "2026-07-01T22:30:00+05:30",
+      "dueAt": "2026-07-02T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@9834eedf524a45338b1af906795c4877",
@@ -38,7 +38,7 @@
       "title": "2.11 Continuous Learning Assessment 2",
       "assignmentType": "Continuous Learning Assessment",
       "category": "cla",
-      "dueAt": "2026-07-01T22:30:00+05:30",
+      "dueAt": "2026-07-02T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@a2573e3374c64338a4b570b2e494b9ec",
