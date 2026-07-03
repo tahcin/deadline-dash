@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-03T15:29:40.802951+00:00",
+  "generatedAt": "2026-07-03T17:53:52.416674+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
@@ -23,32 +23,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
-      "courseName": "Supply Chain & Logistics Management ",
-      "courseArchived": false,
-      "title": "2.7 Continuous Learning Assessment-2",
-      "assignmentType": "Continuous Learning Assessment",
-      "category": "cla",
-      "dueAt": "2026-07-02T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@9834eedf524a45338b1af906795c4877",
-      "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@9eda27961e404c1c863cc824c37bd1c6"
-    },
-    {
-      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
-      "courseName": "Business Research and Growth Systems Architecture",
-      "courseArchived": false,
-      "title": "2.11 Continuous Learning Assessment 2",
-      "assignmentType": "Continuous Learning Assessment",
-      "category": "cla",
-      "dueAt": "2026-07-02T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@a2573e3374c64338a4b570b2e494b9ec",
-      "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@28550c040bc740cd89d47a17280af385"
-    },
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
       "courseName": "Inclusive Business Model",
