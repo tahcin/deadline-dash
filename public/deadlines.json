@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-08T11:59:14.300086+00:00",
+  "generatedAt": "2026-07-08T14:43:07.561384+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
@@ -72,7 +72,7 @@
       "dueAt": "2026-07-15T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
-      "link": "",
+      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@eb8750200a984207babb0ed3902d6c86",
       "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@54695b9860ae4a99a3ab7de9dc1277cc"
     },
     {
