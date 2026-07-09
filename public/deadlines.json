@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-09T08:48:14.830100+00:00",
+  "generatedAt": "2026-07-09T12:22:58.048693+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
@@ -74,6 +74,19 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@eb8750200a984207babb0ed3902d6c86",
       "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@54695b9860ae4a99a3ab7de9dc1277cc"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
+      "courseName": "Business Research and Growth Systems Architecture",
+      "courseArchived": false,
+      "title": "4.12 Continuous Learning Assessment 4",
+      "assignmentType": "Continuous Learning Assessment",
+      "category": "cla",
+      "dueAt": "2026-07-15T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@28ef75fbb6d2427197213f04a73e7ffd",
+      "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@dc4166294ab94aef8b18c0d5ac1738ae"
     },
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
