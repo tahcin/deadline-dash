@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-10T15:05:32.484404+00:00",
+  "generatedAt": "2026-07-10T17:12:13.519361+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
@@ -23,45 +23,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
-      "courseName": "Inclusive Business Model",
-      "courseArchived": false,
-      "title": "Project 1 (Individual Assignment)",
-      "assignmentType": "Project 1",
-      "category": "assignment",
-      "dueAt": "2026-07-09T22:30:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD61x+BBA_DBE_B1+type@sequential+block@7815a571a5854d40beab083f9c43f261",
-      "blockId": "block-v1:IIIMBx+MD61x+BBA_DBE_B1+type@html+block@4a24283256904b8f8337d41c8c50dd52"
-    },
-    {
-      "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
-      "courseName": "Supply Chain & Logistics Management ",
-      "courseArchived": false,
-      "title": "3.6 Continuous Learning Assessment-3",
-      "assignmentType": "Continuous Learning Assessment",
-      "category": "cla",
-      "dueAt": "2026-07-09T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@3924901a90094e1389a797b1b0a5aba3",
-      "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@e7bbaad0b1724b64941da0e240d42b37"
-    },
-    {
-      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
-      "courseName": "Business Research and Growth Systems Architecture",
-      "courseArchived": false,
-      "title": "3.12 Continuous Learning Assessment 3",
-      "assignmentType": "Continuous Learning Assessment",
-      "category": "cla",
-      "dueAt": "2026-07-09T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@bb7130dc3c4d4b48a818ebab79fcaf3d",
-      "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@ff3cc3c635a34aaba9c8943e1fab280c"
-    },
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
       "courseName": "Supply Chain & Logistics Management ",
