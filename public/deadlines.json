@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T14:14:06.988444+00:00",
+  "generatedAt": "2026-07-15T15:55:18.320460+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
@@ -31,7 +31,7 @@
       "assignmentType": "Continuous Learning Assessment",
       "category": "cla",
       "dueAt": "2026-07-15T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@eb8750200a984207babb0ed3902d6c86",
       "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@54695b9860ae4a99a3ab7de9dc1277cc"
@@ -44,7 +44,7 @@
       "assignmentType": "Continuous Learning Assessment",
       "category": "cla",
       "dueAt": "2026-07-15T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@28ef75fbb6d2427197213f04a73e7ffd",
       "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@dc4166294ab94aef8b18c0d5ac1738ae"
@@ -61,6 +61,19 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD61x+BBA_DBE_B1+type@sequential+block@6eaa1f5c1d2343a4838261a25e340887",
       "blockId": "block-v1:IIIMBx+MD61x+BBA_DBE_B1+type@html+block@49f1af1043c9485489e836e728a0e116"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
+      "courseName": "Business Research and Growth Systems Architecture",
+      "courseArchived": false,
+      "title": "5.11 Continuous Learning Assessment 5",
+      "assignmentType": "Continuous Learning Assessment",
+      "category": "cla",
+      "dueAt": "2026-07-22T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@7c5977f1a18c43dd9069ea4e6578f3c3",
+      "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@dc591db7e35444c6b61d4663f0fccea2"
     },
     {
       "courseId": "course-v1:IIIMBx+MK61x+BBA_DBE_B1",
