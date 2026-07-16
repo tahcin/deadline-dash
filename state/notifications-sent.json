@@ -3,12 +3,6 @@
     "dueAt": "2026-07-22T22:30:00+05:30",
     "sent": []
   },
-  "course-v1:IIIMBx+MD61x+BBA_DBE_B1|block-v1:IIIMBx+MD61x+BBA_DBE_B1+type@html+block@4a24283256904b8f8337d41c8c50dd52|2026-07-09T22:30:00+05:30": {
-    "dueAt": "2026-07-09T22:30:00+05:30",
-    "sent": [
-      "12h"
-    ]
-  },
   "course-v1:IIIMBx+MD62x+BBA_DBE_B1|block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@dc4166294ab94aef8b18c0d5ac1738ae|2026-07-15T22:30:00+05:30": {
     "dueAt": "2026-07-15T22:30:00+05:30",
     "sent": [
@@ -19,12 +13,6 @@
   "course-v1:IIIMBx+MD62x+BBA_DBE_B1|block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@dc591db7e35444c6b61d4663f0fccea2|2026-07-22T22:30:00+05:30": {
     "dueAt": "2026-07-22T22:30:00+05:30",
     "sent": []
-  },
-  "course-v1:IIIMBx+MD62x+BBA_DBE_B1|block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@ff3cc3c635a34aaba9c8943e1fab280c|2026-07-09T22:30:00+05:30": {
-    "dueAt": "2026-07-09T22:30:00+05:30",
-    "sent": [
-      "12h"
-    ]
   },
   "course-v1:IIIMBx+MK61x+BBA_DBE_B1|block-v1:IIIMBx+MK61x+BBA_DBE_B1+type@html+block@186083165da94a75b59f7713b8dde3f5|2026-08-12T22:30:00+05:30": {
     "dueAt": "2026-08-12T22:30:00+05:30",
@@ -40,11 +28,5 @@
   "course-v1:IIIMBx+OM61x+BBA_DBE_B1|block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@740d67d3790b46df89234039e5fa87ef|2026-07-23T22:30:00+05:30": {
     "dueAt": "2026-07-23T22:30:00+05:30",
     "sent": []
-  },
-  "course-v1:IIIMBx+OM61x+BBA_DBE_B1|block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@e7bbaad0b1724b64941da0e240d42b37|2026-07-09T22:30:00+05:30": {
-    "dueAt": "2026-07-09T22:30:00+05:30",
-    "sent": [
-      "12h"
-    ]
   }
 }
