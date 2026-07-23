@@ -1,21 +1,4 @@
 {
-  "2026-07-23T22:30:00+05:30": {
-    "buckets": {
-      "12h": {
-        "id": null,
-        "sendAfter": null,
-        "status": "sent"
-      },
-      "1h": {
-        "id": "3046e270-534d-4681-b2ca-7fcffb8c8ff9",
-        "sendAfter": "2026-07-23T21:30:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIIMBx+OM61x+BBA_DBE_B1|block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@740d67d3790b46df89234039e5fa87ef"
-    ]
-  },
   "2026-07-29T22:30:00+05:30": {
     "buckets": {
       "12h": {
