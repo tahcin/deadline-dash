@@ -493,7 +493,7 @@ const NOTIFY_DIALOG_VARIANTS = {
     intro: () => ({
         title: 'Get deadline reminders',
         body: `
-            <p>We'll send a push notification <strong>24 hours</strong> and <strong>1 hour</strong> before each deadline.</p>
+            <p>We'll send a push notification <strong>12 hours</strong> and <strong>1 hour</strong> before each deadline.</p>
             <p>No account required. You can turn reminders off anytime from the same button.</p>
             ${isIOSWithoutStandalone()
                 ? `<p><strong>iPhone users:</strong> add this site to your Home Screen first, then open it from there. See the <a class="inline-link" target="_blank" rel="noopener" href="https://ruddy-soursop-ccb.notion.site/How-to-Install-Deadline-Dash-on-iOS-1209f5f53c6680ada63fe4b0942deaaf?pvs=73">install guide</a>.</p>`

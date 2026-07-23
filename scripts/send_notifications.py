@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
-"""Send T-12h and T-1h push notifications via OneSignal for upcoming deadlines.
+"""Schedule T-12h and T-1h push reminders for upcoming deadlines via OneSignal.
 
-Reads public/deadlines.json (produced by sync_deadlines.py), tracks state in
-state/notifications-sent.json so we never double-send. Designed to run hourly
-on GitHub Actions; windows are loose enough to tolerate cron drift.
+Instead of firing a push at cron time (which made delivery hostage to GitHub
+Actions' unreliable scheduler — reminders were landing ~1 minute before the
+deadline), we hand OneSignal the *exact* delivery instant via `send_after`.
+OneSignal then delivers at `dueAt - 12h` and `dueAt - 1h` regardless of when
+this job actually runs. The cron's only job is to schedule (and, when a
+deadline moves or disappears, cancel/reschedule) future notifications.
+
+Reads public/deadlines.json (produced by sync_deadlines.py) and tracks the
+scheduled OneSignal notification ids in state/notifications-sent.json so we
+never double-schedule and can cancel stale reminders. Safe to run hourly.
 """
 import json
 import os
@@ -15,34 +22,99 @@ from pathlib import Path
 import requests
 
 ONESIGNAL_API = "https://api.onesignal.com/notifications"
-APP_ID = os.environ["ONESIGNAL_APP_ID"]
-REST_API_KEY = os.environ["ONESIGNAL_REST_API_KEY"]
+APP_ID = os.environ.get("ONESIGNAL_APP_ID", "")
+REST_API_KEY = os.environ.get("ONESIGNAL_REST_API_KEY", "")
 
 ROOT = Path(__file__).resolve().parent.parent
 DEADLINES = ROOT / "public" / "deadlines.json"
 STATE = ROOT / "state" / "notifications-sent.json"
 
 IST = timezone(timedelta(hours=5, minutes=30), "IST")
-WINDOW_1H_MAX_MIN = 90              # treat anything <= 90min away as "1h reminder time"
-WINDOW_12H_MAX_MIN = 13 * 60        # 13 hours; gives 1h slack for cron drift
+
+# (bucket name, lead time before deadline, phrase baked into the message).
+# Ordered earliest-lead first. The last entry is the "imminent" final reminder.
+BUCKETS = [
+    ("12h", timedelta(hours=12), "12 hours"),
+    ("1h", timedelta(hours=1), "1 hour"),
+]
+FINAL_BUCKET = BUCKETS[-1][0]
+
+# OneSignal rejects scheduled deliveries more than 30 days out; stay under it and
+# let a later hourly run schedule the reminder once it comes into range.
+MAX_SCHEDULE_AHEAD = timedelta(days=29)
 GRACE_SECONDS = 24 * 3600
 PRUNE_DAYS = 7
+
+
+# --- time helpers --------------------------------------------------------
+
+def parse_dt(iso: str):
+    try:
+        return datetime.fromisoformat(iso)
+    except Exception:
+        return None
+
+
+def bucket_is_pending(bucket: dict, now: datetime) -> bool:
+    """A scheduled push OneSignal is still holding (delivery instant not reached)
+    — the only kind we can cancel."""
+    if bucket.get("status") != "scheduled":
+        return False
+    after = parse_dt(bucket.get("sendAfter") or "")
+    return after is not None and after > now
+
+
+# --- state ---------------------------------------------------------------
+
+def migrate_state(raw: dict) -> dict:
+    """Bring any state shape up to the current schema.
+
+    Current schema, keyed by the deadline's dueAt (concurrent deadlines share
+    one entry):
+        { "<dueAt>": {"members": ["courseId|blockId", ...],
+                       "buckets": {"12h": {"status", "id", "sendAfter"}, ...}} }
+
+    Legacy schema was keyed by "courseId|blockId|dueAt" with a flat "sent" list
+    (and, even older, a "24h" bucket that had already been relabelled "12h").
+    Legacy buckets are folded in as status "sent" so we never resend them.
+    """
+    migrated: dict = {}
+    for key, entry in raw.items():
+        if not isinstance(entry, dict):
+            continue
+        # Already-current entries have "buckets".
+        if "buckets" in entry:
+            migrated[key] = entry
+            continue
+        # Legacy entry -> group by dueAt.
+        due = entry.get("dueAt")
+        parts = key.split("|")
+        if not due and len(parts) == 3:
+            due = parts[2]
+        if not due:
+            continue
+        member = "|".join(parts[:2]) if len(parts) >= 2 else key
+        sent = list(entry.get("sent") or [])
+        if "24h" in sent and "12h" not in sent:  # historical relabel
+            sent.append("12h")
+        group = migrated.setdefault(due, {"members": [], "buckets": {}})
+        if member not in group["members"]:
+            group["members"].append(member)
+        for name in sent:
+            group["buckets"].setdefault(name, {"status": "sent", "id": None, "sendAfter": None})
+    for g in migrated.values():
+        g["members"] = sorted(g.get("members", []))
+    return migrated
 
 
 def load_state() -> dict:
     if not STATE.exists():
         return {}
     try:
-        data = json.loads(STATE.read_text(encoding="utf-8"))
+        raw = json.loads(STATE.read_text(encoding="utf-8"))
     except Exception:
         return {}
-    # Migrate the old "24h" bucket label to "12h" (window was shortened).
-    # Anyone already notified at T-24h shouldn't re-fire when they reach T-12h.
-    for entry in data.values():
-        sent = entry.get("sent") or []
-        if "24h" in sent and "12h" not in sent:
-            entry["sent"] = sorted(set(sent + ["12h"]))
-    return data
+    return migrate_state(raw)
 
 
 def save_state(state: dict) -> None:
@@ -50,29 +122,23 @@ def save_state(state: dict) -> None:
     STATE.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def deadline_key(d: dict) -> str:
-    block = d.get("blockId") or ""
-    return f"{d['courseId']}|{block}|{d['dueAt']}"
+# --- message building ----------------------------------------------------
+
+def identity(d: dict) -> str:
+    return f"{d['courseId']}|{d.get('blockId') or ''}"
 
 
 def visible(d: dict, now_ts: float) -> bool:
-    if not d.get("learnerHasAccess"): return False
-    if d.get("courseArchived"): return False
-    try:
-        due = datetime.fromisoformat(d["dueAt"]).timestamp()
-    except Exception:
+    if not d.get("learnerHasAccess"):
         return False
-    if now_ts > due + GRACE_SECONDS:
+    if d.get("courseArchived"):
+        return False
+    due = parse_dt(d.get("dueAt") or "")
+    if due is None:
+        return False
+    if now_ts > due.timestamp() + GRACE_SECONDS:
         return False
     return True
-
-
-def fmt_time(due_iso: str) -> str:
-    try:
-        dt = datetime.fromisoformat(due_iso).astimezone(IST)
-        return dt.strftime("%a %d %b, %I:%M %p IST")
-    except Exception:
-        return ""
 
 
 def time_until_phrase(minutes_until: float) -> str:
@@ -112,7 +178,126 @@ def deadline_phrase(d: dict) -> str:
     return f"{label} of {course}"
 
 
-def send_push(heading: str, body: str, link: str) -> None:
+def build_message(items: list, phrase: str, imminent: bool):
+    """Return (heading, body, link) for a group of deadlines sharing a dueAt."""
+    if len(items) == 1:
+        d = items[0]
+        heading = "Deadline imminent" if imminent else "Deadline reminder"
+        body = f"{deadline_phrase(d)} is due in {phrase}"
+        link = d.get("link") or ""
+    else:
+        n = len(items)
+        heading = f"{n} deadlines imminent" if imminent else f"{n} deadlines due soon"
+        preview = "; ".join(deadline_phrase(d) for d in items[:3])
+        if n > 3:
+            preview += f"; +{n - 3} more"
+        body = f"{n} deadlines due in {phrase}: {preview}"
+        link = ""
+    return heading, body, link
+
+
+# --- core reconciliation (pure; HTTP is injected) ------------------------
+
+def reconcile(deadlines: list, state: dict, now: datetime, send_fn, cancel_fn) -> dict:
+    """Ensure each upcoming deadline has its 12h and 1h reminders scheduled.
+
+    send_fn(heading, body, link, send_after_iso_or_None) -> notification_id
+    cancel_fn(notification_id) -> None   (best-effort)
+
+    Returns the updated state. Deterministic given (deadlines, state, now) so it
+    is fully unit-testable without a network.
+    """
+    now_ts = now.timestamp()
+
+    # Drop entries whose deadline is well in the past.
+    for key in list(state):
+        due = parse_dt(key) or parse_dt(state[key].get("dueAt") or "")
+        if due is not None and now_ts - due.timestamp() > PRUNE_DAYS * 86400:
+            state.pop(key)
+
+    # Group visible, still-upcoming deadlines by exact dueAt so concurrent
+    # deadlines collapse into a single push.
+    groups: dict[str, list[dict]] = {}
+    for d in deadlines:
+        if not visible(d, now_ts):
+            continue
+        due = parse_dt(d.get("dueAt") or "")
+        if due is None or due.timestamp() <= now_ts:
+            continue
+        groups.setdefault(d["dueAt"], []).append(d)
+    for items in groups.values():
+        items.sort(key=identity)
+
+    have_feed = bool(deadlines)  # guard against a failed/empty sync nuking schedules
+
+    # Cancel reminders for deadlines that vanished from a healthy feed.
+    if have_feed:
+        for due_iso in list(state):
+            if due_iso in groups:
+                continue
+            for bucket in state[due_iso].get("buckets", {}).values():
+                if bucket_is_pending(bucket, now):
+                    cancel_fn(bucket["id"])
+            state.pop(due_iso)
+
+    # When the set of deadlines at a given time changes, the scheduled push text
+    # is stale — cancel the still-pending ones so they get rescheduled below.
+    for due_iso, items in groups.items():
+        members = sorted(identity(d) for d in items)
+        entry = state.get(due_iso)
+        if entry is None:
+            state[due_iso] = {"members": members, "buckets": {}}
+            continue
+        if entry.get("members") != members:
+            for name, bucket in list(entry.get("buckets", {}).items()):
+                if bucket_is_pending(bucket, now):
+                    cancel_fn(bucket["id"])
+                    del entry["buckets"][name]
+            entry["members"] = members
+
+    # Schedule whatever isn't already handled.
+    for due_iso, items in groups.items():
+        entry = state[due_iso]
+        entry["members"] = sorted(identity(d) for d in items)
+        buckets = entry.setdefault("buckets", {})
+        due_dt = parse_dt(due_iso)
+        for name, lead, phrase in BUCKETS:
+            if name in buckets:  # already scheduled, sent, or intentionally skipped
+                continue
+            send_after = due_dt - lead
+            if send_after <= now:
+                # We're already past this lead time.
+                if name == FINAL_BUCKET:
+                    # Still before the deadline — send the final reminder now,
+                    # with the real remaining time in the copy.
+                    mins = (due_dt.timestamp() - now_ts) / 60
+                    heading, body, link = build_message(items, time_until_phrase(mins), imminent=True)
+                    nid = send_fn(heading, body, link, None)
+                    buckets[name] = {"status": "sent", "id": nid, "sendAfter": None}
+                else:
+                    # Missed an early reminder; skip it (the final one still covers them).
+                    buckets[name] = {"status": "sent", "id": None, "sendAfter": None}
+                continue
+            if send_after > now + MAX_SCHEDULE_AHEAD:
+                continue  # too far out; a later run will schedule it
+            heading, body, link = build_message(items, phrase, imminent=(name == FINAL_BUCKET))
+            nid = send_fn(heading, body, link, send_after.isoformat())
+            buckets[name] = {"status": "scheduled", "id": nid, "sendAfter": send_after.isoformat()}
+
+    return state
+
+
+# --- OneSignal HTTP wiring ----------------------------------------------
+
+def _auth_headers() -> dict:
+    return {
+        "Authorization": f"Key {REST_API_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
+
+
+def onesignal_send(heading: str, body: str, link: str, send_after_iso):
     payload = {
         "app_id": APP_ID,
         "target_channel": "push",
@@ -122,16 +307,10 @@ def send_push(heading: str, body: str, link: str) -> None:
     }
     if link:
         payload["web_url"] = link
-    r = requests.post(
-        ONESIGNAL_API,
-        json=payload,
-        headers={
-            "Authorization": f"Key {REST_API_KEY}",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        },
-        timeout=30,
-    )
+    if send_after_iso:
+        payload["send_after"] = send_after_iso
+
+    r = requests.post(ONESIGNAL_API, json=payload, headers=_auth_headers(), timeout=30)
     if not r.ok:
         print(f"  ERROR: OneSignal {r.status_code}: {r.text}", file=sys.stderr)
         r.raise_for_status()
@@ -141,17 +320,40 @@ def send_push(heading: str, body: str, link: str) -> None:
         raise RuntimeError(f"OneSignal returned non-JSON response: {r.text[:500]}") from exc
 
     notification_id = data.get("id")
-    recipients = data.get("recipients")
-    errors = data.get("errors")
-    if errors or not notification_id or recipients == 0:
-        raise RuntimeError(
-            "OneSignal accepted the request but did not create a deliverable push: "
-            + json.dumps(data, sort_keys=True)
+    if data.get("errors") or not notification_id:
+        raise RuntimeError("OneSignal did not accept the notification: " + json.dumps(data, sort_keys=True))
+    # For scheduled sends OneSignal hasn't fanned out yet, so recipients can be 0
+    # or absent; only enforce a real audience for immediate sends.
+    if not send_after_iso and data.get("recipients") == 0:
+        raise RuntimeError("OneSignal queued an immediate push with 0 recipients: " + json.dumps(data, sort_keys=True))
+
+    when = f"scheduled for {send_after_iso}" if send_after_iso else "sent now"
+    print(f"  OneSignal notification {notification_id} {when}")
+    return notification_id
+
+
+def onesignal_cancel(notification_id: str) -> None:
+    if not notification_id:
+        return
+    try:
+        r = requests.delete(
+            f"{ONESIGNAL_API}/{notification_id}",
+            params={"app_id": APP_ID},
+            headers=_auth_headers(),
+            timeout=30,
         )
-    print(f"  OneSignal notification {notification_id} queued for {recipients} recipient(s)")
+        if r.ok:
+            print(f"  cancelled scheduled notification {notification_id}")
+        else:
+            # Already delivered / already cancelled -> nothing to undo. Don't fail the run.
+            print(f"  WARN: could not cancel {notification_id}: {r.status_code} {r.text}", file=sys.stderr)
+    except requests.RequestException as exc:
+        print(f"  WARN: cancel request for {notification_id} failed: {exc}", file=sys.stderr)
 
 
 def main() -> None:
+    if not APP_ID or not REST_API_KEY:
+        raise SystemExit("ONESIGNAL_APP_ID and ONESIGNAL_REST_API_KEY must be set")
     if not DEADLINES.exists():
         print("no deadlines.json yet, nothing to do")
         return
@@ -159,87 +361,15 @@ def main() -> None:
     data = json.loads(DEADLINES.read_text(encoding="utf-8"))
     deadlines = data.get("deadlines", []) or []
     state = load_state()
-    now_ts = datetime.now(timezone.utc).timestamp()
+    now = datetime.now(timezone.utc)
 
-    pruned = {}
-    for k, v in state.items():
-        try:
-            due = datetime.fromisoformat(v["dueAt"]).timestamp()
-        except Exception:
-            continue
-        if now_ts - due > PRUNE_DAYS * 86400:
-            continue
-        pruned[k] = v
-    state = pruned
-
-    # group visible upcoming deadlines by their exact dueAt so concurrent
-    # deadlines collapse into a single push instead of spamming N notifications.
-    groups: dict[str, list[dict]] = {}
-    for d in deadlines:
-        if not visible(d, now_ts):
-            continue
-        try:
-            due_ts = datetime.fromisoformat(d["dueAt"]).timestamp()
-        except Exception:
-            continue
-        if due_ts <= now_ts:
-            continue
-        groups.setdefault(d["dueAt"], []).append(d)
-
-    sent_count = 0
-    for due_iso, items in sorted(groups.items()):
-        due_ts = datetime.fromisoformat(due_iso).timestamp()
-        minutes_until = (due_ts - now_ts) / 60
-        time_phrase = time_until_phrase(minutes_until)
-        link = items[0].get("link") or "" if len(items) == 1 else ""
-
-        if len(items) == 1:
-            d = items[0]
-            heading_imminent = "Deadline imminent"
-            heading_12h = "Deadline reminder"
-            body = f"{deadline_phrase(d)} is due in {time_phrase}"
-        else:
-            n = len(items)
-            heading_imminent = f"{n} deadlines imminent"
-            heading_12h = f"{n} deadlines due soon"
-            preview = "; ".join(deadline_phrase(d) for d in items[:3])
-            if n > 3:
-                preview += f"; +{n - 3} more"
-            body = f"{n} deadlines due in {time_phrase}: {preview}"
-
-        # all items in the group share the same dueAt and therefore the same
-        # send window. Track sent state per-item so adding a new deadline to an
-        # already-notified time still gets covered (it will just resend the
-        # combined push, which is fine — better than missing it).
-        keys = [deadline_key(d) for d in items]
-        entries = []
-        for k, d in zip(keys, items):
-            entry = state.setdefault(k, {"dueAt": d["dueAt"], "sent": []})
-            entry["dueAt"] = d["dueAt"]
-            entries.append(entry)
-
-        all_sent_1h = all("1h" in set(e.get("sent", [])) for e in entries)
-        all_sent_12h = all("12h" in set(e.get("sent", [])) for e in entries)
-
-        if minutes_until <= WINDOW_1H_MAX_MIN and not all_sent_1h:
-            print(f"sending 1h reminder for {len(items)} deadline(s) at {due_iso}")
-            send_push(heading_imminent, body, link)
-            for e in entries:
-                s = set(e.get("sent", []))
-                s.add("1h"); s.add("12h")
-                e["sent"] = sorted(s)
-            sent_count += 1
-        elif minutes_until <= WINDOW_12H_MAX_MIN and not all_sent_12h:
-            print(f"sending 12h reminder for {len(items)} deadline(s) at {due_iso}")
-            send_push(heading_12h, body, link)
-            for e in entries:
-                s = set(e.get("sent", []))
-                s.add("12h")
-                e["sent"] = sorted(s)
-            sent_count += 1
-
+    before = json.dumps(state, sort_keys=True)
+    state = reconcile(deadlines, state, now, onesignal_send, onesignal_cancel)
     save_state(state)
-    print(f"sent {sent_count} notifications, tracking {len(state)} entries")
+
+    changed = json.dumps(state, sort_keys=True) != before
+    print(f"reconciled {len(deadlines)} deadlines, tracking {len(state)} time slot(s)"
+          + ("" if changed else " (no changes)"))
 
 
 if __name__ == "__main__":
