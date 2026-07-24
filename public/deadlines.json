@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-24T15:54:34.548769+00:00",
+  "generatedAt": "2026-07-24T17:55:09.066973+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
@@ -18,19 +18,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
-      "courseName": "Supply Chain & Logistics Management ",
-      "courseArchived": false,
-      "title": "5.8 Continuous Learning Assessment-5",
-      "assignmentType": "Continuous Learning Assessment",
-      "category": "cla",
-      "dueAt": "2026-07-23T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@2daa01e78523436d8c478df273745fad",
-      "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@740d67d3790b46df89234039e5fa87ef"
-    },
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
       "courseName": "Supply Chain & Logistics Management ",
