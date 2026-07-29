@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-29T15:22:40.740144+00:00",
+  "generatedAt": "2026-07-29T17:41:19.971276+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
@@ -26,7 +26,7 @@
       "assignmentType": "Continuous Learning Assessment",
       "category": "cla",
       "dueAt": "2026-07-29T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@8d88a2f3954b45898cd8fea20081aff3",
       "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@c2495f99a1b24b5a9d692794c34387e5"
@@ -39,7 +39,7 @@
       "assignmentType": "Continuous Learning Assessment",
       "category": "cla",
       "dueAt": "2026-07-29T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@e8653099219248e39819b3c813a5f071",
       "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@e303ae7ee5844522915aa0b00502e5c4"
