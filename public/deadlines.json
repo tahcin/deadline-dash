@@ -1,6 +1,11 @@
 {
-  "generatedAt": "2026-07-31T21:33:15.195547+00:00",
+  "generatedAt": "2026-07-31T21:29:09.015119+00:00",
   "courses": [
+    {
+      "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
+      "name": "Inclusive Business Model",
+      "isArchived": false
+    },
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
       "name": "Supply Chain & Logistics Management ",
@@ -18,6 +23,32 @@
     }
   ],
   "deadlines": [
+    {
+      "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
+      "courseName": "Supply Chain & Logistics Management",
+      "courseArchived": false,
+      "title": "Faculty Live Session",
+      "assignmentType": "Live Session",
+      "category": "liveSession",
+      "dueAt": "2026-08-03T16:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://teams.microsoft.com/meet/42235243414245?p=DuAX0n6nUo5JiqwUSP",
+      "blockId": "ics:040000008200E00074C5B7101A82E00800000000BC762F4C7513DD01000000000000000010000000B97F780AB935EA48B43E619DC2E58B35"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+MK61x+BBA_DBE_B1",
+      "courseName": "Software Product Management for Startups",
+      "courseArchived": false,
+      "title": "Faculty Live Session",
+      "assignmentType": "Live Session",
+      "category": "liveSession",
+      "dueAt": "2026-08-05T20:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://teams.microsoft.com/meet/489509312656126?p=TKwEodLKwm8NsHjjth",
+      "blockId": "ics:040000008200E00074C5B7101A82E00800000000EDC28E06521EDD010000000000000000100000001CEFF2C85A3D5D4FBA5D7F4A36B8E08A"
+    },
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
       "courseName": "Supply Chain & Logistics Management ",
@@ -43,6 +74,19 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@2556320e75664eaf8090b7fd52bdeb12",
       "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@abecd0875b6b4d4cb70f51b42f25c5be"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
+      "courseName": "Inclusive Business Model",
+      "courseArchived": false,
+      "title": "Faculty Live Session",
+      "assignmentType": "Live Session",
+      "category": "liveSession",
+      "dueAt": "2026-08-07T18:00:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://teams.microsoft.com/meet/47016324091719?p=K1e8yKFWu3TLpCtLUH",
+      "blockId": "ics:040000008200E00074C5B7101A82E00800000000B9A643999E0EDD01000000000000000010000000A8E305C3B591C4438CECC00AB32FF0FD"
     },
     {
       "courseId": "course-v1:IIIMBx+MK61x+BBA_DBE_B1",

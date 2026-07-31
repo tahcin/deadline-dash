@@ -28,6 +28,7 @@ jobs:
         env:
           IIMBX_EMAIL: ${{ secrets.IIMBX_EMAIL }}
           IIMBX_PASSWORD: ${{ secrets.IIMBX_PASSWORD }}
+          OUTLOOK_ICS_URL: ${{ secrets.OUTLOOK_ICS_URL }}
 
       - name: Commit and push if changed
         run: |

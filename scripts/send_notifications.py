@@ -31,13 +31,24 @@ STATE = ROOT / "state" / "notifications-sent.json"
 
 IST = timezone(timedelta(hours=5, minutes=30), "IST")
 
-# (bucket name, lead time before deadline, phrase baked into the message).
-# Ordered earliest-lead first. The last entry is the "imminent" final reminder.
-BUCKETS = [
-    ("12h", timedelta(hours=12), "12 hours"),
-    ("1h", timedelta(hours=1), "1 hour"),
+# (bucket name, lead time before the deadline / session start). Ordered
+# earliest-lead first; the last entry is the final reminder. Live sessions get
+# their own cadence: a day ahead to plan, an hour to wrap up, 5 minutes to join.
+DEADLINE_BUCKETS = [
+    ("12h", timedelta(hours=12)),
+    ("1h", timedelta(hours=1)),
 ]
-FINAL_BUCKET = BUCKETS[-1][0]
+LIVE_BUCKETS = [
+    ("24h", timedelta(hours=24)),
+    ("1h", timedelta(hours=1)),
+    ("5m", timedelta(minutes=5)),
+]
+
+
+def buckets_for(items: list) -> list:
+    if items and all(d.get("category") == "liveSession" for d in items):
+        return LIVE_BUCKETS
+    return DEADLINE_BUCKETS
 
 # OneSignal rejects scheduled deliveries more than 30 days out; stay under it and
 # let a later hourly run schedule the reminder once it comes into range.
@@ -178,22 +189,66 @@ def deadline_phrase(d: dict) -> str:
     return f"{label} of {course}"
 
 
-def build_message(items: list, phrase: str, imminent: bool):
-    """Return (heading, body, link) for a group of deadlines sharing a dueAt."""
-    if len(items) == 1:
-        d = items[0]
-        heading = "Deadline imminent" if imminent else "Deadline reminder"
-        body = f"{deadline_phrase(d)} is due in {phrase}"
-        link = d.get("link") or ""
+def live_phrase(d: dict) -> str:
+    title = (d.get("title") or "Live Session").strip()
+    course = (d.get("courseName") or "your course").strip()
+    return f"{title} for the {course} course"
+
+
+# Copy per bucket: (heading, body tail appended after the subject phrase).
+DEADLINE_COPY = {
+    "12h": ("\U0001f6a8 12 Hours Remaining! \U0001f6a8", "is due in 12 HOURS! ⏳"),
+    "1h": ("ONE HOUR LEFT ⏰", "is due in AN HOUR, HURRY UP! ⏳"),
+}
+LIVE_COPY = {
+    "24h": ("Live Session Tomorrow! \U0001f3a5", "starts in 24 hours ⏳"),
+    "1h": ("Live Session in an Hour ⏰", "starts in an hour. Be there!"),
+    "5m": ("\U0001f534 Starting in 5 Minutes!", "starts in 5 minutes. JOIN NOW!"),
+}
+TIME_TEXT = {"12h": "12 HOURS", "1h": "AN HOUR", "24h": "24 hours", "5m": "5 MINUTES"}
+
+
+def preview_list(items: list, phrase_fn) -> str:
+    preview = "; ".join(phrase_fn(d) for d in items[:3])
+    if len(items) > 3:
+        preview += f"; +{len(items) - 3} more"
+    return preview
+
+
+def build_message(items: list, bucket: str, now_phrase: str | None = None):
+    """Return (heading, body, link) for a group sharing a dueAt.
+
+    `bucket` picks the copy variant; `now_phrase` (e.g. "7 minutes") replaces it
+    for catch-up sends where the scheduled lead time has already passed.
+    """
+    live = all(d.get("category") == "liveSession" for d in items)
+    n = len(items)
+
+    if live:
+        heading, tail = LIVE_COPY.get(bucket, LIVE_COPY["5m"])
+        if now_phrase:
+            heading = "\U0001f534 Starting Soon!"
+            tail = f"starts in {now_phrase}. JOIN NOW!"
+        if n == 1:
+            return heading, f"{live_phrase(items[0])} {tail}", items[0].get("link") or ""
+        time_text = now_phrase or TIME_TEXT.get(bucket, bucket)
+        return (f"\U0001f534 {n} Live Sessions Coming Up!",
+                f"{n} live sessions starting in {time_text}: {preview_list(items, live_phrase)}",
+                "")
+
+    heading, tail = DEADLINE_COPY.get(bucket, DEADLINE_COPY["1h"])
+    if now_phrase:
+        heading = "\U0001f6a8 Deadline Alert! \U0001f6a8"
+        tail = f"is due in {now_phrase}, HURRY UP! ⏳"
+    if n == 1:
+        return heading, f"{deadline_phrase(items[0])} {tail}", items[0].get("link") or ""
+    time_text = now_phrase or TIME_TEXT.get(bucket, bucket)
+    body = f"{n} deadlines due in {time_text}: {preview_list(items, deadline_phrase)}"
+    if bucket != "12h" or now_phrase:
+        body += " HURRY UP! ⏳"
     else:
-        n = len(items)
-        heading = f"{n} deadlines imminent" if imminent else f"{n} deadlines due soon"
-        preview = "; ".join(deadline_phrase(d) for d in items[:3])
-        if n > 3:
-            preview += f"; +{n - 3} more"
-        body = f"{n} deadlines due in {phrase}: {preview}"
-        link = ""
-    return heading, body, link
+        body += " ⏳"
+    return f"\U0001f6a8 {n} Deadlines Due! \U0001f6a8", body, ""
 
 
 # --- core reconciliation (pure; HTTP is injected) ------------------------
@@ -261,17 +316,19 @@ def reconcile(deadlines: list, state: dict, now: datetime, send_fn, cancel_fn) -
         entry["members"] = sorted(identity(d) for d in items)
         buckets = entry.setdefault("buckets", {})
         due_dt = parse_dt(due_iso)
-        for name, lead, phrase in BUCKETS:
+        bucket_defs = buckets_for(items)
+        final_name = bucket_defs[-1][0]
+        for name, lead in bucket_defs:
             if name in buckets:  # already scheduled, sent, or intentionally skipped
                 continue
             send_after = due_dt - lead
             if send_after <= now:
                 # We're already past this lead time.
-                if name == FINAL_BUCKET:
-                    # Still before the deadline — send the final reminder now,
+                if name == final_name:
+                    # Still before the deadline: send the final reminder now,
                     # with the real remaining time in the copy.
                     mins = (due_dt.timestamp() - now_ts) / 60
-                    heading, body, link = build_message(items, time_until_phrase(mins), imminent=True)
+                    heading, body, link = build_message(items, name, now_phrase=time_until_phrase(mins))
                     nid = send_fn(heading, body, link, None)
                     buckets[name] = {"status": "sent", "id": nid, "sendAfter": None}
                 else:
@@ -280,7 +337,7 @@ def reconcile(deadlines: list, state: dict, now: datetime, send_fn, cancel_fn) -
                 continue
             if send_after > now + MAX_SCHEDULE_AHEAD:
                 continue  # too far out; a later run will schedule it
-            heading, body, link = build_message(items, phrase, imminent=(name == FINAL_BUCKET))
+            heading, body, link = build_message(items, name)
             nid = send_fn(heading, body, link, send_after.isoformat())
             buckets[name] = {"status": "scheduled", "id": nid, "sendAfter": send_after.isoformat()}
 
