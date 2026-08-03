@@ -1,26 +1,4 @@
 {
-  "2026-08-03T16:30:00+05:30": {
-    "buckets": {
-      "1h": {
-        "id": "995b2248-0705-40a7-933a-8efa3140c9ab",
-        "sendAfter": "2026-08-03T15:30:00+05:30",
-        "status": "scheduled"
-      },
-      "24h": {
-        "id": "5a1fc8bc-ed94-4b5e-b1cf-300ebcc3a66e",
-        "sendAfter": "2026-08-02T16:30:00+05:30",
-        "status": "scheduled"
-      },
-      "5m": {
-        "id": "63042da7-86de-4e1c-a0a7-7e343703ff83",
-        "sendAfter": "2026-08-03T16:25:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIIMBx+OM61x+BBA_DBE_B1|ics:040000008200E00074C5B7101A82E00800000000BC762F4C7513DD01000000000000000010000000B97F780AB935EA48B43E619DC2E58B35"
-    ]
-  },
   "2026-08-05T20:30:00+05:30": {
     "buckets": {
       "1h": {
