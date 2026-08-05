@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05T12:19:41.516329+00:00",
+  "generatedAt": "2026-08-05T15:31:39.530320+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
@@ -74,6 +74,32 @@
       "learnerHasAccess": true,
       "link": "https://teams.microsoft.com/meet/47016324091719?p=K1e8yKFWu3TLpCtLUH",
       "blockId": "ics:040000008200E00074C5B7101A82E00800000000B9A643999E0EDD01000000000000000010000000A8E305C3B591C4438CECC00AB32FF0FD"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
+      "courseName": "Supply Chain & Logistics Management ",
+      "courseArchived": false,
+      "title": "8.6 Continuous Learning Assessment-8",
+      "assignmentType": "Continuous Learning Assessment",
+      "category": "cla",
+      "dueAt": "2026-08-12T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@2a470a90fabf486db2d8b2c36f61889d",
+      "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@254c155afaec4245b3ecc0b9835a6227"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
+      "courseName": "Business Research and Growth Systems Architecture",
+      "courseArchived": false,
+      "title": "8.11 Continuous Learning Assessment 8",
+      "assignmentType": "Continuous Learning Assessment",
+      "category": "cla",
+      "dueAt": "2026-08-12T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@8dc4cee9b1c1461786f593e27a52c09f",
+      "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@dcca79e0392d420d850fb9a8251d9c0d"
     },
     {
       "courseId": "course-v1:IIIMBx+MK61x+BBA_DBE_B1",
