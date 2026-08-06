@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T12:21:49.237249+00:00",
+  "generatedAt": "2026-08-06T15:31:11.551923+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
@@ -23,19 +23,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIIMBx+MK61x+BBA_DBE_B1",
-      "courseName": "Software Product Management for Startups",
-      "courseArchived": false,
-      "title": "Faculty Live Session",
-      "assignmentType": "Live Session",
-      "category": "liveSession",
-      "dueAt": "2026-08-05T20:30:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://teams.microsoft.com/meet/489509312656126?p=TKwEodLKwm8NsHjjth",
-      "blockId": "ics:040000008200E00074C5B7101A82E00800000000EDC28E06521EDD010000000000000000100000001CEFF2C85A3D5D4FBA5D7F4A36B8E08A"
-    },
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
       "courseName": "Supply Chain & Logistics Management ",
