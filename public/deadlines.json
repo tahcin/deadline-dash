@@ -1,11 +1,6 @@
 {
-  "generatedAt": "2026-08-08T11:47:27.633513+00:00",
+  "generatedAt": "2026-08-08T13:15:22.051465+00:00",
   "courses": [
-    {
-      "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
-      "name": "Inclusive Business Model",
-      "isArchived": false
-    },
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
       "name": "Supply Chain & Logistics Management ",
@@ -23,19 +18,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIIMBx+MD61x+BBA_DBE_B1",
-      "courseName": "Inclusive Business Model",
-      "courseArchived": false,
-      "title": "Faculty Live Session",
-      "assignmentType": "Live Session",
-      "category": "liveSession",
-      "dueAt": "2026-08-07T18:00:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://teams.microsoft.com/meet/47016324091719?p=K1e8yKFWu3TLpCtLUH",
-      "blockId": "ics:040000008200E00074C5B7101A82E00800000000B9A643999E0EDD01000000000000000010000000A8E305C3B591C4438CECC00AB32FF0FD"
-    },
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
       "courseName": "Supply Chain & Logistics Management ",
