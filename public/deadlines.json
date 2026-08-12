@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T13:51:35.746225+00:00",
+  "generatedAt": "2026-08-12T15:17:42.034768+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
@@ -56,6 +56,19 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MK61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MK61x+BBA_DBE_B1+type@sequential+block@ffaad6442e6c4ed2b1c318584f03efb9",
       "blockId": "block-v1:IIIMBx+MK61x+BBA_DBE_B1+type@html+block@186083165da94a75b59f7713b8dde3f5"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
+      "courseName": "Business Research and Growth Systems Architecture",
+      "courseArchived": false,
+      "title": "SME Live Session",
+      "assignmentType": "Live Session",
+      "category": "liveSession",
+      "dueAt": "2026-08-21T16:00:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://teams.microsoft.com/meet/478114925665806?p=eFB4PgVoRMgDNXxf1s",
+      "blockId": "ics:040000008200E00074C5B7101A82E008000000006D8B3140642ADD0100000000000000001000000054828E75222E2E49AAE1CA0BFBC461A5"
     }
   ]
 }
