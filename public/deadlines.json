@@ -1,62 +1,13 @@
 {
-  "generatedAt": "2026-08-13T15:18:14.924779+00:00",
+  "generatedAt": "2026-08-13T17:16:32.607917+00:00",
   "courses": [
-    {
-      "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
-      "name": "Supply Chain & Logistics Management ",
-      "isArchived": false
-    },
     {
       "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
       "name": "Business Research and Growth Systems Architecture",
       "isArchived": false
-    },
-    {
-      "courseId": "course-v1:IIIMBx+MK61x+BBA_DBE_B1",
-      "name": "Software Product Management for Startups",
-      "isArchived": false
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIIMBx+OM61x+BBA_DBE_B1",
-      "courseName": "Supply Chain & Logistics Management ",
-      "courseArchived": false,
-      "title": "8.6 Continuous Learning Assessment-8",
-      "assignmentType": "Continuous Learning Assessment",
-      "category": "cla",
-      "dueAt": "2026-08-12T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+OM61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@sequential+block@2a470a90fabf486db2d8b2c36f61889d",
-      "blockId": "block-v1:IIIMBx+OM61x+BBA_DBE_B1+type@problem+block@254c155afaec4245b3ecc0b9835a6227"
-    },
-    {
-      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
-      "courseName": "Business Research and Growth Systems Architecture",
-      "courseArchived": false,
-      "title": "8.11 Continuous Learning Assessment 8",
-      "assignmentType": "Continuous Learning Assessment",
-      "category": "cla",
-      "dueAt": "2026-08-12T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MD62x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@sequential+block@8dc4cee9b1c1461786f593e27a52c09f",
-      "blockId": "block-v1:IIIMBx+MD62x+BBA_DBE_B1+type@problem+block@dcca79e0392d420d850fb9a8251d9c0d"
-    },
-    {
-      "courseId": "course-v1:IIIMBx+MK61x+BBA_DBE_B1",
-      "courseName": "Software Product Management for Startups",
-      "courseArchived": false,
-      "title": "Project Submission",
-      "assignmentType": "Project Submission",
-      "category": "assignment",
-      "dueAt": "2026-08-12T22:30:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+MK61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+MK61x+BBA_DBE_B1+type@sequential+block@ffaad6442e6c4ed2b1c318584f03efb9",
-      "blockId": "block-v1:IIIMBx+MK61x+BBA_DBE_B1+type@html+block@186083165da94a75b59f7713b8dde3f5"
-    },
     {
       "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
       "courseName": "Business Research and Growth Systems Architecture",
