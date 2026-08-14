@@ -1,6 +1,11 @@
 {
-  "generatedAt": "2026-08-14T05:08:17.798971+00:00",
+  "generatedAt": "2026-08-14T06:47:50.901610+00:00",
   "courses": [
+    {
+      "courseId": "course-v1:IIIMBx+PJ61x+BBA_DBE_B1",
+      "name": "BBA DBE Batch 1 Term 6 Final Project Submission",
+      "isArchived": false
+    },
     {
       "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
       "name": "Business Research and Growth Systems Architecture",
@@ -8,6 +13,45 @@
     }
   ],
   "deadlines": [
+    {
+      "courseId": "course-v1:IIIMBx+PJ61x+BBA_DBE_B1",
+      "courseName": "BBA DBE Batch 1 Term 6 Final Project Submission",
+      "courseArchived": false,
+      "title": "Phase 1 Submission",
+      "assignmentType": "Phase 1 Submission",
+      "category": "other",
+      "dueAt": "2026-08-16T23:59:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+PJ61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@sequential+block@7daa331bfd134773b198302e3431ad86",
+      "blockId": "block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@html+block@2d74145c246b4fbb96f99524bd323949"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+PJ61x+BBA_DBE_B1",
+      "courseName": "BBA DBE Batch 1 Term 6 Final Project Submission",
+      "courseArchived": false,
+      "title": "Phase 2 Submission",
+      "assignmentType": "Phase 2 Submission",
+      "category": "other",
+      "dueAt": "2026-08-16T23:59:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+PJ61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@sequential+block@1e0f0cdd227840d6b0fd1cdf774b95cc",
+      "blockId": "block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@html+block@5d32f603690a4bf4af842932db389f27"
+    },
+    {
+      "courseId": "course-v1:IIIMBx+PJ61x+BBA_DBE_B1",
+      "courseName": "BBA DBE Batch 1 Term 6 Final Project Submission",
+      "courseArchived": false,
+      "title": "Phase 3 Submission",
+      "assignmentType": "Phase 3 Submission",
+      "category": "other",
+      "dueAt": "2026-08-16T23:59:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+PJ61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@sequential+block@b393366609c3475394685d359aade7d7",
+      "blockId": "block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@html+block@23610d9165794b64b318a483c1240247"
+    },
     {
       "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
       "courseName": "Business Research and Growth Systems Architecture",
