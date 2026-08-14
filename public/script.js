@@ -132,7 +132,10 @@ function renderRow(deadline, index) {
     li.dataset.category = section;
     li.style.setProperty('--i', index);
     const displayTitle = section === 'cla' ? normalizeAssessmentTitle(deadline) : deadline.title;
-    const bodyHtml = section === 'assignment'
+    // Some project courses (e.g. PJ61x) carry several distinct submission
+    // blocks with the same due date; the block title is the only thing that
+    // tells them apart, so it must stay visible.
+    const bodyHtml = !deadline.title
         ? `<span class="row-title">${escapeHtml(deadline.courseName)}</span>`
         : `<span class="row-title">${escapeHtml(displayTitle)}</span>
            <span class="row-course">${escapeHtml(deadline.courseName)}</span>`;
