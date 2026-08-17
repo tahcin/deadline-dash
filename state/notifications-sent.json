@@ -1,4 +1,23 @@
 {
+  "2026-08-17T23:59:00+05:30": {
+    "buckets": {
+      "12h": {
+        "id": null,
+        "sendAfter": null,
+        "status": "sent"
+      },
+      "1h": {
+        "id": "3e3ccd1d-d462-4968-9dec-c89b862372d7",
+        "sendAfter": "2026-08-17T22:59:00+05:30",
+        "status": "scheduled"
+      }
+    },
+    "members": [
+      "course-v1:IIIMBx+PJ61x+BBA_DBE_B1|block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@html+block@23610d9165794b64b318a483c1240247",
+      "course-v1:IIIMBx+PJ61x+BBA_DBE_B1|block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@html+block@2d74145c246b4fbb96f99524bd323949",
+      "course-v1:IIIMBx+PJ61x+BBA_DBE_B1|block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@html+block@5d32f603690a4bf4af842932db389f27"
+    ]
+  },
   "2026-08-20T16:00:00+05:30": {
     "buckets": {
       "1h": {
