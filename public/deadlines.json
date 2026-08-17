@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T07:21:54.020592+00:00",
+  "generatedAt": "2026-08-17T09:08:31.560177+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIIMBx+PJ61x+BBA_DBE_B1",
@@ -25,7 +25,7 @@
       "title": "Phase 1 Submission",
       "assignmentType": "Phase 1 Submission",
       "category": "other",
-      "dueAt": "2026-08-16T23:59:00+05:30",
+      "dueAt": "2026-08-17T23:59:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+PJ61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@sequential+block@7daa331bfd134773b198302e3431ad86",
@@ -38,7 +38,7 @@
       "title": "Phase 2 Submission",
       "assignmentType": "Phase 2 Submission",
       "category": "other",
-      "dueAt": "2026-08-16T23:59:00+05:30",
+      "dueAt": "2026-08-17T23:59:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+PJ61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@sequential+block@1e0f0cdd227840d6b0fd1cdf774b95cc",
@@ -51,7 +51,7 @@
       "title": "Phase 3 Submission",
       "assignmentType": "Phase 3 Submission",
       "category": "other",
-      "dueAt": "2026-08-16T23:59:00+05:30",
+      "dueAt": "2026-08-17T23:59:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIIMBx+PJ61x+BBA_DBE_B1/jump_to/block-v1:IIIMBx+PJ61x+BBA_DBE_B1+type@sequential+block@b393366609c3475394685d359aade7d7",
