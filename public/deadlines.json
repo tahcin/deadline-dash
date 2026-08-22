@@ -1,25 +1,5 @@
 {
-  "generatedAt": "2026-08-22T09:46:38.034721+00:00",
-  "courses": [
-    {
-      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
-      "name": "Business Research and Growth Systems Architecture",
-      "isArchived": false
-    }
-  ],
-  "deadlines": [
-    {
-      "courseId": "course-v1:IIIMBx+MD62x+BBA_DBE_B1",
-      "courseName": "Business Research and Growth Systems Architecture",
-      "courseArchived": false,
-      "title": "SME Live Session",
-      "assignmentType": "Live Session",
-      "category": "liveSession",
-      "dueAt": "2026-08-21T16:00:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://teams.microsoft.com/meet/478114925665806?p=eFB4PgVoRMgDNXxf1s",
-      "blockId": "ics:040000008200E00074C5B7101A82E008000000006D8B3140642ADD0100000000000000001000000054828E75222E2E49AAE1CA0BFBC461A5"
-    }
-  ]
+  "generatedAt": "2026-08-22T10:43:35.256513+00:00",
+  "courses": [],
+  "deadlines": []
 }
