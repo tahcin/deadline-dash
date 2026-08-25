@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25T11:47:23.150712+00:00",
+  "generatedAt": "2026-08-25T13:14:39.026615+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026",
@@ -18,7 +18,7 @@
       "dueAt": "2026-09-09T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
-      "link": "",
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026/jump_to/block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@sequential+block@432b41aaeda94ff7bfe9647830c18aed",
       "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@problem+block@bf560ef833e7402aa57db6551c2c7703"
     },
     {
@@ -31,7 +31,7 @@
       "dueAt": "2026-09-09T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
-      "link": "",
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026/jump_to/block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@sequential+block@a12ff776b3d6479097a477027cc3d3e4",
       "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@problem+block@af870f0e87804157b01724067d102540"
     },
     {
@@ -44,7 +44,7 @@
       "dueAt": "2026-09-09T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
-      "link": "",
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026/jump_to/block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@sequential+block@816673fe4d374a3199e6a1ac4bc0c167",
       "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@problem+block@074067b155d1482a890803453c721c2d"
     },
     {
@@ -57,7 +57,7 @@
       "dueAt": "2026-09-09T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
-      "link": "",
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026/jump_to/block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@sequential+block@84676078e2924ed289055847553769ce",
       "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@problem+block@67175291be8b4a9e971e2f9a835d76fa"
     },
     {
@@ -70,7 +70,7 @@
       "dueAt": "2026-09-09T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
-      "link": "",
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026/jump_to/block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@sequential+block@8ae93e5b47624fafb980a31f0399b877",
       "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@html+block@d8bfc5ed7e264fbe990ef4cd771bb1de"
     }
   ]
