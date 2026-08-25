@@ -1,5 +1,77 @@
 {
-  "generatedAt": "2026-08-25T10:53:04.346923+00:00",
-  "courses": [],
-  "deadlines": []
+  "generatedAt": "2026-08-25T11:47:23.150712+00:00",
+  "courses": [
+    {
+      "courseId": "course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026",
+      "name": "Entrepreneurial Hypothesis Testing - Retest",
+      "isArchived": false
+    }
+  ],
+  "deadlines": [
+    {
+      "courseId": "course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026",
+      "courseName": "Entrepreneurial Hypothesis Testing - Retest",
+      "courseArchived": false,
+      "title": "Graded Assessment 1 - Sep 2026",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-09-09T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@problem+block@bf560ef833e7402aa57db6551c2c7703"
+    },
+    {
+      "courseId": "course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026",
+      "courseName": "Entrepreneurial Hypothesis Testing - Retest",
+      "courseArchived": false,
+      "title": "Graded Assessment 2 - Sep 2026",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-09-09T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@problem+block@af870f0e87804157b01724067d102540"
+    },
+    {
+      "courseId": "course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026",
+      "courseName": "Entrepreneurial Hypothesis Testing - Retest",
+      "courseArchived": false,
+      "title": "Graded Assessment 3 - Sep 2026",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-09-09T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@problem+block@074067b155d1482a890803453c721c2d"
+    },
+    {
+      "courseId": "course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026",
+      "courseName": "Entrepreneurial Hypothesis Testing - Retest",
+      "courseArchived": false,
+      "title": "Graded Assessment 4 - Sep 2026",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-09-09T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@problem+block@67175291be8b4a9e971e2f9a835d76fa"
+    },
+    {
+      "courseId": "course-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026",
+      "courseName": "Entrepreneurial Hypothesis Testing - Retest",
+      "courseArchived": false,
+      "title": "Project Submission",
+      "assignmentType": "Final Project Submission",
+      "category": "assignment",
+      "dueAt": "2026-09-09T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+EP41x_RE+BBA_DBE_B1_Aug_Sep_2026+type@html+block@d8bfc5ed7e264fbe990ef4cd771bb1de"
+    }
+  ]
 }
