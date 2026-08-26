@@ -54,6 +54,18 @@ def login(session: requests.Session, email: str, password: str) -> None:
         raise SystemExit(f"login failed: {body}")
 
 
+# Retest/retake runs (e.g. "EP41x_RE" / "... - Retest") are enrollments
+# specific to the synced account, not batch-wide deadlines, so they are
+# excluded from the public feed.
+RETEST_NAME_RE = re.compile(r"\bre-?tests?\b|\bre-?takes?\b", re.I)
+
+
+def is_retest(course_id: str, name: str) -> bool:
+    parts = course_id.split("+")
+    code = parts[1] if len(parts) >= 3 else ""
+    return bool(RETEST_NAME_RE.search(name)) or code.upper().endswith("_RE")
+
+
 def fetch_courses(session: requests.Session) -> list[dict]:
     r = session.get(f"{LMS}/api/learner_home/init/", headers={"User-Agent": UA})
     r.raise_for_status()
@@ -63,6 +75,9 @@ def fetch_courses(session: requests.Session) -> list[dict]:
         course_id = run.get("courseId")
         name = (c.get("course") or {}).get("courseName")
         if not course_id or not name:
+            continue
+        if is_retest(course_id, name):
+            print(f"skipping retest course: {name} ({course_id})")
             continue
         out.append({
             "courseId": course_id,
