@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T09:47:16.934513+00:00",
+  "generatedAt": "2026-09-08T14:40:49.950644+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
@@ -33,6 +33,19 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@179691c8d4a74d4dabf6ca5afbc88b39",
       "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@49f8e2079fce43919abc2d187085763e"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Social Media Guidelines",
+      "assignmentType": "Social Media Manual",
+      "category": "other",
+      "dueAt": "2026-10-31T23:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@a220b272d5ab46d288ce39696ac8449a",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@9c68b0502a3d4f27a2d33ebcc5991df4"
     }
   ]
 }
