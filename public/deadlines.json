@@ -1,5 +1,38 @@
 {
-  "generatedAt": "2026-09-08T04:46:49.147587+00:00",
-  "courses": [],
-  "deadlines": []
+  "generatedAt": "2026-09-08T09:47:16.934513+00:00",
+  "courses": [
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "name": "Welcome to DBE: 2024",
+      "isArchived": false
+    }
+  ],
+  "deadlines": [
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Programme Manual",
+      "assignmentType": "Programme Manual",
+      "category": "other",
+      "dueAt": "2026-10-31T23:30:00+05:30",
+      "complete": true,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@0b390223eed242309c409364b988b99c",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@083c508f161a44ddbf8a651cddd1635b"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Learner Manual",
+      "assignmentType": "Learner Manual",
+      "category": "other",
+      "dueAt": "2026-10-31T23:30:00+05:30",
+      "complete": true,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@179691c8d4a74d4dabf6ca5afbc88b39",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@49f8e2079fce43919abc2d187085763e"
+    }
+  ]
 }
