@@ -66,6 +66,18 @@ def is_retest(course_id: str, name: str) -> bool:
     return bool(RETEST_NAME_RE.search(name)) or code.upper().endswith("_RE")
 
 
+# The orientation course ("Welcome to DBE") marks its reading material
+# (Programme Manual, Learner Manual, Social Media Manual, ...) as graded
+# subsections with a due date, so the LMS reports them as assignment due
+# dates. They are plain HTML pages, not assessments, and only clutter the
+# feed and trigger pointless reminders.
+MATERIAL_TYPE_RE = re.compile(r"\bmanuals?\b|\bguidelines?\b|\bhandbooks?\b", re.I)
+
+
+def is_reading_material(assignment_type: str, title: str = "") -> bool:
+    return bool(MATERIAL_TYPE_RE.search(assignment_type) or MATERIAL_TYPE_RE.search(title))
+
+
 def fetch_courses(session: requests.Session) -> list[dict]:
     r = session.get(f"{LMS}/api/learner_home/init/", headers={"User-Agent": UA})
     r.raise_for_status()
@@ -307,11 +319,15 @@ def main() -> None:
             if b.get("date_type") != "assignment-due-date":
                 continue
             assignment_type = (b.get("assignment_type") or "").strip()
+            title = b.get("title") or ""
+            if is_reading_material(assignment_type, title):
+                print(f"  skipping reading material: {title!r} ({assignment_type}) in {course['name']}")
+                continue
             deadlines.append({
                 "courseId": course["courseId"],
                 "courseName": course["name"],
                 "courseArchived": course["isArchived"],
-                "title": b.get("title") or "",
+                "title": title,
                 "assignmentType": assignment_type,
                 "category": categorize(assignment_type),
                 "dueAt": b.get("date"),
