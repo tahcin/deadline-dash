@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T01:36:22.914931+00:00",
+  "generatedAt": "2026-09-25T13:55:49.697420+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
@@ -9,6 +9,11 @@
     {
       "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
       "name": "Critical Thinking",
+      "isArchived": false
+    },
+    {
+      "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
+      "name": "Family Business Strategy",
       "isArchived": false
     }
   ],
@@ -38,6 +43,19 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+MD71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+MD71x+BBA_DBE_B1+type@sequential+block@b5cad90c71f14e5cabd9441bdcc6d62d",
       "blockId": "block-v1:IIMBx+MD71x+BBA_DBE_B1+type@problem+block@3cd4517eafe54723bc54dff4f2f502b3"
+    },
+    {
+      "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
+      "courseName": "Family Business Strategy",
+      "courseArchived": false,
+      "title": "1.14 Continuous Learning Assessment - 1",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-10-02T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@bb659c4417c64963aeae2f37e82c20e6",
+      "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@07fdf914358743b3ac338ddd76463a23"
     }
   ]
 }
