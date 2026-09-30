@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-30T13:50:52.992109+00:00",
+  "generatedAt": "2026-09-30T19:27:59.738777+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
@@ -26,7 +26,7 @@
       "assignmentType": "Continuous Learning Assessments",
       "category": "cla",
       "dueAt": "2026-09-30T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+FA71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+FA71x+BBA_DBE_B1+type@sequential+block@7c65e258636f46f0ade4a75a5d5ea42f",
       "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem1"
@@ -52,10 +52,49 @@
       "assignmentType": "Continuous Learning Assessments",
       "category": "cla",
       "dueAt": "2026-10-02T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@bb659c4417c64963aeae2f37e82c20e6",
       "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@07fdf914358743b3ac338ddd76463a23"
+    },
+    {
+      "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
+      "courseName": "Corporate Finance",
+      "courseArchived": false,
+      "title": "2.10 Continuous Learning Assessment 2",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-10-07T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+FA71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+FA71x+BBA_DBE_B1+type@sequential+block@1bbf3d707b9c424db5976d7ae3c368b0",
+      "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem15"
+    },
+    {
+      "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
+      "courseName": "Critical Thinking",
+      "courseArchived": false,
+      "title": "2.6 Continuous Learning Assessment - 2",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-10-07T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+MD71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+MD71x+BBA_DBE_B1+type@sequential+block@54bbfc0de0fd4dc08f928681e2a57256",
+      "blockId": "block-v1:IIMBx+MD71x+BBA_DBE_B1+type@problem+block@a17071c732ef4e07a5614e38e80cb263"
+    },
+    {
+      "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
+      "courseName": "Family Business Strategy",
+      "courseArchived": false,
+      "title": "2.12 Continuous Learning Assessment - 2",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-10-07T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@4c709730c5254d24a7e3ddcaa9e2f13e",
+      "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@a4eefcb9055a41ff87444181aadafe9e"
     }
   ]
 }
