@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T10:28:11.907008+00:00",
+  "generatedAt": "2026-10-06T17:19:08.721702+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
@@ -69,6 +69,19 @@
       "learnerHasAccess": true,
       "link": "https://teams.microsoft.com/meet/448153289201674?p=R3YaNY3YElcgk1aYeK",
       "blockId": "ics:040000008200E00074C5B7101A82E008000000000FA7FD737C55DD01000000000000000010000000A067F31557C16C48A8ED980635A1E302"
+    },
+    {
+      "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
+      "courseName": "Corporate Finance",
+      "courseArchived": false,
+      "title": "Faculty Live Session",
+      "assignmentType": "Live Session",
+      "category": "liveSession",
+      "dueAt": "2026-11-12T16:00:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://teams.microsoft.com/meet/432976568697343?p=HqpSM4UpctBoPLaKzg",
+      "blockId": "ics:040000008200E00074C5B7101A82E00800000000C45261E77D55DD0100000000000000001000000054A2E666B71B2141BA7246BCB6C35597"
     }
   ]
 }
