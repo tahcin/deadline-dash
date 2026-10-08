@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T16:35:41.712091+00:00",
+  "generatedAt": "2026-10-08T22:10:41.339997+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
@@ -18,45 +18,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
-      "courseName": "Corporate Finance",
-      "courseArchived": false,
-      "title": "2.10 Continuous Learning Assessment 2",
-      "assignmentType": "Continuous Learning Assessments",
-      "category": "cla",
-      "dueAt": "2026-10-07T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+FA71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+FA71x+BBA_DBE_B1+type@sequential+block@1bbf3d707b9c424db5976d7ae3c368b0",
-      "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem15"
-    },
-    {
-      "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
-      "courseName": "Critical Thinking",
-      "courseArchived": false,
-      "title": "2.6 Continuous Learning Assessment - 2",
-      "assignmentType": "Continuous Learning Assessments",
-      "category": "cla",
-      "dueAt": "2026-10-07T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+MD71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+MD71x+BBA_DBE_B1+type@sequential+block@54bbfc0de0fd4dc08f928681e2a57256",
-      "blockId": "block-v1:IIMBx+MD71x+BBA_DBE_B1+type@problem+block@a17071c732ef4e07a5614e38e80cb263"
-    },
-    {
-      "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
-      "courseName": "Family Business Strategy",
-      "courseArchived": false,
-      "title": "2.12 Continuous Learning Assessment - 2",
-      "assignmentType": "Continuous Learning Assessments",
-      "category": "cla",
-      "dueAt": "2026-10-07T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@4c709730c5254d24a7e3ddcaa9e2f13e",
-      "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@a4eefcb9055a41ff87444181aadafe9e"
-    },
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
       "courseName": "Corporate Finance",
