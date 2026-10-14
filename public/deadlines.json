@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14T07:44:38.440339+00:00",
+  "generatedAt": "2026-10-14T13:49:14.420571+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
@@ -82,6 +82,32 @@
       "learnerHasAccess": true,
       "link": "https://teams.microsoft.com/meet/439467575577397?p=3b0x1kURo8AG0TRita",
       "blockId": "ics:040000008200E00074C5B7101A82E00800000000FC734F4EA35BDD010000000000000000100000005E22784EA50FE44DA41F7D38937CAF72"
+    },
+    {
+      "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
+      "courseName": "Corporate Finance",
+      "courseArchived": false,
+      "title": "4.10 Continuous Learning Assessment 4",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-10-21T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+FA71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+FA71x+BBA_DBE_B1+type@sequential+block@a98656c677ce468f875fbaff9c5e3638",
+      "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem31"
+    },
+    {
+      "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
+      "courseName": "Critical Thinking",
+      "courseArchived": false,
+      "title": "4.16 Continuous Learning Assessment - 4",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-10-21T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+MD71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+MD71x+BBA_DBE_B1+type@sequential+block@6796b28a7b004cb393d809487a38cfe9",
+      "blockId": "block-v1:IIMBx+MD71x+BBA_DBE_B1+type@problem+block@0fbc37af9de044a19121d5900a5b9d96"
     },
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
