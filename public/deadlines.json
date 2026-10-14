@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14T01:58:07.266933+00:00",
+  "generatedAt": "2026-10-14T07:44:38.440339+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
@@ -69,6 +69,19 @@
       "learnerHasAccess": true,
       "link": "https://teams.microsoft.com/meet/448153289201674?p=R3YaNY3YElcgk1aYeK",
       "blockId": "ics:040000008200E00074C5B7101A82E008000000000FA7FD737C55DD01000000000000000010000000A067F31557C16C48A8ED980635A1E302"
+    },
+    {
+      "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
+      "courseName": "Critical Thinking",
+      "courseArchived": false,
+      "title": "SME Live Session",
+      "assignmentType": "Live Session",
+      "category": "liveSession",
+      "dueAt": "2026-10-21T16:00:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://teams.microsoft.com/meet/439467575577397?p=3b0x1kURo8AG0TRita",
+      "blockId": "ics:040000008200E00074C5B7101A82E00800000000FC734F4EA35BDD010000000000000000100000005E22784EA50FE44DA41F7D38937CAF72"
     },
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
