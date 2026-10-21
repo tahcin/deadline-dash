@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T01:40:38.894711+00:00",
+  "generatedAt": "2026-10-21T07:46:49.895021+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
@@ -82,6 +82,32 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@aec5e1ab771d4ea6b020cb251304fd61",
       "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@93dd2cdb6a054099a8533f42e98e46b5"
+    },
+    {
+      "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
+      "courseName": "Corporate Finance",
+      "courseArchived": false,
+      "title": "5.11 4.10 Continuous Learning Assessment 5",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-10-28T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@html+block@cafe72361b5443859a9249e527d13c77"
+    },
+    {
+      "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
+      "courseName": "Family Business Strategy",
+      "courseArchived": false,
+      "title": "5.7 Continuous Learning Assessment - 5",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-10-28T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@1bd0e0d0f2d14f11b15ca715d3222378"
     },
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
