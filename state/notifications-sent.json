@@ -1,22 +1,4 @@
 {
-  "2026-10-21T22:30:00+05:30": {
-    "buckets": {
-      "12h": {
-        "id": "44b6b4ac-4d75-4b90-a087-f5782ddfd10d",
-        "sendAfter": "2026-10-21T10:30:00+05:30",
-        "status": "scheduled"
-      },
-      "1h": {
-        "id": "382b45c7-1b37-4205-bd20-01bfe876682a",
-        "sendAfter": "2026-10-21T21:30:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx+FA71x+BBA_DBE_B1|block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem31",
-      "course-v1:IIMBx+MD71x+BBA_DBE_B1|block-v1:IIMBx+MD71x+BBA_DBE_B1+type@problem+block@0fbc37af9de044a19121d5900a5b9d96"
-    ]
-  },
   "2026-10-23T18:30:00+05:30": {
     "buckets": {
       "1h": {
