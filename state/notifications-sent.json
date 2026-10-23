@@ -1,26 +1,4 @@
 {
-  "2026-10-23T18:30:00+05:30": {
-    "buckets": {
-      "1h": {
-        "id": "9b795951-4b91-4716-ab35-938737fa3ba8",
-        "sendAfter": "2026-10-23T17:30:00+05:30",
-        "status": "scheduled"
-      },
-      "24h": {
-        "id": null,
-        "sendAfter": null,
-        "status": "sent"
-      },
-      "5m": {
-        "id": "89dd1b70-9d39-4738-b33e-2bfeb48e18ea",
-        "sendAfter": "2026-10-23T18:25:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx+FA71x+BBA_DBE_B1|ics:040000008200E00074C5B7101A82E008000000001C9998E5995FDD01000000000000000010000000C28A2A961AB5D447AEA678042B416E04"
-    ]
-  },
   "2026-10-23T22:30:00+05:30": {
     "buckets": {
       "12h": {
