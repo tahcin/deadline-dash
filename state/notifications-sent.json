@@ -1,26 +1,4 @@
 {
-  "2026-10-23T18:30:00+05:30": {
-    "buckets": {
-      "1h": {
-        "id": "ea8fd581-accf-4161-ad24-d54af21722b0",
-        "sendAfter": "2026-10-23T17:30:00+05:30",
-        "status": "scheduled"
-      },
-      "24h": {
-        "id": "8ef5cd4c-68ab-489f-9214-7b3d730cace5",
-        "sendAfter": "2026-10-22T18:30:00+05:30",
-        "status": "scheduled"
-      },
-      "5m": {
-        "id": "011755a0-4631-4a3d-bc60-b760ae62b643",
-        "sendAfter": "2026-10-23T18:25:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx+FA71x+BBA_DBE_B1|ics:040000008200E00074C5B7101A82E008000000001C9998E5995FDD01000000000000000010000000C28A2A961AB5D447AEA678042B416E04"
-    ]
-  },
   "2026-10-23T22:30:00+05:30": {
     "buckets": {
       "12h": {
@@ -36,28 +14,6 @@
     },
     "members": [
       "course-v1:IIMBx+ST71x+BBA_DBE_B1|block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@93dd2cdb6a054099a8533f42e98e46b5"
-    ]
-  },
-  "2026-10-26T16:00:00+05:30": {
-    "buckets": {
-      "1h": {
-        "id": "b3d9c4cb-5a78-40ee-a302-2c0cb4de7009",
-        "sendAfter": "2026-10-26T15:00:00+05:30",
-        "status": "scheduled"
-      },
-      "24h": {
-        "id": "8ed86620-12ca-4e2a-a6a0-4224bf8e6aeb",
-        "sendAfter": "2026-10-25T16:00:00+05:30",
-        "status": "scheduled"
-      },
-      "5m": {
-        "id": "f13baef5-0cd0-4d58-84e1-363ba40d7e69",
-        "sendAfter": "2026-10-26T15:55:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx+FA71x+BBA_DBE_B1|ics:040000008200E00074C5B7101A82E0080000000014258D261262DD01000000000000000010000000DDC3BF7A6EC0454AAEE1C56D38919CDA"
     ]
   },
   "2026-10-28T22:30:00+05:30": {
@@ -77,50 +33,6 @@
       "course-v1:IIMBx+FA71x+BBA_DBE_B1|block-v1:IIMBx+FA71x+BBA_DBE_B1+type@html+block@cafe72361b5443859a9249e527d13c77",
       "course-v1:IIMBx+MD71x+BBA_DBE_B1|block-v1:IIMBx+MD71x+BBA_DBE_B1+type@problem+block@f7363b9180db4aa09d37f9db9869addf",
       "course-v1:IIMBx+ST71x+BBA_DBE_B1|block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@1bd0e0d0f2d14f11b15ca715d3222378"
-    ]
-  },
-  "2026-11-05T18:30:00+05:30": {
-    "buckets": {
-      "1h": {
-        "id": "6dfdca1a-7a5f-4729-8543-4612e8b20990",
-        "sendAfter": "2026-11-05T17:30:00+05:30",
-        "status": "scheduled"
-      },
-      "24h": {
-        "id": "76165ca9-8876-41a6-ad69-a5756e76d5df",
-        "sendAfter": "2026-11-04T18:30:00+05:30",
-        "status": "scheduled"
-      },
-      "5m": {
-        "id": "7b39d87f-2d5e-421f-9322-709a92ebd9cd",
-        "sendAfter": "2026-11-05T18:25:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx+FA71x+BBA_DBE_B1|ics:040000008200E00074C5B7101A82E00800000000C1624BC79A5FDD0100000000000000001000000027D38DACAE18B6489374CA1A6006CC54"
-    ]
-  },
-  "2026-11-12T16:00:00+05:30": {
-    "buckets": {
-      "1h": {
-        "id": "10b49976-79fe-4e28-b3bd-53a42fd63526",
-        "sendAfter": "2026-11-12T15:00:00+05:30",
-        "status": "scheduled"
-      },
-      "24h": {
-        "id": "04b2c659-62e7-4360-967f-01a203acc076",
-        "sendAfter": "2026-11-11T16:00:00+05:30",
-        "status": "scheduled"
-      },
-      "5m": {
-        "id": "6c529473-9757-444e-b9ce-cd23d243b494",
-        "sendAfter": "2026-11-12T15:55:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx+FA71x+BBA_DBE_B1|ics:040000008200E00074C5B7101A82E00800000000C45261E77D55DD0100000000000000001000000054A2E666B71B2141BA7246BCB6C35597"
     ]
   }
 }
