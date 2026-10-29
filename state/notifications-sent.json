@@ -39,6 +39,23 @@
       "course-v1:IIMBx+FA71x+BBA_DBE_B1|ics:040000008200E00074C5B7101A82E00800000000C1624BC79A5FDD0100000000000000001000000027D38DACAE18B6489374CA1A6006CC54"
     ]
   },
+  "2026-11-05T22:30:00+05:30": {
+    "buckets": {
+      "12h": {
+        "id": "2a06adb2-f64e-4d5b-beac-887f4f432887",
+        "sendAfter": "2026-11-05T10:30:00+05:30",
+        "status": "scheduled"
+      },
+      "1h": {
+        "id": "bb6d2b71-1f06-4ccf-ae90-430bfdaeba0a",
+        "sendAfter": "2026-11-05T21:30:00+05:30",
+        "status": "scheduled"
+      }
+    },
+    "members": [
+      "course-v1:IIMBx+ST71x+BBA_DBE_B1|block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@15782c1849374ea0b3232f09219f632d"
+    ]
+  },
   "2026-11-12T16:00:00+05:30": {
     "buckets": {
       "1h": {
