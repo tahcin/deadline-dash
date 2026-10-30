@@ -1,6 +1,11 @@
 {
-  "generatedAt": "2026-10-30T08:45:42.620785+00:00",
+  "generatedAt": "2026-10-30T16:00:52.937206+00:00",
   "courses": [
+    {
+      "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
+      "name": "Term 7 and Term 8 Final Project Submission",
+      "isArchived": false
+    },
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
       "name": "Corporate Finance",
@@ -58,6 +63,19 @@
       "blockId": "ics:040000008200E00074C5B7101A82E00800000000C1624BC79A5FDD0100000000000000001000000027D38DACAE18B6489374CA1A6006CC54"
     },
     {
+      "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
+      "courseName": "Term 7 and Term 8 Final Project Submission",
+      "courseArchived": false,
+      "title": "Agreement",
+      "assignmentType": "Agreement Submission",
+      "category": "other",
+      "dueAt": "2026-11-05T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+PJ71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@sequential+block@477c9b9986624f2e8482fb4a1fa8c9d3",
+      "blockId": "block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@2564ab5ef1cd481eae95abe88a4c90df"
+    },
+    {
       "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
       "courseName": "Family Business Strategy",
       "courseArchived": false,
@@ -82,6 +100,32 @@
       "learnerHasAccess": true,
       "link": "https://teams.microsoft.com/meet/432976568697343?p=HqpSM4UpctBoPLaKzg",
       "blockId": "ics:040000008200E00074C5B7101A82E00800000000C45261E77D55DD0100000000000000001000000054A2E666B71B2141BA7246BCB6C35597"
+    },
+    {
+      "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
+      "courseName": "Term 7 and Term 8 Final Project Submission",
+      "courseArchived": false,
+      "title": "Interim Report",
+      "assignmentType": "Interim Report",
+      "category": "other",
+      "dueAt": "2026-12-06T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@9d8f6e0b0d874e8aa5d18dc04e6cb98c"
+    },
+    {
+      "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
+      "courseName": "Term 7 and Term 8 Final Project Submission",
+      "courseArchived": false,
+      "title": "Final Report",
+      "assignmentType": "Final Report",
+      "category": "other",
+      "dueAt": "2027-03-03T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@5da5a1f91c5943fcaa50eb8d0d2bf7cb"
     }
   ]
 }
