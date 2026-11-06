@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T16:00:10.468838+00:00",
+  "generatedAt": "2026-11-06T21:34:51.757495+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
@@ -38,19 +38,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
-      "courseName": "Family Business Strategy",
-      "courseArchived": false,
-      "title": "6.6 Continuous Learning Assessment - 6",
-      "assignmentType": "Continuous Learning Assessments",
-      "category": "cla",
-      "dueAt": "2026-11-05T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@57f1f0fd94a4491c8c887f95ef93fe1d",
-      "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@15782c1849374ea0b3232f09219f632d"
-    },
     {
       "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
       "courseName": "Data Visualisation for Business Decisions",
