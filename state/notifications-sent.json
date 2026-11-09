@@ -67,41 +67,19 @@
   "2026-11-18T22:30:00+05:30": {
     "buckets": {
       "12h": {
-        "id": "414dcdcc-ede0-4bb0-81dc-4ed51130b73a",
+        "id": "b2c4f579-cdcc-4e88-9173-852616b210a8",
         "sendAfter": "2026-11-18T10:30:00+05:30",
         "status": "scheduled"
       },
       "1h": {
-        "id": "0535f49b-1a3d-4c22-92ef-7efb518596c1",
+        "id": "9206ed1f-c2ac-45ef-8bf1-73836e0176ab",
         "sendAfter": "2026-11-18T21:30:00+05:30",
         "status": "scheduled"
       }
     },
     "members": [
+      "course-v1:IIMBx+FA71x+BBA_DBE_B1|block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem63",
       "course-v1:IIMBx+PJ71x+BBA_DBE_B1|block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@2564ab5ef1cd481eae95abe88a4c90df"
-    ]
-  },
-  "2026-11-22T22:30:00+05:30": {
-    "buckets": {
-      "12h": {
-        "id": "e02e8f25-596c-49cf-b993-25f8edb1ec59",
-        "sendAfter": "2026-11-22T10:30:00+05:30",
-        "status": "scheduled"
-      },
-      "1h": {
-        "id": "446ef691-17db-46d0-a997-09870734082d",
-        "sendAfter": "2026-11-22T21:30:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx_DBE+DBE_001+2024|block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@65284855295d40928b57b6ba15a53c7d",
-      "course-v1:IIMBx_DBE+DBE_001+2024|block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@763f34d0d5bd4f9fbb908f1cd0adeffb",
-      "course-v1:IIMBx_DBE+DBE_001+2024|block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@7819addfca9b4381a7b2f185bacbfc9f",
-      "course-v1:IIMBx_DBE+DBE_001+2024|block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@88b5f4c4282f41a69c10c621e5d181bf",
-      "course-v1:IIMBx_DBE+DBE_001+2024|block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@bafb1d02cc024ef3a7aa2ea56293a8b2",
-      "course-v1:IIMBx_DBE+DBE_001+2024|block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@f097a8b054ac411897fae682b67374fa",
-      "course-v1:IIMBx_DBE+DBE_001+2024|block-v1:IIMBx_DBE+DBE_001+2024+type@video+block@62dfb01a3ef24aefaa0aa1a6cba87686"
     ]
   },
   "2026-11-25T18:00:00+05:30": {
