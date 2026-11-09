@@ -70,14 +70,8 @@ def is_retest(course_id: str, name: str) -> bool:
 # (Programme Manual, Learner Manual, Social Media Manual, ...) as graded
 # subsections with a due date, so the LMS reports them as assignment due
 # dates. They are plain HTML pages, not assessments, and only clutter the
-# feed and trigger pointless reminders. The same course also files its policy
-# pages, undertakings and orientation talks under "Policy Documents" (e.g.
-# "Anti-ragging Policy and Declaration", "Cyber Safety Guide"), which used to
-# land in Projects as seven fake deadlines.
-MATERIAL_TYPE_RE = re.compile(
-    r"\bmanuals?\b|\bguides?\b|\bguidelines?\b|\bhandbooks?\b|\bpolicy documents?\b",
-    re.I,
-)
+# feed and trigger pointless reminders.
+MATERIAL_TYPE_RE = re.compile(r"\bmanuals?\b|\bguidelines?\b|\bhandbooks?\b", re.I)
 
 
 def is_reading_material(assignment_type: str, title: str = "") -> bool:
@@ -127,6 +121,11 @@ def categorize(assignment_type: str) -> str:
         return "midterm"
     if "project" in t:
         return "assignment"
+    # The orientation course files its undertakings/declarations and policy
+    # pages under "Policy Documents". They're not projects, so they get their
+    # own Miscellaneous bucket (shown last, no push reminders).
+    if re.search(r"\bpolic(y|ies)\b", t):
+        return "misc"
     if "live" in t or "webinar" in t or "session" in t:
         return "liveSession"
     return "other"

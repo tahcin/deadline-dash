@@ -140,6 +140,10 @@ def identity(d: dict) -> str:
 
 
 def visible(d: dict, now_ts: float) -> bool:
+    # Miscellaneous items (orientation policy docs) are shown on the site but
+    # never worth a push reminder.
+    if d.get("category") == "misc":
+        return False
     if not d.get("learnerHasAccess"):
         return False
     if d.get("courseArchived"):

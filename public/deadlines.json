@@ -30,6 +30,11 @@
       "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
       "name": "Family Business Strategy",
       "isArchived": false
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "name": "Welcome to DBE: 2024",
+      "isArchived": false
     }
   ],
   "deadlines": [
@@ -136,6 +141,97 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+PJ71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@sequential+block@477c9b9986624f2e8482fb4a1fa8c9d3",
       "blockId": "block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@2564ab5ef1cd481eae95abe88a4c90df"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Anti-ragging Policy and Declaration",
+      "assignmentType": "Policy Documents",
+      "category": "misc",
+      "dueAt": "2026-11-22T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@8d7982f9ee274d669d880e9e4d9f7363",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@7819addfca9b4381a7b2f185bacbfc9f"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Cyber Safety Guide",
+      "assignmentType": "Policy Documents",
+      "category": "misc",
+      "dueAt": "2026-11-22T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@acc5706cf0264c36897888b7f35c3b7b",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@763f34d0d5bd4f9fbb908f1cd0adeffb"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Ethics Undertaking",
+      "assignmentType": "Policy Documents",
+      "category": "misc",
+      "dueAt": "2026-11-22T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@9ed9e34539a64b44a37fbc730609cfe9",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@bafb1d02cc024ef3a7aa2ea56293a8b2"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Academic Integrity Undertaking",
+      "assignmentType": "Policy Documents",
+      "category": "misc",
+      "dueAt": "2026-11-22T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@9a686014cea64ad8bfd9336149adfae2",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@f097a8b054ac411897fae682b67374fa"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Inclusivity and Respect Policy",
+      "assignmentType": "Policy Documents",
+      "category": "misc",
+      "dueAt": "2026-11-22T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@c8941aa4065d42c983d5a7abeb875cb9",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@65284855295d40928b57b6ba15a53c7d"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Inclusivity: Talk by Prof. Anil B. Suraj",
+      "assignmentType": "Policy Documents",
+      "category": "misc",
+      "dueAt": "2026-11-22T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@94a962f781304cbaabaa671b017b18fa",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@video+block@62dfb01a3ef24aefaa0aa1a6cba87686"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Generative AI Use Policy",
+      "assignmentType": "Policy Documents",
+      "category": "misc",
+      "dueAt": "2026-11-22T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@10f13a875ab04fe4b58886f950e92414",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@88b5f4c4282f41a69c10c621e5d181bf"
     },
     {
       "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",

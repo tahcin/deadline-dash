@@ -208,6 +208,15 @@ def test_migrates_legacy_state():
     check(state[due]["buckets"]["12h"]["status"] == "sent", "legacy 12h stays 'sent'")
 
 
+def test_misc_items_get_no_push():
+    now = datetime(2026, 7, 23, 12, 0, tzinfo=UTC)
+    due = "2026-08-12T22:30:00+05:30"
+    r = Recorder()
+    sn.reconcile([deadline("C1", "B1", due, title="Ethics Undertaking", category="misc")],
+                 {}, now, r.send, r.cancel)
+    check(len(r.sends) == 0, f"misc deadline schedules no push (got {len(r.sends)})")
+
+
 if __name__ == "__main__":
     run("schedules both buckets at exact lead times", test_schedules_both_buckets_at_exact_lead_times)
     run("idempotent (no double schedule)", test_idempotent_no_double_schedule)
@@ -218,6 +227,7 @@ if __name__ == "__main__":
     run("too-far-out defers scheduling", test_too_far_out_defers_scheduling)
     run("late deadline sends final reminder now", test_late_deadline_sends_final_reminder_immediately)
     run("migrates legacy state", test_migrates_legacy_state)
+    run("misc items get no push", test_misc_items_get_no_push)
 
     print("\n" + "=" * 60)
     if _failures:

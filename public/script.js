@@ -8,8 +8,9 @@ const SECTION_BY_CATEGORY = {
     assignment: 'assignment',
     liveSession: 'liveSession',
     other: 'assignment',
+    misc: 'misc',
 };
-const SECTION_IDS = ['cla', 'assignment', 'liveSession'];
+const SECTION_IDS = ['cla', 'assignment', 'liveSession', 'misc'];
 const MID_TERM_RE = /\bmid[\s-]*terms?\b/i;
 
 // Older feeds filed "Mid Term 1" (space, no hyphen) under category "other",
@@ -173,7 +174,7 @@ function renderRow(deadline, index) {
 }
 
 function renderGroups(deadlines) {
-    const grouped = { cla: [], assignment: [], liveSession: [] };
+    const grouped = { cla: [], assignment: [], liveSession: [], misc: [] };
     for (const d of deadlines) {
         const sec = sectionFor(d);
         grouped[sec].push(d);
@@ -183,6 +184,7 @@ function renderGroups(deadlines) {
         cla: 'CLAs & Mid-Terms',
         assignment: 'Projects',
         liveSession: 'Live Sessions',
+        misc: 'Miscellaneous Items',
     };
 
     let globalIndex = 0;
