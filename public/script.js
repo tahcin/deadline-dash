@@ -10,6 +10,17 @@ const SECTION_BY_CATEGORY = {
     other: 'assignment',
 };
 const SECTION_IDS = ['cla', 'assignment', 'liveSession'];
+const MID_TERM_RE = /\bmid[\s-]*terms?\b/i;
+
+// Older feeds filed "Mid Term 1" (space, no hyphen) under category "other",
+// so fall back to the type/title before defaulting to Projects.
+function sectionFor(deadline) {
+    if (deadline.category === 'other'
+        && (MID_TERM_RE.test(deadline.assignmentType || '') || MID_TERM_RE.test(deadline.title || ''))) {
+        return 'cla';
+    }
+    return SECTION_BY_CATEGORY[deadline.category] || 'assignment';
+}
 const GRACE_MS = 24 * 60 * 60 * 1000;
 const URGENT_MS = 24 * 60 * 60 * 1000;          // <24h => urgent
 const WARNING_MS = 72 * 60 * 60 * 1000;         // <72h => warning
@@ -62,11 +73,16 @@ function extractCourseTag(courseId) {
 }
 
 function normalizeAssessmentTitle(deadline) {
-    const sec = SECTION_BY_CATEGORY[deadline.category] || 'assignment';
+    const sec = sectionFor(deadline);
     if (sec !== 'cla') return deadline.title;
     const t = String(deadline.title || '');
-    const isMidTerm = deadline.category === 'midterm' || /mid[\s-]*term/i.test(t);
+    const isMidTerm = deadline.category === 'midterm' || MID_TERM_RE.test(t)
+        || MID_TERM_RE.test(deadline.assignmentType || '');
     const label = isMidTerm ? 'Mid-Term' : 'CLA';
+    if (isMidTerm) {
+        const num = (t.match(/mid[\s-]*term\s*(\d+)/i) || String(deadline.assignmentType || '').match(/mid[\s-]*term\s*(\d+)/i));
+        if (num) return `Mid-Term ${num[1]}`;
+    }
     const moduleMatch = t.match(/^\s*(\d+)\.\d+/) || t.match(/module\s+(\d+)/i);
     return moduleMatch ? `Module ${moduleMatch[1]} ${label}` : label;
 }
@@ -124,7 +140,7 @@ function renderRow(deadline, index) {
     const due = new Date(deadline.dueAt).getTime();
     const urgency = urgencyFor(due, Date.now());
     const tag = extractCourseTag(deadline.courseId);
-    const section = SECTION_BY_CATEGORY[deadline.category] || 'assignment';
+    const section = sectionFor(deadline);
     const li = document.createElement('li');
     li.className = 'row';
     li.dataset.urgency = urgency;
@@ -159,7 +175,7 @@ function renderRow(deadline, index) {
 function renderGroups(deadlines) {
     const grouped = { cla: [], assignment: [], liveSession: [] };
     for (const d of deadlines) {
-        const sec = SECTION_BY_CATEGORY[d.category] || 'assignment';
+        const sec = sectionFor(d);
         grouped[sec].push(d);
     }
 

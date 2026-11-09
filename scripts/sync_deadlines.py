@@ -70,8 +70,14 @@ def is_retest(course_id: str, name: str) -> bool:
 # (Programme Manual, Learner Manual, Social Media Manual, ...) as graded
 # subsections with a due date, so the LMS reports them as assignment due
 # dates. They are plain HTML pages, not assessments, and only clutter the
-# feed and trigger pointless reminders.
-MATERIAL_TYPE_RE = re.compile(r"\bmanuals?\b|\bguidelines?\b|\bhandbooks?\b", re.I)
+# feed and trigger pointless reminders. The same course also files its policy
+# pages, undertakings and orientation talks under "Policy Documents" (e.g.
+# "Anti-ragging Policy and Declaration", "Cyber Safety Guide"), which used to
+# land in Projects as seven fake deadlines.
+MATERIAL_TYPE_RE = re.compile(
+    r"\bmanuals?\b|\bguides?\b|\bguidelines?\b|\bhandbooks?\b|\bpolicy documents?\b",
+    re.I,
+)
 
 
 def is_reading_material(assignment_type: str, title: str = "") -> bool:
@@ -116,7 +122,8 @@ def categorize(assignment_type: str) -> str:
     # ("CLA"/"CLAs") depending on the course's grading config in the LMS.
     if "continuous learning assessment" in t or re.search(r"\bclas?\b", t):
         return "cla"
-    if "mid-term" in t or "midterm" in t:
+    # "Mid-Term 1", "Midterm", "Mid Term 1" all occur across courses.
+    if re.search(r"\bmid[\s-]*terms?\b", t):
         return "midterm"
     if "project" in t:
         return "assignment"

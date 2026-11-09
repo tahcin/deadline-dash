@@ -41,3 +41,18 @@ if __name__ == "__main__":
         t()
         print(f"ok  {t.__name__}")
     print(f"{len(tests)} tests passed")
+
+
+def test_categorize_mid_term_variants():
+    assert sd.categorize("Mid Term 1") == "midterm"
+    assert sd.categorize("Mid-Term 2") == "midterm"
+    assert sd.categorize("Midterm") == "midterm"
+    assert sd.categorize("Agreement Submission") == "other"
+
+
+def test_policy_documents_are_reading_material():
+    assert sd.is_reading_material("Policy Documents", "Anti-ragging Policy and Declaration")
+    assert sd.is_reading_material("Policy Documents", "Inclusivity: Talk by Prof. Anil B. Suraj")
+    assert sd.is_reading_material("", "Cyber Safety Guide")
+    assert not sd.is_reading_material("Agreement Submission", "Agreement")
+    assert not sd.is_reading_material("Interim Report", "Interim Report")
