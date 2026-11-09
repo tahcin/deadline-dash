@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-09T02:43:46.626417+00:00",
+  "generatedAt": "2026-11-09T11:44:59.357381+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
@@ -143,6 +143,19 @@
       "blockId": "block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@2564ab5ef1cd481eae95abe88a4c90df"
     },
     {
+      "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
+      "courseName": "Corporate Finance",
+      "courseArchived": false,
+      "title": "8.8 Continuous Learning Assessment 8",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-11-18T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem63"
+    },
+    {
       "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
       "courseName": "Welcome to DBE: 2024",
       "courseArchived": false,
@@ -163,7 +176,7 @@
       "assignmentType": "Policy Documents",
       "category": "misc",
       "dueAt": "2026-11-22T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@acc5706cf0264c36897888b7f35c3b7b",
       "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@763f34d0d5bd4f9fbb908f1cd0adeffb"
@@ -202,7 +215,7 @@
       "assignmentType": "Policy Documents",
       "category": "misc",
       "dueAt": "2026-11-22T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@c8941aa4065d42c983d5a7abeb875cb9",
       "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@65284855295d40928b57b6ba15a53c7d"
@@ -215,7 +228,7 @@
       "assignmentType": "Policy Documents",
       "category": "misc",
       "dueAt": "2026-11-22T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@94a962f781304cbaabaa671b017b18fa",
       "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@video+block@62dfb01a3ef24aefaa0aa1a6cba87686"
@@ -228,10 +241,23 @@
       "assignmentType": "Policy Documents",
       "category": "misc",
       "dueAt": "2026-11-22T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@10f13a875ab04fe4b58886f950e92414",
       "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@88b5f4c4282f41a69c10c621e5d181bf"
+    },
+    {
+      "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
+      "courseName": "Welcome to DBE: 2024",
+      "courseArchived": false,
+      "title": "Standard Operating Procedure \u2013 Institute Events",
+      "assignmentType": "Policy Documents",
+      "category": "misc",
+      "dueAt": "2026-11-22T22:30:00+05:30",
+      "complete": true,
+      "learnerHasAccess": true,
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@e743da1126c544a08391ef090fbd076f",
+      "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@66929891793c41b28454052d9d8d5379"
     },
     {
       "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
