@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T04:40:22.480811+00:00",
+  "generatedAt": "2026-11-10T13:34:22.500600+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
@@ -156,6 +156,19 @@
       "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem63"
     },
     {
+      "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
+      "courseName": "Family Business Strategy",
+      "courseArchived": false,
+      "title": "8.8 Continuous Learning Assessment - 8",
+      "assignmentType": "Continuous Learning Assessments",
+      "category": "cla",
+      "dueAt": "2026-11-18T22:30:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "",
+      "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@99dd3d73f1214bbf801bd70a35e6d9f4"
+    },
+    {
       "courseId": "course-v1:IIMBx_DBE+DBE_001+2024",
       "courseName": "Welcome to DBE: 2024",
       "courseArchived": false,
@@ -266,7 +279,7 @@
       "title": "Faculty Live Session",
       "assignmentType": "Live Session",
       "category": "liveSession",
-      "dueAt": "2026-11-25T18:00:00+05:30",
+      "dueAt": "2026-11-23T18:00:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
       "link": "https://teams.microsoft.com/meet/46716475214144?p=QoDfrNG2qVsotdFvjT",
