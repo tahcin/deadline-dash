@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T07:50:58.749873+00:00",
+  "generatedAt": "2026-11-11T16:18:42.992010+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
@@ -46,7 +46,7 @@
       "assignmentType": "Mid Term 1",
       "category": "midterm",
       "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+DS71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+DS71x+BBA_DBE_B1+type@sequential+block@ea9e0d28a86f4a9196b7e553d9c963a9",
       "blockId": "block-v1:IIMBx+DS71x+BBA_DBE_B1+type@problem+block@6d26c10efc2c4ac59b3c10d4860718b3"
@@ -72,7 +72,7 @@
       "assignmentType": "Continuous Learning Assessments",
       "category": "cla",
       "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+FA71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+FA71x+BBA_DBE_B1+type@sequential+block@2dc735796a6f4fbd8a964b31be2bad65",
       "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem48"
@@ -85,7 +85,7 @@
       "assignmentType": "Continuous Learning Assessments",
       "category": "cla",
       "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+MD71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+MD71x+BBA_DBE_B1+type@sequential+block@1ad943ffbfd04de6aba12601c6d3bab8",
       "blockId": "block-v1:IIMBx+MD71x+BBA_DBE_B1+type@problem+block@92659aaf1a6a460a9bf05d2305240963"
@@ -98,7 +98,7 @@
       "assignmentType": "Continuous Learning Assessments",
       "category": "cla",
       "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@3b56a7e3d92e4089a4d46a02d06eebb6",
       "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@f0ac31bd9b2c404da67abfae13628bec"
@@ -152,7 +152,7 @@
       "dueAt": "2026-11-18T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
-      "link": "",
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+FA71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+FA71x+BBA_DBE_B1+type@sequential+block@cbf28fad7272451896101b48452bda4e",
       "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem63"
     },
     {
@@ -165,7 +165,7 @@
       "dueAt": "2026-11-18T22:30:00+05:30",
       "complete": false,
       "learnerHasAccess": true,
-      "link": "",
+      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@6c2658fd54be4f9ebedfaf71a8c9a4f9",
       "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@99dd3d73f1214bbf801bd70a35e6d9f4"
     },
     {
