@@ -1,14 +1,9 @@
 {
-  "generatedAt": "2026-11-12T12:52:08.023954+00:00",
+  "generatedAt": "2026-11-12T20:55:02.503477+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
       "name": "Term 7 and Term 8 Final Project Submission",
-      "isArchived": false
-    },
-    {
-      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
-      "name": "Data Visualisation for Business Decisions",
       "isArchived": false
     },
     {
@@ -19,11 +14,6 @@
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
       "name": "Corporate Finance",
-      "isArchived": false
-    },
-    {
-      "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
-      "name": "Critical Thinking",
       "isArchived": false
     },
     {
@@ -38,84 +28,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
-      "courseName": "Data Visualisation for Business Decisions",
-      "courseArchived": false,
-      "title": "Mid-Term 1 Quiz",
-      "assignmentType": "Mid Term 1",
-      "category": "midterm",
-      "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+DS71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+DS71x+BBA_DBE_B1+type@sequential+block@ea9e0d28a86f4a9196b7e553d9c963a9",
-      "blockId": "block-v1:IIMBx+DS71x+BBA_DBE_B1+type@problem+block@6d26c10efc2c4ac59b3c10d4860718b3"
-    },
-    {
-      "courseId": "course-v1:IIMBx+EP71x+BBA_DBE_B1",
-      "courseName": "Startup Dilemmas: Founding or Joining",
-      "courseArchived": false,
-      "title": "Submission 1",
-      "assignmentType": "Project",
-      "category": "assignment",
-      "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+EP71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+EP71x+BBA_DBE_B1+type@sequential+block@2711b97d2dd648c3b486df5cb50a0f6b",
-      "blockId": "block-v1:IIMBx+EP71x+BBA_DBE_B1+type@html+block@ba7cb984e10c49028ebc2f4ba8b22d19"
-    },
-    {
-      "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
-      "courseName": "Corporate Finance",
-      "courseArchived": false,
-      "title": "7.11 Continuous Learning Assessment 7",
-      "assignmentType": "Continuous Learning Assessments",
-      "category": "cla",
-      "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+FA71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+FA71x+BBA_DBE_B1+type@sequential+block@2dc735796a6f4fbd8a964b31be2bad65",
-      "blockId": "block-v1:IIMBx+FA71x+BBA_DBE_B1+type@problem+block@problem48"
-    },
-    {
-      "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
-      "courseName": "Critical Thinking",
-      "courseArchived": false,
-      "title": "7.6 Continuous Learning Assessment - 7",
-      "assignmentType": "Continuous Learning Assessments",
-      "category": "cla",
-      "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+MD71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+MD71x+BBA_DBE_B1+type@sequential+block@1ad943ffbfd04de6aba12601c6d3bab8",
-      "blockId": "block-v1:IIMBx+MD71x+BBA_DBE_B1+type@problem+block@92659aaf1a6a460a9bf05d2305240963"
-    },
-    {
-      "courseId": "course-v1:IIMBx+ST71x+BBA_DBE_B1",
-      "courseName": "Family Business Strategy",
-      "courseArchived": false,
-      "title": "7.7 Continuous Learning Assessment - 7",
-      "assignmentType": "Continuous Learning Assessments",
-      "category": "cla",
-      "dueAt": "2026-11-11T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@3b56a7e3d92e4089a4d46a02d06eebb6",
-      "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@f0ac31bd9b2c404da67abfae13628bec"
-    },
-    {
-      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
-      "courseName": "Data Visualisation for Business Decisions",
-      "courseArchived": false,
-      "title": "Faculty Live Session",
-      "assignmentType": "Live Session",
-      "category": "liveSession",
-      "dueAt": "2026-11-17T18:00:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://teams.microsoft.com/meet/455451579490989?p=CCD9lh2q4i8INioN4O",
-      "blockId": "ics:040000008200E00074C5B7101A82E0080000000017597C16AE6ADD01000000000000000010000000562757F16F22D6439C1C66092ABB930E"
-    },
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
       "courseName": "Term 7 and Term 8 Final Project Submission",
@@ -258,19 +170,6 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@e743da1126c544a08391ef090fbd076f",
       "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@66929891793c41b28454052d9d8d5379"
-    },
-    {
-      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
-      "courseName": "Data Visualisation for Business Decisions",
-      "courseArchived": false,
-      "title": "Faculty Live Session",
-      "assignmentType": "Live Session",
-      "category": "liveSession",
-      "dueAt": "2026-11-23T18:00:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://teams.microsoft.com/meet/46716475214144?p=QoDfrNG2qVsotdFvjT",
-      "blockId": "ics:040000008200E00074C5B7101A82E00800000000A3C83F15AF6ADD01000000000000000010000000A2988F14424F9040A2AC5029595EF1AB"
     },
     {
       "courseId": "course-v1:IIMBx+EP71x+BBA_DBE_B1",
