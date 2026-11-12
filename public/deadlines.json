@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T03:54:59.563005+00:00",
+  "generatedAt": "2026-11-12T12:52:08.023954+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
@@ -102,19 +102,6 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+ST71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+ST71x+BBA_DBE_B1+type@sequential+block@3b56a7e3d92e4089a4d46a02d06eebb6",
       "blockId": "block-v1:IIMBx+ST71x+BBA_DBE_B1+type@problem+block@f0ac31bd9b2c404da67abfae13628bec"
-    },
-    {
-      "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
-      "courseName": "Corporate Finance",
-      "courseArchived": false,
-      "title": "Faculty Live Session",
-      "assignmentType": "Live Session",
-      "category": "liveSession",
-      "dueAt": "2026-11-12T16:00:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://teams.microsoft.com/meet/432976568697343?p=HqpSM4UpctBoPLaKzg",
-      "blockId": "ics:040000008200E00074C5B7101A82E00800000000C45261E77D55DD0100000000000000001000000054A2E666B71B2141BA7246BCB6C35597"
     },
     {
       "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
