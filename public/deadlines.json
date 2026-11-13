@@ -1,9 +1,14 @@
 {
-  "generatedAt": "2026-11-13T09:43:15.804422+00:00",
+  "generatedAt": "2026-11-13T17:50:27.477159+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
       "name": "Term 7 and Term 8 Final Project Submission",
+      "isArchived": false
+    },
+    {
+      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
+      "name": "Data Visualisation for Business Decisions",
       "isArchived": false
     },
     {
@@ -28,6 +33,19 @@
     }
   ],
   "deadlines": [
+    {
+      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
+      "courseName": "Data Visualisation for Business Decisions",
+      "courseArchived": false,
+      "title": "Faculty Live Session",
+      "assignmentType": "Live Session",
+      "category": "liveSession",
+      "dueAt": "2026-11-17T18:00:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://teams.microsoft.com/meet/455451579490989?p=CCD9lh2q4i8INioN4O",
+      "blockId": "ics:040000008200E00074C5B7101A82E0080000000017597C16AE6ADD01000000000000000010000000562757F16F22D6439C1C66092ABB930E"
+    },
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
       "courseName": "Term 7 and Term 8 Final Project Submission",
@@ -170,6 +188,19 @@
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx_DBE+DBE_001+2024/jump_to/block-v1:IIMBx_DBE+DBE_001+2024+type@sequential+block@e743da1126c544a08391ef090fbd076f",
       "blockId": "block-v1:IIMBx_DBE+DBE_001+2024+type@html+block@66929891793c41b28454052d9d8d5379"
+    },
+    {
+      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
+      "courseName": "Data Visualisation for Business Decisions",
+      "courseArchived": false,
+      "title": "Faculty Live Session",
+      "assignmentType": "Live Session",
+      "category": "liveSession",
+      "dueAt": "2026-11-23T18:00:00+05:30",
+      "complete": false,
+      "learnerHasAccess": true,
+      "link": "https://teams.microsoft.com/meet/46716475214144?p=QoDfrNG2qVsotdFvjT",
+      "blockId": "ics:040000008200E00074C5B7101A82E00800000000A3C83F15AF6ADD01000000000000000010000000A2988F14424F9040A2AC5029595EF1AB"
     },
     {
       "courseId": "course-v1:IIMBx+EP71x+BBA_DBE_B1",
