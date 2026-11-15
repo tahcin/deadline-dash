@@ -80,7 +80,13 @@
     ]
   },
   "2026-12-14T22:30:00+05:30": {
-    "buckets": {},
+    "buckets": {
+      "12h": {
+        "id": "c770b262-378b-410f-bdfb-4aad7bdce517",
+        "sendAfter": "2026-12-14T10:30:00+05:30",
+        "status": "scheduled"
+      }
+    },
     "members": [
       "course-v1:IIMBx+PJ71x+BBA_DBE_B1|block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@9d8f6e0b0d874e8aa5d18dc04e6cb98c"
     ]
