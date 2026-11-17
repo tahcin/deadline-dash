@@ -1,26 +1,4 @@
 {
-  "2026-11-17T18:00:00+05:30": {
-    "buckets": {
-      "1h": {
-        "id": "7c2fd6bb-b18b-4fb7-ad0b-7064480c6579",
-        "sendAfter": "2026-11-17T17:00:00+05:30",
-        "status": "scheduled"
-      },
-      "24h": {
-        "id": "3b5c7dd1-eb10-4ec1-985e-fb2938aa613a",
-        "sendAfter": "2026-11-16T18:00:00+05:30",
-        "status": "scheduled"
-      },
-      "5m": {
-        "id": "f758afe7-5c41-4f5d-9c23-d3ea8fba9515",
-        "sendAfter": "2026-11-17T17:55:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx+DS71x+BBA_DBE_B1|ics:040000008200E00074C5B7101A82E0080000000017597C16AE6ADD01000000000000000010000000562757F16F22D6439C1C66092ABB930E"
-    ]
-  },
   "2026-11-18T22:30:00+05:30": {
     "buckets": {
       "12h": {
