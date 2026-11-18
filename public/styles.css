@@ -986,6 +986,8 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
    JS swaps the countdown text at 57.5% (1380ms) while it is invisible. */
 .due-swap { display: inline-grid; justify-items: end; vertical-align: bottom; }
 .due-swap > span { grid-area: 1 / 1; }
+.is-pre-swap .due-old { opacity: 1; }
+.is-pre-swap .due-new { opacity: 0; }
 .due-old { position: relative; opacity: 0; }
 .cd-swap { position: relative; width: fit-content; margin-left: auto; }
 .due-old::after, .cd-swap::after {

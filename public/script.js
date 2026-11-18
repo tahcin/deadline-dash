@@ -144,7 +144,6 @@ const MOVED_DEADLINES = {
     'block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@2564ab5ef1cd481eae95abe88a4c90df': '2026-11-18T22:30:00+05:30',
 };
 
-const swapTimers = new WeakMap();
 const swapPlayedThisLoad = new Set();
 
 function countdownText(dueMs, now) {
@@ -152,32 +151,42 @@ function countdownText(dueMs, now) {
     return remaining <= 0 ? 'Expired' : formatCountdown(remaining);
 }
 
-// Shows the old date + countdown, strikes them out, then swaps to the new ones.
-// While the old countdown is showing, data-due is lifted off the element so the
-// 1s ticker neither overwrites it nor drops the row once the old date passes.
-function playDueSwap(li, oldMs) {
+// Moved rows render in an "old" state (old date + old countdown, ticking) and
+// only flip to the new values once the swap animation plays. While old values
+// show, data-due is lifted off the countdown so the 1s ticker neither
+// overwrites it nor drops the row once the old date has passed.
+const preSwapTickers = new WeakMap();
+
+function paintCountdown(li, cd, dueMs) {
+    const now = Date.now();
+    cd.textContent = countdownText(dueMs, now);
+    cd.classList.toggle('expired', dueMs <= now);
+    li.dataset.urgency = urgencyFor(dueMs, now);
+}
+
+function enterPreSwap(li, oldMs) {
     const cd = li.querySelector('.row-countdown');
-    if (!cd) return;
-    clearTimeout(swapTimers.get(li));
-    const newDue = cd.dataset.newDue || cd.dataset.due;
-    cd.dataset.newDue = newDue;
+    cd.dataset.newDue = cd.dataset.due;
     cd.removeAttribute('data-due');
-    cd.textContent = countdownText(oldMs, Date.now());
-    cd.classList.toggle('expired', oldMs <= Date.now());
-    li.dataset.urgency = urgencyFor(oldMs, Date.now());
+    li.classList.add('is-pre-swap');
+    paintCountdown(li, cd, oldMs);
+    const t = setInterval(() => {
+        if (!li.isConnected) { clearInterval(t); return; }
+        paintCountdown(li, cd, oldMs);
+    }, 1000);
+    preSwapTickers.set(li, t);
+}
 
-    li.classList.remove('is-swapping');
-    void li.offsetWidth;
+function playDueSwap(li) {
+    const cd = li.querySelector('.row-countdown');
+    clearInterval(preSwapTickers.get(li));
     li.classList.add('is-swapping');
-
-    swapTimers.set(li, setTimeout(() => {
-        const due = parseInt(newDue, 10);
-        cd.dataset.due = newDue;
+    li.classList.remove('is-pre-swap');
+    setTimeout(() => {
+        cd.dataset.due = cd.dataset.newDue;
         delete cd.dataset.newDue;
-        cd.textContent = countdownText(due, Date.now());
-        cd.classList.remove('expired');
-        li.dataset.urgency = urgencyFor(due, Date.now());
-    }, 1380));
+        paintCountdown(li, cd, parseInt(cd.dataset.due, 10));
+    }, 1380);
 }
 
 function decorateMovedRow(li, deadline) {
@@ -192,12 +201,12 @@ function decorateMovedRow(li, deadline) {
     li.querySelector('.row-countdown').classList.add('cd-swap');
 
     if (swapPlayedThisLoad.has(deadline.blockId) || !('IntersectionObserver' in window)) return;
+    enterPreSwap(li, oldMs);
     const io = new IntersectionObserver((entries) => {
         if (!entries.some((en) => en.isIntersecting)) return;
         io.disconnect();
-        if (swapPlayedThisLoad.has(deadline.blockId)) return;
         swapPlayedThisLoad.add(deadline.blockId);
-        setTimeout(() => playDueSwap(li, oldMs), 500);
+        setTimeout(() => playDueSwap(li), 500);
     }, { threshold: 0.6 });
     io.observe(li);
 }
