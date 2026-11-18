@@ -144,38 +144,60 @@ const MOVED_DEADLINES = {
     'block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@2564ab5ef1cd481eae95abe88a4c90df': '2026-11-18T22:30:00+05:30',
 };
 
-function safeStorage(fn) { try { return fn(); } catch (e) { return null; } }
+const swapTimers = new WeakMap();
+const swapPlayedThisLoad = new Set();
 
-function playDueSwap(li) {
+function countdownText(dueMs, now) {
+    const remaining = dueMs - now;
+    return remaining <= 0 ? 'Expired' : formatCountdown(remaining);
+}
+
+// Shows the old date + countdown, strikes them out, then swaps to the new ones.
+// While the old countdown is showing, data-due is lifted off the element so the
+// 1s ticker neither overwrites it nor drops the row once the old date passes.
+function playDueSwap(li, oldMs) {
+    const cd = li.querySelector('.row-countdown');
+    if (!cd) return;
+    clearTimeout(swapTimers.get(li));
+    const newDue = cd.dataset.newDue || cd.dataset.due;
+    cd.dataset.newDue = newDue;
+    cd.removeAttribute('data-due');
+    cd.textContent = countdownText(oldMs, Date.now());
+    cd.classList.toggle('expired', oldMs <= Date.now());
+    li.dataset.urgency = urgencyFor(oldMs, Date.now());
+
     li.classList.remove('is-swapping');
     void li.offsetWidth;
     li.classList.add('is-swapping');
+
+    swapTimers.set(li, setTimeout(() => {
+        const due = parseInt(newDue, 10);
+        cd.dataset.due = newDue;
+        delete cd.dataset.newDue;
+        cd.textContent = countdownText(due, Date.now());
+        cd.classList.remove('expired');
+        li.dataset.urgency = urgencyFor(due, Date.now());
+    }, 1400));
 }
 
 function decorateMovedRow(li, deadline) {
     const was = MOVED_DEADLINES[deadline.blockId];
     if (!was || new Date(deadline.dueAt) <= new Date(was)) return;
-    const due = li.querySelector('.row-due');
-    due.innerHTML = `
+    const oldMs = new Date(was).getTime();
+    li.querySelector('.row-due').innerHTML = `
         <span class="due-swap">
             <span class="due-old">${escapeHtml(formatDueLabel(was))}</span>
             <span class="due-new">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
-        </span>
-        <button class="due-replay" type="button" aria-label="Replay date change" title="Moved from ${escapeHtml(formatDueLabel(was))}">↺</button>`;
-    due.querySelector('.due-replay').addEventListener('click', (e) => {
-        e.stopPropagation();
-        playDueSwap(li);
-    });
+        </span>`;
+    li.querySelector('.row-countdown').classList.add('cd-swap');
 
-    const seenKey = 'dd-moved-seen:' + deadline.blockId;
-    if (safeStorage(() => localStorage.getItem(seenKey))) return;
-    if (!('IntersectionObserver' in window)) return;
+    if (swapPlayedThisLoad.has(deadline.blockId) || !('IntersectionObserver' in window)) return;
     const io = new IntersectionObserver((entries) => {
         if (!entries.some((en) => en.isIntersecting)) return;
         io.disconnect();
-        if (safeStorage(() => localStorage.getItem(seenKey))) return;
-        safeStorage(() => localStorage.setItem(seenKey, '1'));
-        setTimeout(() => playDueSwap(li), 500);
+        if (swapPlayedThisLoad.has(deadline.blockId)) return;
+        swapPlayedThisLoad.add(deadline.blockId);
+        setTimeout(() => playDueSwap(li, oldMs), 500);
     }, { threshold: 0.6 });
     io.observe(li);
 }
