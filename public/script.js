@@ -137,17 +137,47 @@ let currentFilter = 'all';
 let allVisibleDeadlines = [];
 
 
-// Deadlines the institute pushed back. Their rows get a tiny sparkle that,
-// when tapped, sends Dashie out to celebrate the bonus days.
+/* ----- moved deadlines: old date strikes through and swaps to the new one ----- */
+
+// blockId → the due date it had before the institute moved it.
 const MOVED_DEADLINES = {
     'block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@2564ab5ef1cd481eae95abe88a4c90df': '2026-11-18T22:30:00+05:30',
 };
 
-function bonusDaysFor(deadline) {
+function safeStorage(fn) { try { return fn(); } catch (e) { return null; } }
+
+function playDueSwap(li) {
+    li.classList.remove('is-swapping');
+    void li.offsetWidth;
+    li.classList.add('is-swapping');
+}
+
+function decorateMovedRow(li, deadline) {
     const was = MOVED_DEADLINES[deadline.blockId];
-    if (!was) return 0;
-    const days = Math.round((new Date(deadline.dueAt) - new Date(was)) / 86400000);
-    return days > 0 ? days : 0;
+    if (!was || new Date(deadline.dueAt) <= new Date(was)) return;
+    const due = li.querySelector('.row-due');
+    due.innerHTML = `
+        <span class="due-swap">
+            <span class="due-old">${escapeHtml(formatDueLabel(was))}</span>
+            <span class="due-new">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
+        </span>
+        <button class="due-replay" type="button" aria-label="Replay date change" title="Moved from ${escapeHtml(formatDueLabel(was))}">↺</button>`;
+    due.querySelector('.due-replay').addEventListener('click', (e) => {
+        e.stopPropagation();
+        playDueSwap(li);
+    });
+
+    const seenKey = 'dd-moved-seen:' + deadline.blockId;
+    if (safeStorage(() => localStorage.getItem(seenKey))) return;
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => {
+        if (!entries.some((en) => en.isIntersecting)) return;
+        io.disconnect();
+        if (safeStorage(() => localStorage.getItem(seenKey))) return;
+        safeStorage(() => localStorage.setItem(seenKey, '1'));
+        setTimeout(() => playDueSwap(li), 500);
+    }, { threshold: 0.6 });
+    io.observe(li);
 }
 
 function renderRow(deadline, index) {
@@ -179,21 +209,7 @@ function renderRow(deadline, index) {
             <span class="row-due">${escapeHtml(formatDueLabel(deadline.dueAt))}</span>
         </div>
     `;
-    const bonus = bonusDaysFor(deadline);
-    if (bonus) {
-        const spark = document.createElement('button');
-        spark.type = 'button';
-        spark.className = 'row-moved';
-        spark.textContent = '✨';
-        spark.title = 'psst… tap me';
-        spark.setAttribute('aria-label', `This deadline moved. ${bonus} bonus days`);
-        spark.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const name = displayTitle || deadline.courseName;
-            launchDashie(`${name} got pushed! +${bonus} bonus days 🎉`, true);
-        });
-        li.querySelector('.row-due').appendChild(spark);
-    }
+    decorateMovedRow(li, deadline);
     if (deadline.link) {
         li.classList.add('row--clickable');
         li.addEventListener('click', () => window.open(deadline.link, '_blank', 'noopener'));
@@ -1011,113 +1027,12 @@ function initMobileMenu() {
 
 /* ----- boot ----- */
 
-/* ----- easter egg: type "dash" or tap the logo 5 times ----- */
-
-const DASHIE_LINES = [
-    "deadlines fear you ✨",
-    "you've got this!! 💪",
-    "one CLA at a time 🐢",
-    "hydrate, then submit 💧",
-    "tick tock, you rock ⏱️",
-    "proud of you, genuinely 🫶",
-];
-
-let dashieRunning = false;
-
-function popConfetti() {
-    const colors = ['var(--primary)', 'var(--accent)', '#7BC67E', '#6FA8F5', '#F28DB2'];
-    for (let i = 0; i < 36; i++) {
-        const c = document.createElement('span');
-        c.className = 'dashie-confetti';
-        c.style.left = (50 + (Math.random() - 0.5) * 30) + 'vw';
-        c.style.background = colors[i % colors.length];
-        c.style.setProperty('--dx', ((Math.random() - 0.5) * 60) + 'vw');
-        c.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
-        c.style.animationDelay = (Math.random() * 0.25) + 's';
-        document.body.appendChild(c);
-        setTimeout(() => c.remove(), 2200);
-    }
-}
-
-function launchDashie(customLine, celebrate) {
-    if (dashieRunning) return;
-    dashieRunning = true;
-    const line = customLine || DASHIE_LINES[Math.floor(Math.random() * DASHIE_LINES.length)];
-    if (celebrate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        setTimeout(popConfetti, 1200);
-    }
-    const el = document.createElement('div');
-    el.className = 'dashie';
-    el.setAttribute('aria-hidden', 'true');
-    el.innerHTML = `
-        <div class="dashie-bubble">${escapeHtml(line)}</div>
-        <svg class="dashie-body" width="64" height="72" viewBox="0 0 64 72">
-            <rect x="28" y="4" width="8" height="6" rx="2" fill="var(--primary)"/>
-            <rect x="24" y="1" width="16" height="5" rx="2.5" fill="var(--primary)"/>
-            <line class="dashie-leg back" x1="26" y1="60" x2="22" y2="70" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
-            <line class="dashie-leg" x1="38" y1="60" x2="42" y2="70" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
-            <circle cx="32" cy="38" r="24" fill="var(--accent)"/>
-            <circle cx="32" cy="38" r="18" fill="var(--bg-card)"/>
-            <line class="dashie-hand" x1="32" y1="40" x2="32" y2="27" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="25" cy="40" r="2.4" fill="var(--ink)"/>
-            <circle cx="39" cy="40" r="2.4" fill="var(--ink)"/>
-            <circle cx="21" cy="45" r="2.6" fill="var(--primary)" opacity=".35"/>
-            <circle cx="43" cy="45" r="2.6" fill="var(--primary)" opacity=".35"/>
-            <path d="M28 46 Q32 50 36 46" stroke="var(--ink)" stroke-width="2" fill="none" stroke-linecap="round"/>
-        </svg>`;
-    document.body.appendChild(el);
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const puffTimer = reduced ? null : setInterval(() => {
-        const x = el.getBoundingClientRect().left + 14;
-        if (x < 0 || x > window.innerWidth) return;
-        const puff = document.createElement('span');
-        puff.className = 'dashie-puff';
-        puff.style.left = x + 'px';
-        document.body.appendChild(puff);
-        setTimeout(() => puff.remove(), 700);
-    }, 120);
-
-    el.addEventListener('animationend', (e) => {
-        if (e.target !== el) return;
-        clearInterval(puffTimer);
-        el.remove();
-        dashieRunning = false;
-    });
-    if (typeof gtag === 'function') gtag('event', 'easter_egg', { name: celebrate ? 'dashie_moved' : 'dashie' });
-}
-
-function initEasterEgg() {
-    let typed = '';
-    document.addEventListener('keydown', (e) => {
-        if (e.metaKey || e.ctrlKey || e.altKey || e.key.length !== 1) return;
-        const t = e.target;
-        if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
-        typed = (typed + e.key.toLowerCase()).slice(-4);
-        if (typed === 'dash') { typed = ''; launchDashie(); }
-    });
-
-    const logo = document.querySelector('.brand-logo');
-    if (!logo) return;
-    let taps = [];
-    logo.addEventListener('click', (e) => {
-        if (location.pathname !== '/') return;
-        e.preventDefault();
-        const now = Date.now();
-        taps = taps.filter((t) => now - t < 2000);
-        taps.push(now);
-        if (taps.length >= 5) { taps = []; launchDashie(); return; }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
     initDarkMode();
     initInstallButton();
     initNotifications();
     initFilters();
     initMobileMenu();
-    initEasterEgg();
 
     const data = await loadDeadlines();
     renderAll(data);

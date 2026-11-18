@@ -979,92 +979,51 @@ body.dark-mode .filter-chip.is-active { color: var(--bg); background: var(--ink)
     .utility-btn { padding: 0.4rem 0.6rem; font-size: 11.5px; }
 }
 
-/* ---------- easter egg: Dashie the stopwatch ---------- */
-.dashie {
-    position: fixed;
-    left: 0;
-    bottom: 18px;
-    z-index: 1000;
-    pointer-events: none;
-    transform: translateX(-120px);
-    animation: dashie-run 3.6s cubic-bezier(.45, .05, .55, .95) forwards;
-}
-.dashie-body { display: block; animation: dashie-bob 0.28s ease-in-out infinite alternate; }
-.dashie-leg { transform-box: fill-box; transform-origin: top center; animation: dashie-leg 0.28s ease-in-out infinite alternate; }
-.dashie-leg.back { animation-direction: alternate-reverse; }
-.dashie-hand { transform-box: view-box; transform-origin: 32px 40px; animation: dashie-tick 0.9s steps(8) infinite; }
-.dashie-bubble {
+/* ---------- moved deadline: old date → new date ---------- */
+.due-swap { display: inline-grid; justify-items: end; vertical-align: bottom; }
+.due-swap > span { grid-area: 1 / 1; }
+.due-old { position: relative; opacity: 0; color: var(--ink-faint); }
+.due-old::after {
+    content: '';
     position: absolute;
-    bottom: 76px;
-    left: 50%;
-    transform: translateX(-30%);
-    white-space: nowrap;
-    background: var(--bg-card);
-    color: var(--ink);
-    border: 1px solid var(--ink-faint);
-    box-shadow: var(--shadow-md);
-    border-radius: 14px;
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0;
-    animation: dashie-pop 3.6s ease forwards;
+    left: 0; right: 0; top: 52%;
+    height: 1.5px;
+    background: var(--urgent);
+    transform: scaleX(0);
+    transform-origin: left;
 }
-.dashie-puff {
-    position: fixed;
-    bottom: 20px;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--ink-faint);
-    pointer-events: none;
-    z-index: 999;
-    animation: dashie-puff 0.7s ease-out forwards;
-}
-@keyframes dashie-run {
-    0% { transform: translateX(-120px); }
-    35%, 62% { transform: translateX(calc(50vw - 32px)); }
-    100% { transform: translateX(calc(100vw + 40px)); }
-}
-@keyframes dashie-bob { from { transform: translateY(0); } to { transform: translateY(-4px); } }
-@keyframes dashie-leg { from { transform: rotate(-28deg); } to { transform: rotate(28deg); } }
-@keyframes dashie-tick { to { transform: rotate(360deg); } }
-@keyframes dashie-pop {
-    0%, 30% { opacity: 0; transform: translateX(-30%) translateY(6px) scale(.9); }
-    36%, 66% { opacity: 1; transform: translateX(-30%) translateY(0) scale(1); }
-    74%, 100% { opacity: 0; transform: translateX(-30%) translateY(-4px) scale(.95); }
-}
-@keyframes dashie-puff { from { opacity: .9; transform: scale(.6); } to { opacity: 0; transform: translate(-14px, -10px) scale(1.8); } }
-@media (prefers-reduced-motion: reduce) {
-    .dashie { animation: dashie-fade 3.6s ease forwards; transform: translateX(calc(50vw - 32px)); }
-    .dashie-body, .dashie-leg, .dashie-hand { animation: none; }
-    @keyframes dashie-fade { 0%, 100% { opacity: 0; } 10%, 85% { opacity: 1; } }
-}
-.row-moved {
-    margin-left: 6px;
-    font-size: 12px;
+.due-replay {
+    margin-left: 4px;
+    font-size: 11px;
     line-height: 1;
-    padding: 2px;
-    border-radius: 6px;
-    opacity: .75;
-    animation: row-moved-twinkle 2.4s ease-in-out infinite;
+    color: var(--ink-faint);
+    padding: 1px 2px;
+    border-radius: 4px;
+    transition: color 160ms ease;
 }
-.row-moved:hover, .row-moved:focus-visible { opacity: 1; background: var(--accent-soft); }
-@keyframes row-moved-twinkle {
-    0%, 100% { transform: scale(1) rotate(0); }
-    50% { transform: scale(1.25) rotate(15deg); }
+.due-replay:hover, .due-replay:focus-visible { color: var(--ink-muted); }
+
+.is-swapping .due-old { animation: due-old 2.4s ease forwards; }
+.is-swapping .due-old::after { animation: due-strike 2.4s ease forwards; }
+.is-swapping .due-new { animation: due-new 2.4s ease forwards; }
+
+@keyframes due-old {
+    0%   { opacity: 1; color: var(--ink-muted); transform: translateY(0); }
+    55%  { opacity: 1; color: var(--ink-faint); transform: translateY(0); }
+    75%, 100% { opacity: 0; transform: translateY(-8px); }
 }
-.dashie-confetti {
-    position: fixed;
-    top: 40vh;
-    width: 8px; height: 12px;
-    border-radius: 2px;
-    pointer-events: none;
-    z-index: 1001;
-    animation: dashie-confetti 2s cubic-bezier(.2, .6, .4, 1) forwards;
+@keyframes due-strike {
+    0%, 20% { transform: scaleX(0); }
+    50%, 100% { transform: scaleX(1); }
 }
-@keyframes dashie-confetti {
-    0% { opacity: 1; transform: translate(0, 0) rotate(0); }
-    30% { transform: translate(calc(var(--dx) * .4), -22vh) rotate(calc(var(--rot) * .4)); }
-    100% { opacity: 0; transform: translate(var(--dx), 50vh) rotate(var(--rot)); }
+@keyframes due-new {
+    0%, 58% { opacity: 0; transform: translateY(8px); }
+    80%  { opacity: 1; transform: translateY(0); color: var(--accent); }
+    100% { opacity: 1; transform: translateY(0); }
 }
-@media (prefers-reduced-motion: reduce) { .row-moved { animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+    .is-swapping .due-old, .is-swapping .due-new { animation-name: due-fade-old; animation-timing-function: steps(1, end); }
+    .is-swapping .due-new { animation-name: due-fade-new; }
+    @keyframes due-fade-old { 0% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes due-fade-new { 0% { opacity: 0; } 100% { opacity: 1; } }
+}
