@@ -177,7 +177,7 @@ function playDueSwap(li, oldMs) {
         cd.textContent = countdownText(due, Date.now());
         cd.classList.remove('expired');
         li.dataset.urgency = urgencyFor(due, Date.now());
-    }, 1400));
+    }, 1380));
 }
 
 function decorateMovedRow(li, deadline) {
