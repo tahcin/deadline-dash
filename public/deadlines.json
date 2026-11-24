@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-24T11:05:38.993252+00:00",
+  "generatedAt": "2026-11-24T21:20:59.116989+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
@@ -28,19 +28,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
-      "courseName": "Data Visualisation for Business Decisions",
-      "courseArchived": false,
-      "title": "Faculty Live Session",
-      "assignmentType": "Live Session",
-      "category": "liveSession",
-      "dueAt": "2026-11-23T18:00:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://teams.microsoft.com/meet/46716475214144?p=QoDfrNG2qVsotdFvjT",
-      "blockId": "ics:040000008200E00074C5B7101A82E00800000000A3C83F15AF6ADD01000000000000000010000000A2988F14424F9040A2AC5029595EF1AB"
-    },
     {
       "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
       "courseName": "Critical Thinking",
