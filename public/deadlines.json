@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T04:59:05.975775+00:00",
+  "generatedAt": "2026-11-25T15:46:50.684240+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
@@ -28,19 +28,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+MD71x+BBA_DBE_B1",
-      "courseName": "Critical Thinking",
-      "courseArchived": false,
-      "title": "Faculty Live Session",
-      "assignmentType": "Live Session",
-      "category": "liveSession",
-      "dueAt": "2026-11-25T16:00:00+05:30",
-      "complete": false,
-      "learnerHasAccess": true,
-      "link": "https://teams.microsoft.com/meet/439445021619344?p=ey5X0PDZ2WDwbentqc",
-      "blockId": "ics:040000008200E00074C5B7101A82E00800000000D98103FA0878DD0100000000000000001000000092F9ED403EF3E94FAF8038B39E4E21E6"
-    },
     {
       "courseId": "course-v1:IIMBx+FA71x+BBA_DBE_B1",
       "courseName": "Corporate Finance",
