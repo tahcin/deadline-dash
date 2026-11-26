@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T15:46:50.684240+00:00",
+  "generatedAt": "2026-11-26T00:30:12.379601+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
@@ -49,7 +49,7 @@
       "assignmentType": "Mid Term 2",
       "category": "midterm",
       "dueAt": "2026-11-26T22:30:00+05:30",
-      "complete": false,
+      "complete": true,
       "learnerHasAccess": true,
       "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+DS71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+DS71x+BBA_DBE_B1+type@sequential+block@a88d97b04b634b54900a0d8ddfcfb633",
       "blockId": "block-v1:IIMBx+DS71x+BBA_DBE_B1+type@problem+block@fb5170e2804d4378b18179a2d018f2de"
