@@ -1,21 +1,4 @@
 {
-  "2026-11-27T22:30:00+05:30": {
-    "buckets": {
-      "12h": {
-        "id": "dbd250e0-910c-4c14-8f0c-f5760b5e193a",
-        "sendAfter": "2026-11-27T10:30:00+05:30",
-        "status": "scheduled"
-      },
-      "1h": {
-        "id": "7eb369b3-79d5-4ada-8687-cf9490f4ddaa",
-        "sendAfter": "2026-11-27T21:30:00+05:30",
-        "status": "scheduled"
-      }
-    },
-    "members": [
-      "course-v1:IIMBx+PJ71x+BBA_DBE_B1|block-v1:IIMBx+PJ71x+BBA_DBE_B1+type@html+block@2564ab5ef1cd481eae95abe88a4c90df"
-    ]
-  },
   "2026-11-29T22:30:00+05:30": {
     "buckets": {
       "12h": {
