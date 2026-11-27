@@ -1,14 +1,9 @@
 {
-  "generatedAt": "2026-11-27T12:39:00.755028+00:00",
+  "generatedAt": "2026-11-27T22:03:48.465921+00:00",
   "courses": [
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
       "name": "Term 7 and Term 8 Final Project Submission",
-      "isArchived": false
-    },
-    {
-      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
-      "name": "Data Visualisation for Business Decisions",
       "isArchived": false
     },
     {
@@ -28,19 +23,6 @@
     }
   ],
   "deadlines": [
-    {
-      "courseId": "course-v1:IIMBx+DS71x+BBA_DBE_B1",
-      "courseName": "Data Visualisation for Business Decisions",
-      "courseArchived": false,
-      "title": "Mid-Term 2 Quiz",
-      "assignmentType": "Mid Term 2",
-      "category": "midterm",
-      "dueAt": "2026-11-26T22:30:00+05:30",
-      "complete": true,
-      "learnerHasAccess": true,
-      "link": "https://iimbx.edu.in/courses/course-v1:IIMBx+DS71x+BBA_DBE_B1/jump_to/block-v1:IIMBx+DS71x+BBA_DBE_B1+type@sequential+block@a88d97b04b634b54900a0d8ddfcfb633",
-      "blockId": "block-v1:IIMBx+DS71x+BBA_DBE_B1+type@problem+block@fb5170e2804d4378b18179a2d018f2de"
-    },
     {
       "courseId": "course-v1:IIMBx+PJ71x+BBA_DBE_B1",
       "courseName": "Term 7 and Term 8 Final Project Submission",
